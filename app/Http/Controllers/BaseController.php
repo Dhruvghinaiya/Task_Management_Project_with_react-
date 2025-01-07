@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 abstract class BaseController extends Controller
 {
     public function sendRedirectResponse(string $redirect, string $message = ''): RedirectResponse
-    {
+    {   
         return Redirect::to($redirect)
             ->with('message', [
                 'status' => 'success',

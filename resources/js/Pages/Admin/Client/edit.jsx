@@ -11,6 +11,7 @@ const edit = ({ user, clients, errors }) => {
         name: user.name || '',
         email: user.email || '',
         user_id: user.id,
+        role:user?.role,
         created_by: user.created_by,
         company_name: client.company_name || '', // Set default to first client or empty
         contact_number: client.contact_number || '', // Set default to first client or empty

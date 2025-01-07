@@ -1,7 +1,12 @@
 import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
+import AdminHeader from '@/Components/AdminHeader';
+import EmployeeHeader from '@/Components/EmployeeHeader';
+import ClientHeader from '@/Components/ClientHeader';
 
-const Show = ({ task }) => {
+const Show = ({ task,role}) => {
+  console.log(task);
+    
   const handleDelete = (e) => {
     e.preventDefault();
     const confirmDelete = window.confirm('Are you sure you want to delete this task?');
@@ -12,19 +17,13 @@ const Show = ({ task }) => {
 
   return (
     <div className="min-h-full">
-      {/* Admin Header */}
-      {/* <x-admin-header /> */}
+        {role==='admin'? <AdminHeader/> :role=='employee' ? <EmployeeHeader/> : <ClientHeader/>}
 
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Task Details</h1>
           <div className="flex gap-5 ml-auto">
-            <a
-              href="/admin/task/create"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-            >
-              Add Task
-            </a>
+           
           </div>
         </div>
       </header>
@@ -41,9 +40,9 @@ const Show = ({ task }) => {
                 <h3 className="text-2xl font-bold text-gray-700">{task.name}</h3>
                 <p
                   className={`text-sm mt-2 ${
-                    task.status === 'pending'
+                    task.status === 'Pending'
                       ? 'text-yellow-500'
-                      : task.status === 'in_progress'
+                      : task.status === 'In Progress'
                       ? 'text-blue-500'
                       : 'text-green-500'
                   }`}
@@ -67,7 +66,7 @@ const Show = ({ task }) => {
                 <div>
                   <h4 className="text-xl font-semibold text-gray-700">Assigned To</h4>
                   <p className="text-gray-600 mt-2">
-                    {task.assignedUser ? task.assignedUser.name : 'Not assigned'}
+                    {task.assigned_user ? task.assigned_user.name : 'Not assigned'}
                   </p>
                 </div>
               </div>
@@ -89,7 +88,7 @@ const Show = ({ task }) => {
               </div>
 
               {/* Created By and Updated By */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <h4 className="text-xl font-semibold text-gray-700">Created By</h4>
                   <p className="text-gray-600 mt-2">{task.createdBy?.name}</p>
@@ -98,33 +97,60 @@ const Show = ({ task }) => {
                   <h4 className="text-xl font-semibold text-gray-700">Updated By</h4>
                   <p className="text-gray-600 mt-2">{task.updatedBy?.name}</p>
                 </div>
-              </div>
+              </div> */}
 
-              {/* Action Buttons */}
+                {/* Created By and Updated By */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <h4 className="text-xl font-semibold text-gray-700">Created By</h4>
+                <p className="text-gray-600 mt-2">
+                  {task.created_by ? task.created_by.name : 'Not Available'}
+                </p>
+              </div>
+              <div>
+                <h4 className="text-xl font-semibold text-gray-700">Updated By</h4>
+                <p className="text-gray-600 mt-2">
+                  {task.updated_by ? task.updated_by.name : 'Not Available'}
+                </p>
+              </div>
+            </div>
+
               <div className="mt-8 flex justify-end items-center space-x-4">
-                {/* Edit Button */}
-                <a
-                  href={`/admin/task/edit/${task.id}`}
+
+              {role==='admin' ? <a
+                  href={route('admin.task.edit',{id:task.id})}
                   className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
                 >
                   Edit Task
-                </a>
+                </a> : role=='employee' ? <a
+                  href={route('employee.task.edit',{id:task.id})}
+                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
+                >
+                  Edit Task
+                </a> : ''}   
+                
 
                 {/* Delete Button */}
-                <button
+                {role==='admin' ? <button
                   onClick={handleDelete}
                   className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
                 >
                   Delete Task
                 </button>
-
-                {/* Back Button */}
-                <a
-                  href="/admin/task"
+            : '' }
+                
+                {role==='admin' ?  <a
+                  href={route('admin.task.index')}
                   className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
                 >
                   Back to Task List
-                </a>
+                </a> : role=='employee'?  <a
+                  href={route('employee.task.index')}
+                  className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
+                >
+                  Back to Task List
+                </a> : '' }
+                
               </div>
             </div>
           </div>

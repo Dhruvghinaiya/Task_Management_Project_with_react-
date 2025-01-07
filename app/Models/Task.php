@@ -49,4 +49,8 @@ class Task extends Model
         });
     }
 
+    public function client (){
+        return $this->hasOneThrough(User::class , Project::class , 'id','id','project_id','client_id');
+    }
+
 }

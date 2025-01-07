@@ -20,6 +20,7 @@ class TaskRepository extends BaseRepository
             ->get();
     }
 
+
     function getTasksByOtherEmployee($id)
     {
         return $this->newQuery()
@@ -32,6 +33,13 @@ class TaskRepository extends BaseRepository
             ->where('role', 'client')
             ->get();
     }
+
+    function getTaskByClient($id){
+        return $this->newQuery()->whereHas('project',function($query) use($id) {
+            $query->where('client_id',$id)->with('project')->get();
+        });
+    }
+
 
     public function getProjectByEmployee($employeeId)//
     { 

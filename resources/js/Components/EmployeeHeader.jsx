@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AdminHeader = () => {
+const EmployeeHeader = () => {
   // Assuming `route` is a helper function to get the current route
   // You can modify it based on your actual routing setup, like `window.location.pathname` in a React app.
   const currentRoute = window.location.pathname;  // or use useLocation from React Router if you're using it
@@ -19,12 +19,40 @@ const AdminHeader = () => {
                     href={route('employee.dashboard')} 
                     id="demo" 
                     className={`px-3 py-2 rounded-md text-sm font-medium 
-                      ${currentRoute === '/dashboard' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                      ${currentRoute === '/employee/dashboard' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/dashboard' ? 'page' : undefined}
                   >
                     Dashboard
                   </a>
+
                   <a 
+                    href={route('employee.project.index')} 
+                    className={`px-3 py-2 rounded-md text-sm font-medium 
+                      ${currentRoute === '/employee/project' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                  >
+                    Project
+                  </a>
+
+                  <a 
+                    href={route('employee.task.index')} 
+                    className={`px-3 py-2 rounded-md text-sm font-medium 
+                      ${currentRoute === '/employee/task' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                  >
+                    Task
+                  </a> 
+
+                  <a 
+                    href={route('employee.profile')} 
+                    className={`px-3 py-2 rounded-md text-sm font-medium 
+                      ${currentRoute === '/profile' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                  >
+                    Profile
+                   </a>
+
+                  {/* <a 
                     href={route('admin.user.index')} 
                     className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/user' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
@@ -41,23 +69,10 @@ const AdminHeader = () => {
                     Client
                   </a>
 
-                  <a 
-                    href='' 
-                    className={`px-3 py-2 rounded-md text-sm font-medium 
-                      ${currentRoute === '/project' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
-                  >
-                    Project
-                  </a>
+                 
+                  
 
-                  <a 
-                    href='' 
-                    className={`px-3 py-2 rounded-md text-sm font-medium 
-                      ${currentRoute === '/task' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
-                  >
-                    Task
-                  </a>
+                
 
                   {/* Other links */}
                   <a 
@@ -82,7 +97,7 @@ const AdminHeader = () => {
               >
                 <span className="absolute -inset-0.5"></span>
                 <span className="sr-only">Open main menu</span>
-                <svg 
+                {/* <svg 
                   className="block size-6" 
                   fill="none" 
                   viewBox="0 0 24 24" 
@@ -103,7 +118,7 @@ const AdminHeader = () => {
                   data-slot="icon"
                 >
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
+                </svg> */}
               </button>
             </div>
           </div>
@@ -202,4 +217,4 @@ const AdminHeader = () => {
   );
 }
 
-export default AdminHeader;
+export default EmployeeHeader;

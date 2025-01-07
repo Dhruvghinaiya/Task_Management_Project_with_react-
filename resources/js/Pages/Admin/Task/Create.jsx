@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from '@inertiajs/react'; // to handle form data and submission
 import { Head } from '@inertiajs/react'; // for setting the page title
+import AdminHeader from '@/Components/AdminHeader';
+import EmployeeHeader from '@/Components/EmployeeHeader';
 
-const Create = ({ projects, employees, flashMessage }) => {
+const Create = ({ projects, employees, role,flashMessage }) => {
     // Initialize form data using useForm hook from Inertia.js
     const { data, setData, post, errors } = useForm({
         name: '',
@@ -17,7 +19,8 @@ const Create = ({ projects, employees, flashMessage }) => {
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('admin.task.store')); // Assuming you have an Inertia route for this
+        role==='admin' ?
+        post(route('admin.task.store')) : post(route('employee.task.store')) ; // Assuming you have an Inertia route for this
     };
 
     // Dummy status enum data (replace with real data from StatusEnum in Laravel)
@@ -25,6 +28,7 @@ const Create = ({ projects, employees, flashMessage }) => {
 
     return (
         <div className="min-h-full">
+            {role==='admin'? <AdminHeader/>  : <EmployeeHeader/>}
             <Head title="Task" />
 
             {/* Header */}
@@ -82,7 +86,11 @@ const Create = ({ projects, employees, flashMessage }) => {
                                 onChange={(e) => setData('status', e.target.value)}
                                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             >
+                                <option value="" selected={data.status === ''}>
+                                    No Status
+                                    </option>
                                 {statusOptions.map((status) => (
+
                                     <option key={status} value={status}>
                                         {status}
                                     </option>

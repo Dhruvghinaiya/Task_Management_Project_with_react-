@@ -58,6 +58,18 @@ const AdminHeader = () => {
                   >
                     Task
                   </a>
+
+                  
+                  <a 
+                    href={route('profile')} 
+                    className={`px-3 py-2 rounded-md text-sm font-medium 
+                      ${currentRoute === '/profile' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                  >
+                    Profile
+                   </a>
+
+                    {/* <a href={route('profile')}>Profile</a>  */}
                   {/* Other links */}
                   <a 
                     href={route('logout')} 
@@ -81,7 +93,7 @@ const AdminHeader = () => {
               >
                 <span className="absolute -inset-0.5"></span>
                 <span className="sr-only">Open main menu</span>
-                <svg 
+                {/* <svg 
                   className="block size-6" 
                   fill="none" 
                   viewBox="0 0 24 24" 
@@ -89,8 +101,8 @@ const AdminHeader = () => {
                   stroke="currentColor" 
                   aria-hidden="true" 
                   data-slot="icon"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                > */}
+                  {/* <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
                 <svg 
                   className="hidden size-6" 
@@ -102,7 +114,7 @@ const AdminHeader = () => {
                   data-slot="icon"
                 >
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
+                </svg> */}
               </button>
             </div>
           </div>

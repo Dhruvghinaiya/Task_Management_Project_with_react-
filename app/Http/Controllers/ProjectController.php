@@ -12,6 +12,7 @@ use App\Repositories\ClientRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\UserRepository;
 use App\Http\Controllers\BaseController;
+use App\Repositories\TaskRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpParser\ErrorHandler\Throwing;
@@ -26,41 +27,54 @@ class ProjectController extends BaseController
     protected ClientRepository $clientRepository;
     protected ProjectRepository $ProjectRepostiry;
     protected UserRepository $userRepostiry;
-    public function __construct(ClientRepository $clientRepository,ProjectRepository $projectRepository ,UserRepository $userRepostiry)
+    protected TaskRepository $taskReposirtory;
+    public function __construct(ClientRepository $clientRepository,ProjectRepository $projectRepository ,UserRepository $userRepostiry,TaskRepository $taskReposirtory)
     {   
         $this->clientRepository = $clientRepository;
         $this->ProjectRepostiry = $projectRepository;
         $this->userRepostiry = $userRepostiry;
+        $this->taskReposirtory = $taskReposirtory;
     }
     public function index(){
 
         $role = Auth::user()->role;
-        
-        if($role==RoleEnum::Admin->value){
+        if($role==RoleEnum::Admin->value ){
             $projects = $this->ProjectRepostiry->getAll();
+            
             // return view('Admin.Projects.index',compact('projects'));
-            return inertia::render('Admin/Project/index',compact('projects'));
+            return inertia::render('Admin/Project/index',compact('projects','role'));
         }
         elseif($role=='client'){
+            
             $projects = $this->ProjectRepostiry->getProjectsByClient(Auth::id());
             // return view('Client.project.index',compact('projects'));
-            return inertia::render('Admin/Project/index');
+            return inertia::render('Admin/Project/index',compact('projects','role'));
+        }
+        else{
+        $projects = $this->taskReposirtory->getProjectByEmployee(Auth::id());
+        return inertia::render('Admin/Project/index',compact('projects','role'));
         }
 
     }
     
     public function show(Project $project){
         $role = Auth::user()->role;
-        if($role=='admin'){
+        
+        if($role=='admin' || $role=='employee'){
+             $client= $this->userRepostiry->getById($project->client_id);
+             $project->load('users', 'client', 'creator', 'updater', 'tasks');
+             //  return $project;
+             // return $project;
+             // return view('Admin.Projects.project_details',compact('project','client'));
+             return inertia::render('Admin/Project/show',compact('project','client','role'));
+            }
+            else if($role=='client'){
+                // $project = $this->ProjectRepostiry->getById($project->id);
+                $project->load('users', 'client', 'creator', 'updater', 'tasks');
             $client= $this->userRepostiry->getById($project->client_id);
-
-            // return view('Admin.Projects.project_details',compact('project','client'));
-            return inertia::render('Admin/Project/show',compact('project','client'));
-        }
-        else if($role=='client'){
-            $project = $this->ProjectRepostiry->getById($project->id);
-            $client= $this->userRepostiry->getById($project->client_id);
-          return view('Client.project.show',compact('project','client'));
+            // dd($client);
+            return inertia::render('Admin/Project/show',compact('project','client','role'));
+            // return view('Client.project.show',compact('project','client'));
         }
     }
 
@@ -74,7 +88,7 @@ class ProjectController extends BaseController
     public function store(StoreProjectRequest $req){
         DB::beginTransaction();
         try {
-          $project=  $this->ProjectRepostiry->store($req->getInsertTableField());
+          return  $project=  $this->ProjectRepostiry->store($req->getInsertTableField());
             if ($req->has('employee_ids') && !empty($req->employee_ids)) {
                 $project->users()->attach($req->employee_ids); 
             }
@@ -88,6 +102,7 @@ class ProjectController extends BaseController
         }
     }
     public function edit(Project $project){
+
         $clients = $this->userRepostiry->getUser('client');     
         $employees = $this->userRepostiry->getUser('employee');
         // return view('Admin.Projects.edit',compact('project','clients','employees'));
@@ -97,12 +112,10 @@ class ProjectController extends BaseController
    
 
     public function update(UpdateProjectRequest $req, Project $project)
-{   
-
+{      
     DB::beginTransaction();
     try {
-        $this->ProjectRepostiry->update($project->id, $req->getInsertTableField());
-
+         $this->ProjectRepostiry->update($project->id, $req->getInsertTableField());
         if ($req->has('employee_ids') && !empty($req->employee_ids)) {
             $project->users()->sync($req->employee_ids);
         } else {
@@ -113,7 +126,7 @@ class ProjectController extends BaseController
     } catch (Throwable $e) {
         DB::rollBack();
         return $this->sendRedirectBackError($e->getMessage());
-    }
+}
 }
 
 

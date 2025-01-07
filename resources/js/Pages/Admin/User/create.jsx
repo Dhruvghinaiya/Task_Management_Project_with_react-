@@ -109,7 +109,7 @@ const CreateUser = () => {
                       >
                         <option value="">Select role</option>
                         <option value="admin">Admin</option>
-                        <option value="editor">Employee</option>
+                        <option value="employee">Employee</option>
                       </select>
                       {errors.role && <p className="text-red-500 text-sm">{errors.role}</p>}
                     </div>

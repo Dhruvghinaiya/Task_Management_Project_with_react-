@@ -1,7 +1,10 @@
 import AdminHeader from '@/Components/AdminHeader';
 import React from 'react';
 
-const Dashboard = ({ taskCount, projectCount, clientCount, recentProjects, recentTasks, recentClients, recentEmployees }) => {
+// const Dashboard = ({ taskCount, projectCount, clientCount, recentProjects, recentTasks, recentClients, recentEmployees }) => {
+const Dashboard = ({ taskCount,clientCount,employeeCount,projectCount,recentProjects,recentTasks,recentClients,recentEmployees }) => {
+  console.log(recentClients[1].client_detail.company_name);
+  
   return (
     <div className="min-h-full">
       <AdminHeader/>
@@ -16,23 +19,24 @@ const Dashboard = ({ taskCount, projectCount, clientCount, recentProjects, recen
           <div className="container mx-auto p-6">
             {/* Dashboard Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <a href="#" className="card bg-white min-h-[150px] p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <h2 className="text-xl font-semibold text-gray-700">Total Tasks</h2>
-                <p className="text-3xl font-bold text-blue-500">{taskCount}</p>
-                <p className="text-gray-500">View All Tasks</p>
+              <a href={route('admin.client.index')} className="card bg-white p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <h2 className="text-xl font-semibold text-gray-700">Total Clients</h2>
+                <p className="text-3xl font-bold text-purple-500">{clientCount}</p>
+                <p className="text-gray-500">View All Clients</p>
               </a>
 
-              <a href="#" className="card bg-white p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <a href={route('admin.project.index')} className="card bg-white p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 <h2 className="text-xl font-semibold text-gray-700">Total Projects</h2>
                 <p className="text-3xl font-bold text-green-500">{projectCount}</p>
                 <p className="text-gray-500">View All Projects</p>
               </a>
 
-              <a href="#" className="card bg-white p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <h2 className="text-xl font-semibold text-gray-700">Total Clients</h2>
-                <p className="text-3xl font-bold text-purple-500">{clientCount}</p>
-                <p className="text-gray-500">View All Clients</p>
+              <a href={route('admin.task.index')} className="card bg-white min-h-[150px] p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <h2 className="text-xl font-semibold text-gray-700">Total Tasks</h2>
+                <p className="text-3xl font-bold text-blue-500">{taskCount}</p>
+                <p className="text-gray-500">View All Tasks</p>
               </a>
+
             </div>
 
             {/* Recent Projects */}
@@ -67,7 +71,7 @@ const Dashboard = ({ taskCount, projectCount, clientCount, recentProjects, recen
                         <h3 className="text-lg font-semibold text-gray-800">{task.name}</h3>
                         <div className="mt-2 flex justify-between text-sm text-gray-600">
                           <span>Project: {task.project.name}</span>
-                          <span>Assigned: {task.assignedUser.name}</span>
+                          {/* <span>Assigned: {task.assigned_user.name}</span> */}
                         </div>
                         <div className="mt-1 flex items-center">
                           <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${task.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
@@ -92,8 +96,11 @@ const Dashboard = ({ taskCount, projectCount, clientCount, recentProjects, recen
                         <h3 className="text-lg font-semibold text-gray-800">{client.name}</h3>
                         <div className="mt-2 text-sm text-gray-600">
                           <p>Email: {client.email}</p>
-                          <p>Company: {client.company_name || 'N/A'}</p>
-                          <p>Contact: {client.contact_number || 'N/A'}</p>
+                          {/* <p>Company: {client.company_name || 'N/A'}  </p> */}
+                          {/* <p>Contact: {client.contact_number || 'N/A'}</p> */}
+                          <p>Company: {client.client_detail?.company_name || 'N/A'}</p>
+                          <p>Contact: {client.client_detail?.contact_number || 'N/A'}</p>
+        
                         </div>
                       </div>
                     ))}

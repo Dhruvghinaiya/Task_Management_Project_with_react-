@@ -33,10 +33,10 @@ class ProjectRepository extends BaseRepository
         return $this->newQuery()
             ->where('client_id', $clientId)
             ->with('tasks')
-            ->get()
-            ->flatMap(function ($project) {
-                return $project->tasks;
-            });
+            ->get();
+            // ->flatMap(function ($project) {
+                // return $project->tasks;
+            // });
 }
 
 public function getRecentProjects(int $limit)

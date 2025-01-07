@@ -36,7 +36,8 @@ class ClientController extends BaseController
         
         $role = Auth::user()->role;
         $users = $this->userRepository->getClient();
-        // return view('Admin.Client.index',compact('clients','role'));
+        // $client = User::with('clientDetail')->get();
+        // return $client;
         return Inertia::render('Admin/Client/index',compact('users'));
         
     }
@@ -105,7 +106,7 @@ class ClientController extends BaseController
             $this->userRepository->destroy($id);
             $this->clientRepository->getClient($id);
             DB::commit();
-            return redirect()->route('admin.client.index');
+            return redirect()->route('admin.client.index')->with('message','user delete successfully');
         }
         catch(Throwable $e){            
             DB::rollBack();

@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Inertia } from '@inertiajs/inertia';
+import React, { useEffect } from 'react';
+import { useForm } from '@inertiajs/react';
 import AdminHeader from '@/Components/AdminHeader';
 
-const Edit = ({ task = {}, projects = [], clients = [], errors = {}, action }) => {
-    // Initialize state with default values or existing task data
-    const [formData, setFormData] = useState({
+const Edit = ({ task = {}, projects = [], clients = [], errors,role }) => {
+    console.log(task);
+
+    const { data, setData, post, processing, errors: formErrors, reset } = useForm({
         name: task.name || '',
         description: task.description || '',
-        status: task.status || 'pending',
+        status: task.status || '',
         project_id: task.project_id || '',
         assigned_to: task.assigned_to || '',
         start_date: task.start_date ? task.start_date.split('T')[0] : '',
@@ -15,40 +16,27 @@ const Edit = ({ task = {}, projects = [], clients = [], errors = {}, action }) =
         created_by: task.created_by || '',
     });
 
-    // Handle form field changes
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setData({ ...data, [name]: value });
     };
-
-    // Handle form submission with Inertia.js
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-
-    //     // Send the form data via Inertia
-    //     Inertia.post(route('admin.task.update'), formData, {
-    //         onError: (errorResponse) => {
-    //             // Handle any server-side validation errors
-    //             console.log(errorResponse);
-    //         },
-    //     });
-    // };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);  // Add this to check what data is being sent
-    
-        // Send the form data via Inertia
-        Inertia.post(route('admin.task.update',{id:task.id}), formData, {
+        console.log(data);  // Log form data for debugging
+
+        // Submit the form data using Inertia
+        post( role==='admin' ? route('admin.task.update', { id: task.id }) : route('employee.task.update', { id: task.id }) , {
             onError: (errorResponse) => {
-                // Handle any server-side validation errors
+                // Handle server-side validation errors
                 console.log(errorResponse);
             },
         });
     };
+
     return (
         <div className="min-h-full">
-            <AdminHeader/>
+            <AdminHeader />
             <header className="bg-white shadow">
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
                     <h1 className="text-3xl font-bold tracking-tight text-gray-900">Task</h1>
@@ -68,11 +56,11 @@ const Edit = ({ task = {}, projects = [], clients = [], errors = {}, action }) =
                                     type="text"
                                     name="name"
                                     id="name"
-                                    value={formData.name}
+                                    value={data.name}
                                     onChange={handleChange}
                                     className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
-                                {errors.name && <p className="text-red-500 text-sm mt-2">{errors.name}</p>}
+                                {formErrors.name && <p className="text-red-500 text-sm mt-2">{formErrors.name}</p>}
                             </div>
 
                             {/* Task Description */}
@@ -84,11 +72,11 @@ const Edit = ({ task = {}, projects = [], clients = [], errors = {}, action }) =
                                     name="description"
                                     id="description"
                                     rows="4"
-                                    value={formData.description}
+                                    value={data.description}
                                     onChange={handleChange}
                                     className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 ></textarea>
-                                {errors.description && <p className="text-red-500 text-sm mt-2">{errors.description}</p>}
+                                {formErrors.description && <p className="text-red-500 text-sm mt-2">{formErrors.description}</p>}
                             </div>
 
                             {/* Task Status */}
@@ -99,7 +87,7 @@ const Edit = ({ task = {}, projects = [], clients = [], errors = {}, action }) =
                                 <select
                                     name="status"
                                     id="status"
-                                    value={formData.status}
+                                    value={data.status}
                                     onChange={handleChange}
                                     className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 >
@@ -107,57 +95,57 @@ const Edit = ({ task = {}, projects = [], clients = [], errors = {}, action }) =
                                     <option value="in_progress">In Progress</option>
                                     <option value="completed">Completed</option>
                                 </select>
-                                {errors.status && <p className="text-red-500 text-sm mt-2">{errors.status}</p>}
+                                {formErrors.status && <p className="text-red-500 text-sm mt-2">{formErrors.status}</p>}
                             </div>
 
+                            <div className='grid grid-cols-2 gap-6'>
+                            {/* Project ID */}
+                            <div className="mb-6">
+                                <label htmlFor="project_id" className="block text-xl font-semibold text-gray-700">
+                                    Project <span className="text-red-500">*</span>
+                                </label>
+                                <select
+                                    name="project_id"
+                                    id="project_id"
+                                    value={data.project_id}
+                                    onChange={handleChange}
+                                    className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    <option value="">Select a Project</option>
+                                    {projects.map((project) => (
+                                        <option key={project.id} value={project.id}>
+                                            {project.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                {formErrors.project_id && <p className="text-red-500 text-sm mt-2">{formErrors.project_id}</p>}
+                            </div>
+
+                            {/* Assigned To */}
+                            <div className="mb-6">
+                                <label htmlFor="assigned_to" className="block text-xl font-semibold text-gray-700">
+                                    Assigned To <span className="text-red-500">*</span>
+                                </label>
+                                <select
+                                    name="assigned_to"
+                                    id="assigned_to"
+                                    value={data.assigned_to}
+                                    onChange={handleChange}
+                                    className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    >
+                                    {clients.map((client) => (
+                                        <option key={client.id} value={client.id}>
+                                            {client.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                {formErrors.assigned_to && <p className="text-red-500 text-sm mt-2">{formErrors.assigned_to}</p>}
+                            </div>
+                                    </div>
+                                
+                           {/* Start and End Date */}
                             <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-    {/* Project ID */}
-    {/* <div>
-        <label htmlFor="project_id" className="block text-xl font-semibold text-gray-700">
-            Project <span className="text-red-500">*</span>
-        </label>
-        <select
-            name="project_id"
-            id="project_id"
-            value={formData.project_id}
-            onChange={handleChange}
-            className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >    <option value="">Select a Client</option>
-            {projects.map((project) => (
-                <option key={project.id} value={project.id}>
-                    {project.name}
-                </option>
-            ))}
-        </select>
-        {errors.project_id && <p className="text-red-500 text-sm mt-2">{errors.project_id}</p>}
-    </div> */}
-
-    {/* Assigned To */}
-    <div>
-        <label htmlFor="assigned_to" className="block text-xl font-semibold text-gray-700">
-            Assigned To <span className="text-red-500">*</span>
-        </label>
-        <select
-            name="assigned_to"
-            id="assigned_to"
-            value={formData.assigned_to}
-            onChange={handleChange}
-            className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-            
-            {clients.map((client) => (
-                <option key={client.id} value={client.id}>
-                    {client.name}
-                </option>
-            ))}
-        </select>
-        {errors.assigned_to && <p className="text-red-500 text-sm mt-2">{errors.assigned_to}</p>}
-    </div>
-</div>
-
-
-                            {/* Start Date */}
-                            <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* Start Date */}
                                 <div>
                                     <label htmlFor="start_date" className="block text-xl font-semibold text-gray-700">
                                         Start Date <span className="text-red-500">*</span>
@@ -166,13 +154,14 @@ const Edit = ({ task = {}, projects = [], clients = [], errors = {}, action }) =
                                         type="date"
                                         name="start_date"
                                         id="start_date"
-                                        value={formData.start_date}
+                                        value={data.start_date}
                                         onChange={handleChange}
                                         className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     />
-                                    {errors.start_date && <p className="text-red-500 text-sm mt-2">{errors.start_date}</p>}
+                                    {formErrors.start_date && <p className="text-red-500 text-sm mt-2">{formErrors.start_date}</p>}
                                 </div>
 
+                                {/* End Date */}
                                 <div>
                                     <label htmlFor="end_date" className="block text-xl font-semibold text-gray-700">
                                         End Date <span className="text-red-500">*</span>
@@ -181,23 +170,26 @@ const Edit = ({ task = {}, projects = [], clients = [], errors = {}, action }) =
                                         type="date"
                                         name="end_date"
                                         id="end_date"
-                                        value={formData.end_date}
+                                        value={data.end_date}
                                         onChange={handleChange}
                                         className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     />
-                                    {errors.end_date && <p className="text-red-500 text-sm mt-2">{errors.end_date}</p>}
+                                    {formErrors.end_date && <p className="text-red-500 text-sm mt-2">{formErrors.end_date}</p>}
                                 </div>
                             </div>
 
+
                             {/* Submit Button */}
                             <div className="mt-8 flex justify-end">
-                                <input
+                                <button
                                     type="submit"
                                     className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out"
+                                    disabled={processing}
                                 >
-                                    {/* {task.id ? 'Update Task' : 'Create Task'} */}
-                                </input>
+                                    {processing ? 'Updating...' : 'Update Task'}
+                                </button>
                             </div>
+                                    
                         </form>
                     </div>
                 </div>

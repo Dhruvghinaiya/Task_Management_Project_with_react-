@@ -19,12 +19,40 @@ const ClientHeader = () => {
                     href={route('client.dashboard')} 
                     id="demo" 
                     className={`px-3 py-2 rounded-md text-sm font-medium 
-                      ${currentRoute === '/dashboard' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                      ${currentRoute === '/client/dashboard' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/dashboard' ? 'page' : undefined}
                   >
                     Dashboard
                   </a>
+
                   <a 
+                    href={route('client.project.index')} 
+                    className={`px-3 py-2 rounded-md text-sm font-medium 
+                      ${currentRoute === '/client/project' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                  >
+                    Project
+                  </a>
+
+                   <a 
+                    href={route('client.task.index')} 
+                    className={`px-3 py-2 rounded-md text-sm font-medium 
+                      ${currentRoute === '/client/task' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                  >
+                    Task
+                  </a>
+
+                  <a 
+                    href={route('client.profile')} 
+                    className={`px-3 py-2 rounded-md text-sm font-medium 
+                      ${currentRoute === '/client/profile' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                  >
+                    Profile
+                   </a>
+
+                  {/* <a 
                     href={route('admin.user.index')} 
                     className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/user' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
@@ -39,7 +67,7 @@ const ClientHeader = () => {
                     aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
                   >
                     Client
-                  </a>
+                  </a> */}
                   {/* Other links */}
                   <a 
                     href={route('logout')} 
@@ -63,7 +91,7 @@ const ClientHeader = () => {
               >
                 <span className="absolute -inset-0.5"></span>
                 <span className="sr-only">Open main menu</span>
-                <svg 
+                {/* <svg 
                   className="block size-6" 
                   fill="none" 
                   viewBox="0 0 24 24" 
@@ -83,8 +111,8 @@ const ClientHeader = () => {
                   aria-hidden="true" 
                   data-slot="icon"
                 >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /> */}
+                {/* </svg> */}
               </button>
             </div>
           </div>

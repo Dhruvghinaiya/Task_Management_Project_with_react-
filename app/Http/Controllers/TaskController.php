@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Throwable;
 
+use function Termwind\render;
+
 class TaskController extends BaseController
 {
     protected TaskRepository $taskrepository;
@@ -31,35 +33,41 @@ class TaskController extends BaseController
     
     public function index(){
 
-        $tasks = $this->taskrepository->getAll();
-        $user = Auth::user()->role;
-
-        if($user=='admin'){
+        $role = Auth::user()->role;
+        // dd($tasks);
+        if($role=='admin' ){
+            $tasks = $this->taskrepository->getAll();
             // return view('Admin.Tasks.index',compact('tasks'));
-            return Inertia::render('Admin/Task/Index',compact('tasks'));
+            return Inertia::render('Admin/Task/Index',compact('tasks','role'));
         }
-        elseif($user=='employee'){
+        elseif($role=='employee'){
             $tasks = $this->taskrepository->getTasksByEmployee(Auth::id());
-             $createdTasks=  $this->taskrepository->getTasksByOtherEmployee(Auth::id());
-            return view('Employee.task.index',compact('tasks','createdTasks'));
+            $createdTasks=  $this->taskrepository->getTasksByOtherEmployee(Auth::id());
+            return Inertia::render('Admin/Task/Index',compact('tasks','role','createdTasks'));
         }
         else{
-            $tasks = $this->projectRepository->getTasksByClient(Auth::id());
-            return view('Client.task.index',compact('tasks'));
+            $projects = $this->projectRepository->getTasksByClient(Auth::id());
+            $tasks = $projects->pluck('tasks')->flatten();
+            // return $projects->tasks;
+            // return $tasks;
+            // return view('Client.task.index',compact('tasks'));
+            return inertia::render('Admin/Task/Index',compact('tasks','role'));
         }
     }
 
     public function show(Task $task){
-        $user = Auth::user()->role;
-        if($user=='admin'){
-            return inertia::render('Admin/Task/Show',compact('task'));
+        $task = Task::with(['createdBy:id,name', 'updatedBy:id,name','assignedUser:id,name','project:id,name'])->find($task->id);
+        $role = Auth::user()->role;
+        if($role=='admin'){
+            return inertia::render('Admin/Task/Show',compact('task','role'));
         }
-        elseif($user=='employee'){
-            $task = $this->taskrepository->getById($task->id);
-            return view('employee.task.show',compact('task'));
+        elseif($role=='employee'){
+            // $task = $this->taskrepository->getById($task->id);
+            return inertia::render('Admin/Task/Show',compact('task','role'));
         }
         else{
-            return view('Client.task.show',compact('task'));
+            // return view('Client.task.sshhow',compact('task','role'));
+            return inertia::render('Admin/Task/Show',compact('task','role'));
         }
         
     }
@@ -67,14 +75,14 @@ class TaskController extends BaseController
 
         $employees = $this->userRepository->getAllEmployees();
         $projects = $this->projectRepository->getAll();
-        $user = Auth::user()->role;
-        if($user=='admin'){
+        $role = Auth::user()->role;
+        if($role=='admin' || $role=='employee' ){
             // return view('Admin.Tasks.create_task',compact('employees','projects'));
-            return inertia::render('Admin/Task/Create',compact('employees','projects'));
+            return inertia::render('Admin/Task/Create',compact('employees','projects','role'));
         }   
-        elseif($user=='employee'){
-            return view('employee.task.create_task',compact('employees','projects',['statusEnums' => StatusEnum::cases()]));
-        }
+        // elseif($user=='employee'){
+        //     return view('employee.task.create_task',compact('employees','projects',['statusEnums' => StatusEnum::cases()]));
+        // }
     }
 
     // public function store(StoreTaskRequest $req){
@@ -138,18 +146,19 @@ class TaskController extends BaseController
 
     public function edit(Task $task){
     
-        $user = Auth::user()->role;
-        if($user=='admin'){
+        $role = Auth::user()->role;
+        if($role=='admin'){
             $projects  =$this->projectRepository->getAll();
             $clients = $this->userRepository->getAllEmployees(); 
                 // return view('Admin.Tasks.edit',compact('task','clients','projects'));
-                return inertia::render('Admin/Task/Edit',compact('task','clients','projects'));
-        }
-        elseif($user=='employee'){
-            $task =  $this->taskrepository->getById($task->id);
-            $projects  =$this->projectRepository->getAll();
-            $clients = $this->userRepository->getAllEmployees(); 
-             return view('Employee.task.edit',compact('task','clients','projects'));
+                return inertia::render('Admin/Task/Edit',compact('task','clients','projects','role'));
+            }
+            elseif($role=='employee'){
+                $task =  $this->taskrepository->getById($task->id);
+                $projects  =$this->projectRepository->getAll();
+                $clients = $this->userRepository->getAllEmployees(); 
+                return inertia::render('Admin/Task/Edit',compact('task','clients','projects','role'));
+            //  return view('Employee.task.edit',compact('task','clients','projects'));
      
         }
     }   
