@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
 import AdminHeader from '@/Components/AdminHeader';
+import EmployeeHeader from '@/Components/EmployeeHeader';
+import ReactSelect from '@/Components/ReactSelect';
 
-const Edit = ({ task = {}, projects = [], clients = [], errors,role }) => {
-    console.log(task);
+const Edit = ({ task = {}, projects = [], clients = [], errors,role,statuses }) => {
+    console.log(clients);
 
-    const { data, setData, post, processing, errors: formErrors, reset } = useForm({
+    const { data, setData,patch, processing, errors: formErrors,  } = useForm({
         name: task.name || '',
         description: task.description || '',
         status: task.status || '',
@@ -21,22 +23,30 @@ const Edit = ({ task = {}, projects = [], clients = [], errors,role }) => {
         setData({ ...data, [name]: value });
     };
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(data);  // Log form data for debugging
+        console.log(data);  
 
-        // Submit the form data using Inertia
-        post( role==='admin' ? route('admin.task.update', { id: task.id }) : route('employee.task.update', { id: task.id }) , {
+        patch( role==='admin' ? route('admin.task.update', { id: task.id }) : route('employee.task.update', { id: task.id }) , {
             onError: (errorResponse) => {
-                // Handle server-side validation errors
                 console.log(errorResponse);
             },
         });
     };
 
+    const projectOptions = projects.map((project)=>({
+        value:project.id,
+        label:project.name
+    }));
+
+    const employeeOption = clients.map((task)=>({
+       value:task.id,
+       label:task.name 
+    }))
     return (
         <div className="min-h-full">
-            <AdminHeader />
+            {role=='admin' ? <AdminHeader/> : <EmployeeHeader/> }
             <header className="bg-white shadow">
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
                     <h1 className="text-3xl font-bold tracking-tight text-gray-900">Task</h1>
@@ -47,7 +57,6 @@ const Edit = ({ task = {}, projects = [], clients = [], errors,role }) => {
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <div className="bg-white p-8 rounded-lg shadow-md">
                         <form onSubmit={handleSubmit}>
-                            {/* Task Name */}
                             <div className="mb-6">
                                 <label htmlFor="name" className="block text-xl font-semibold text-gray-700">
                                     Task Name <span className="text-red-500">*</span>
@@ -63,7 +72,6 @@ const Edit = ({ task = {}, projects = [], clients = [], errors,role }) => {
                                 {formErrors.name && <p className="text-red-500 text-sm mt-2">{formErrors.name}</p>}
                             </div>
 
-                            {/* Task Description */}
                             <div className="mb-6">
                                 <label htmlFor="description" className="block text-xl font-semibold text-gray-700">
                                     Description <span className="text-red-500">*</span>
@@ -79,32 +87,29 @@ const Edit = ({ task = {}, projects = [], clients = [], errors,role }) => {
                                 {formErrors.description && <p className="text-red-500 text-sm mt-2">{formErrors.description}</p>}
                             </div>
 
-                            {/* Task Status */}
                             <div className="mb-6">
                                 <label htmlFor="status" className="block text-xl font-semibold text-gray-700">
                                     Status <span className="text-red-500">*</span>
                                 </label>
-                                <select
-                                    name="status"
+                               
+                                 <ReactSelect
                                     id="status"
+                                    name="status"
                                     value={data.status}
-                                    onChange={handleChange}
-                                    className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                    <option value="pending">Pending</option>
-                                    <option value="in_progress">In Progress</option>
-                                    <option value="completed">Completed</option>
-                                </select>
+                                    onChange={(option) => setData('status',option.value)}
+                                    options={statuses}
+                                    className="w-full"
+                                    classNamePrefix="react-select"
+                                />
                                 {formErrors.status && <p className="text-red-500 text-sm mt-2">{formErrors.status}</p>}
                             </div>
 
                             <div className='grid grid-cols-2 gap-6'>
-                            {/* Project ID */}
                             <div className="mb-6">
                                 <label htmlFor="project_id" className="block text-xl font-semibold text-gray-700">
                                     Project <span className="text-red-500">*</span>
                                 </label>
-                                <select
+                                {/* <select
                                     name="project_id"
                                     id="project_id"
                                     value={data.project_id}
@@ -117,35 +122,49 @@ const Edit = ({ task = {}, projects = [], clients = [], errors,role }) => {
                                             {project.name}
                                         </option>
                                     ))}
-                                </select>
+                                </select> */}
+
+                                <ReactSelect
+                                 name="project_id"
+                                 id="project_id"
+                                 value={data.project_id}
+                                 onChange={(option)=>setData('project_id',option.value)}
+                                 options={projectOptions}
+                                 className='mt-2'
+                                />
                                 {formErrors.project_id && <p className="text-red-500 text-sm mt-2">{formErrors.project_id}</p>}
                             </div>
 
-                            {/* Assigned To */}
                             <div className="mb-6">
                                 <label htmlFor="assigned_to" className="block text-xl font-semibold text-gray-700">
                                     Assigned To <span className="text-red-500">*</span>
                                 </label>
-                                <select
+                                {/* <select
                                     name="assigned_to"
                                     id="assigned_to"
                                     value={data.assigned_to}
                                     onChange={handleChange}
                                     className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     >
-                                    {clients.map((client) => (
-                                        <option key={client.id} value={client.id}>
-                                            {client.name}
+                                    {clients.map((employee) => (
+                                        <option key={employee.id} value={employee.id}>
+                                            {employee.name}
                                         </option>
                                     ))}
-                                </select>
+                                </select> */}
+                                <ReactSelect
+                                 name="assigned_to"
+                                 id="assigned_to"
+                                 value={data.assigned_to}
+                                 onChange={(option)=>setData('assigned_to',option.value)}
+                                 options={employeeOption}
+                                 className='mt-2'
+                                />
                                 {formErrors.assigned_to && <p className="text-red-500 text-sm mt-2">{formErrors.assigned_to}</p>}
                             </div>
                                     </div>
                                 
-                           {/* Start and End Date */}
                             <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* Start Date */}
                                 <div>
                                     <label htmlFor="start_date" className="block text-xl font-semibold text-gray-700">
                                         Start Date <span className="text-red-500">*</span>
@@ -161,7 +180,6 @@ const Edit = ({ task = {}, projects = [], clients = [], errors,role }) => {
                                     {formErrors.start_date && <p className="text-red-500 text-sm mt-2">{formErrors.start_date}</p>}
                                 </div>
 
-                                {/* End Date */}
                                 <div>
                                     <label htmlFor="end_date" className="block text-xl font-semibold text-gray-700">
                                         End Date <span className="text-red-500">*</span>
@@ -179,7 +197,6 @@ const Edit = ({ task = {}, projects = [], clients = [], errors,role }) => {
                             </div>
 
 
-                            {/* Submit Button */}
                             <div className="mt-8 flex justify-end">
                                 <button
                                     type="submit"

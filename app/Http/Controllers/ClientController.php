@@ -11,11 +11,13 @@ use App\Repositories\ClientRepository;
 use App\Repositories\UserRepository;
 use Exception;
 use App\Http\Controllers\BaseController;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Inertia\Response;
 use Throwable;
 
 use function Termwind\render;
@@ -32,35 +34,39 @@ class ClientController extends BaseController
 
     }
     
-    public function index(){
+    public function index():Response
+    {
         
         $role = Auth::user()->role;
         $users = $this->userRepository->getClient();
         // $client = User::with('clientDetail')->get();
         // return $client;
-        return Inertia::render('Admin/Client/index',compact('users'));
+        return Inertia::render('Admin/Client/Index',compact('users'));
         
     }
-
-    public function show(){
-        return view('Admin.Client.show',compact('clients'));
+    
+    public function show() :Response
+    {
+        // return view('Admin.Client.Show',compact('clients'));
+        return Inertia::render('Admin/Client/Show',compact('clients'));
     }
 
-    public function create(){
+    public function create():Response
+    {
 
         $client = $this->userRepository->getClient();
         // return view('Admin.Client.client_create',['data'=>$client]);
-        return inertia::render('Admin/Client/create',compact('client'));
+        return inertia::render('Admin/Client/Create',compact('client'));
     }
     
-    public function store(StoreClientRequest $req){
+    public function store(StoreClientRequest $req):RedirectResponse
+    {
         DB::beginTransaction();
         try{
              $this->userRepository->store($req->getInsertTableFiel1());
               $this->clientRepository->store($req->getInsertTableField2());
             DB::commit();
-            // return $this->sendRedirectResponse(route('admin.client.index'),'Client add successfully');
-            return redirect()->route('admin.client.index');
+            return $this->sendRedirectResponse(route('admin.client.index'),'Client add successfully');
         }
         catch(Throwable $e){
             DB::rollBack();
@@ -72,15 +78,14 @@ class ClientController extends BaseController
             return view('Client.profile');   
     }
 
-     public function edit($id)
+     public function edit($id):Response
     {     
          $user = $this->userRepository->getById($id);
          $clients = $this->clientRepository->getClient($id);
-        // return view('Admin.Client.edit',compact('user','clients'));
-        return inertia::render('Admin/Client/edit',compact('user','clients'));
+        return inertia::render('Admin/Client/Edit',compact('user','clients'));
     }
 
-    public function update(UpdateClientRequest $req, $id)
+    public function update(UpdateClientRequest $req, $id):RedirectResponse
     {   
 
         DB::beginTransaction();
@@ -89,8 +94,7 @@ class ClientController extends BaseController
             $this->userRepository->update($req->user_id,$req->getInsertTableFiel1());
             $this->clientRepository->update($req->client_id,$req->getInsertTableField2());
             DB::commit();
-            // return $this->sendRedirectResponse(route('admin.client.index'),'Client Update Successsfully...');
-            return redirect()->route('admin.client.index');
+            return $this->sendRedirectResponse(route('admin.client.index'),'Client Update Successsfully...');
         }
         catch(Throwable $e){
             DB::rollBack();
@@ -99,7 +103,7 @@ class ClientController extends BaseController
         
     }
 
-    public function destroy($id)
+    public function destroy($id):RedirectResponse
     {      
         DB::beginTransaction();
         try{

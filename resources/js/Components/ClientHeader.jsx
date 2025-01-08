@@ -1,9 +1,7 @@
 import React from 'react'
 
 const ClientHeader = () => {
-  // Assuming `route` is a helper function to get the current route
-  // You can modify it based on your actual routing setup, like `window.location.pathname` in a React app.
-  const currentRoute = window.location.pathname;  // or use useLocation from React Router if you're using it
+  const currentRoute = window.location.pathname;  
 
   return (
     <>  
@@ -120,39 +118,50 @@ const ClientHeader = () => {
 
         <div className="md:hidden" id="mobile-menu">
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-            <a 
-              href="#" 
-              className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" 
-              aria-current="page"
-            >
-              Dashboard
-            </a>
-            <a 
-              href="#" 
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Tasks
-            </a>
-            <a 
-              href="#" 
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Projects
-            </a>
-            <a 
-              href="#" 
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Calendar
-            </a>
-            <a 
-              href="#" 
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Reports
-            </a>
+          <a 
+                    href={route('client.dashboard')} 
+                    id="demo" 
+                    className={` block px-3 py-2 rounded-md text-sm font-medium 
+                      ${currentRoute === '/client/dashboard' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                    aria-current={currentRoute === '/dashboard' ? 'page' : undefined}
+                  >
+                    Dashboard
+                  </a>
+                <a 
+                    href={route('client.project.index')} 
+                    className={`px-3 block py-2 rounded-md text-sm font-medium 
+                      ${currentRoute === '/client/project' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                  >
+                    Project
+                  </a>
+           
+                  <a 
+                    href={route('client.task.index')} 
+                    className={`block px-3 py-2 rounded-md text-sm font-medium 
+                      ${currentRoute === '/client/task' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                  >
+                    Task
+                  </a>
+                  
+                  <a 
+                    href={route('client.profile')} 
+                    className={` block px-3 py-2 rounded-md text-sm font-medium 
+                      ${currentRoute === '/client/profile' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                  >
+                    Profile
+                   </a>
+                    
+                   <a 
+                    href={route('logout')} 
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Logout
+                  </a>  
           </div>
-          <div className="border-t border-gray-700 pb-3 pt-4">
+          {/* <div className="border-t border-gray-700 pb-3 pt-4">
             <div className="flex items-center px-5">
               <div className="shrink-0">
                 <img 
@@ -204,7 +213,7 @@ const ClientHeader = () => {
                 Sign out
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
       </nav>
     </>

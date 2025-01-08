@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
 import AdminHeader from '@/Components/AdminHeader';
 
-const edit = ({ user, errors }) => {
-    // Initialize the form with user data and validation errors
-    const { data, setData, post, errors: formErrors, processing } = useForm({
+const Edit = ({ user, errors }) => {
+    const { data, setData, patch, errors: formErrors, processing } = useForm({
         name: user.name || '',
         email: user.email || '',
         user_id: user.id,
@@ -12,20 +11,16 @@ const edit = ({ user, errors }) => {
         role: user.role,
     });
 
-    // Handle input change using setData from useForm
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setData(name, value); // use setData to update form values
+        setData(name, value); 
     };
 
-    // Handle form submission using post method from useForm
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Submit the form via Inertia post request
-        post(route('admin.user.update', data.user_id), {
+        patch(route('admin.user.update', data.user_id), {
             onError: (errorResponse) => {
-                // Inertia automatically handles error responses and stores them in `formErrors`
             },
         });
     };
@@ -43,7 +38,7 @@ const edit = ({ user, errors }) => {
                     <div className="container mx-auto mt-10">
                         <h2 className="text-2xl mb-4">Edit Client</h2>
                         <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg">
-                            {/* Client Name */}
+                            
                             <div className="mb-4">
                                 <label htmlFor="name" className="block text-gray-600 font-medium mb-2">Client Name</label>
                                 <input 
@@ -57,7 +52,6 @@ const edit = ({ user, errors }) => {
                                 {formErrors.name && <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>}
                             </div>
 
-                            {/* Email */}
                             <div className="mb-4">
                                 <label htmlFor="email" className="block text-gray-600 font-medium mb-2">Email</label>
                                 <input 
@@ -85,20 +79,19 @@ const edit = ({ user, errors }) => {
                       >
                         <option value="">Select role</option>
                         <option value="admin">Admin</option>
+                        <option value="client">Client</option>
                         <option value="employee">Employee</option>
                       </select>
                       {errors.role && <p className="text-red-500 text-sm">{errors.role}</p>}
                     </div>
                   </div>
                             <input type="text" name="created_by" hidden value={data.created_by} />
-                            {/* <input type="text" name="role" hidden value={data.role} /> */}
 
-                            {/* Submit Button */}
                             <div className="mt-4 flex justify-end">
                                 <button 
                                     type="submit" 
                                     className="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                    disabled={processing} // Disable button while processing
+                                    disabled={processing} 
                                 >
                                     {processing ? 'Saving...' : 'Edit'}
                                 </button>
@@ -111,4 +104,4 @@ const edit = ({ user, errors }) => {
     );
 };
 
-export default edit;
+export default Edit;

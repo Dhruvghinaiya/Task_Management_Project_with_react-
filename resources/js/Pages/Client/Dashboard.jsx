@@ -1,7 +1,6 @@
 import React from 'react';
 import { usePage } from '@inertiajs/react';
-// import AlertSuccess from '@/Components/AlertSuccess'; // Assuming this is a component you have
-import ClientHeader from '@/Components/ClientHeader'; // Assuming this is a component you have
+import ClientHeader from '@/Components/ClientHeader'; 
 
 const Dashboard = () => {
     const { projectCount, taskCount, projects, successMessage, errorMessage } = usePage().props;
@@ -17,22 +16,15 @@ const Dashboard = () => {
             </header>
             <main>
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    {/* <div className="mb-4">
-                        {successMessage && <AlertSuccess message={successMessage} />}
-                        {errorMessage && <AlertSuccess message={errorMessage} />}
-                    </div> */}
 
                     <div className="container mx-auto p-6">
-                        {/* Dashboard Cards */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* Project Card */}
                             <a href="/client/project" className="card bg-white p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                                 <h2 className="text-xl font-semibold text-gray-700">Total Projects</h2>
                                 <p className="text-3xl font-bold text-green-500">{projectCount}</p>
                                 <p className="text-gray-500">View All Projects</p>
                             </a>
 
-                            {/* Task Card */}
                             <a href="/client/task" className="card bg-white min-h-[150px] p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                                 <h2 className="text-xl font-semibold text-gray-700">Total Tasks</h2>
                                 <p className="text-3xl font-bold text-blue-500">{taskCount}</p>
@@ -56,7 +48,6 @@ const Dashboard = () => {
                                                     <h3 className="text-sm font-medium text-gray-900">Project Updated: {project.name}</h3>
                                                     <p className="text-sm text-gray-500">{new Date(project.updated_at).toLocaleTimeString()}</p>
                                                 </div>
-                                                {/* <p className="text-sm text-gray-500">Status: {project.status.replace('_', ' ')}</p> */}
                                             </div>
                                         </div>
                                     </li>

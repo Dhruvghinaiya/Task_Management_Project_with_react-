@@ -24,9 +24,6 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
     public function store(LoginRequest $request)
     {
         $request->authenticate();
@@ -43,6 +40,12 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended(route('client.dashboard', absolute: false));   
         }
 
+    }
+
+    public function welcome(){
+        $auth = Auth::user();
+        // return $auth;
+        return inertia::render('Welcome',compact('auth'));
     }
 
     /**

@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import AdminHeader from '@/Components/AdminHeader';
 import axios from 'axios';
 import { useForm } from '@inertiajs/react'
+import ReactSelect from '@/Components/ReactSelect';
 
 
 
 
-const CreateUser = () => {
+const Create = ({roleenum}) => {
+  console.log(roleenum);
+  
     const { data, setData, post, processing, errors } = useForm({
         name:'',
         email: '',
@@ -100,7 +103,7 @@ const CreateUser = () => {
                       Role<span className="text-red-500">*</span>
                     </label>
                     <div className="mt-2">
-                      <select
+                      {/* <select
                         name="role"
                         id="role"
                         value={data.role}
@@ -110,7 +113,15 @@ const CreateUser = () => {
                         <option value="">Select role</option>
                         <option value="admin">Admin</option>
                         <option value="employee">Employee</option>
-                      </select>
+                      </select> */}
+                      <ReactSelect
+                      name="role"
+                      id="role"
+                      value={data.role}
+                      onChange={(option)=> setData('role',option.value) }
+                      // onChange={handleChange }
+                      options={roleenum}
+                      />
                       {errors.role && <p className="text-red-500 text-sm">{errors.role}</p>}
                     </div>
                   </div>
@@ -138,4 +149,4 @@ const CreateUser = () => {
   );
 };
 
-export default CreateUser;
+export default Create;

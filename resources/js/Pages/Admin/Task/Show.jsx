@@ -11,7 +11,7 @@ const Show = ({ task,role}) => {
     e.preventDefault();
     const confirmDelete = window.confirm('Are you sure you want to delete this task?');
     if (confirmDelete) {
-      Inertia.delete(`/admin/task/delete/${task.id}`);  // Correct URL for the DELETE route
+      Inertia.delete(`/admin/task/delete/${task.id}`);  
     }
   };
 
@@ -31,18 +31,16 @@ const Show = ({ task,role}) => {
       <main>
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="container mx-auto p-6">
-            {/* Task Details Card */}
             <div className="bg-white p-8 rounded-lg shadow-md">
               <h2 className="text-3xl font-semibold text-gray-800 mb-4">Task Details</h2>
 
-              {/* Task Name and Status */}
               <div className="mb-6">
                 <h3 className="text-2xl font-bold text-gray-700">{task.name}</h3>
                 <p
                   className={`text-sm mt-2 ${
-                    task.status === 'Pending'
+                    task.status === 'pending'
                       ? 'text-yellow-500'
-                      : task.status === 'In Progress'
+                      : task.status === 'in Progress'
                       ? 'text-blue-500'
                       : 'text-green-500'
                   }`}
@@ -51,13 +49,11 @@ const Show = ({ task,role}) => {
                 </p>
               </div>
 
-              {/* Task Description */}
               <div className="mb-6">
                 <h4 className="text-xl font-semibold text-gray-700">Description</h4>
                 <p className="text-gray-600 mt-2">{task.description ?? 'No description available'}</p>
               </div>
 
-              {/* Project and Assigned User */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <h4 className="text-xl font-semibold text-gray-700">Project</h4>
@@ -71,7 +67,6 @@ const Show = ({ task,role}) => {
                 </div>
               </div>
 
-              {/* Dates */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <h4 className="text-xl font-semibold text-gray-700">Start Date</h4>
@@ -87,19 +82,7 @@ const Show = ({ task,role}) => {
                 </div>
               </div>
 
-              {/* Created By and Updated By */}
-              {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <h4 className="text-xl font-semibold text-gray-700">Created By</h4>
-                  <p className="text-gray-600 mt-2">{task.createdBy?.name}</p>
-                </div>
-                <div>
-                  <h4 className="text-xl font-semibold text-gray-700">Updated By</h4>
-                  <p className="text-gray-600 mt-2">{task.updatedBy?.name}</p>
-                </div>
-              </div> */}
 
-                {/* Created By and Updated By */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
                 <h4 className="text-xl font-semibold text-gray-700">Created By</h4>
@@ -130,7 +113,6 @@ const Show = ({ task,role}) => {
                 </a> : ''}   
                 
 
-                {/* Delete Button */}
                 {role==='admin' ? <button
                   onClick={handleDelete}
                   className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"

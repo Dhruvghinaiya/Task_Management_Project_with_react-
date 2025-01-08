@@ -2,8 +2,7 @@ import React from 'react';
 import { useForm } from '@inertiajs/react';
 import AdminHeader from '@/Components/AdminHeader'; // Assuming you have an AdminHeader component
 
-const CreateClient = () => {
-  // Initialize the form with default empty values
+const Create = () => {
   const { data, setData, post, processing, errors } = useForm({
     name: '',
     email: '',
@@ -13,7 +12,6 @@ const CreateClient = () => {
     role: 'client',
   });
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData((prevData) => ({
@@ -22,12 +20,10 @@ const CreateClient = () => {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     post(route('admin.client.store'), {
       onSuccess: () => {
-        // Redirect or show success message after creating the client
         window.location.href = route('admin.client.index');
       },
     });
@@ -52,7 +48,6 @@ const CreateClient = () => {
         </header>
         <main>
           <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
-            {/* Error and Success handling */}
             {errors.global && <div className="text-red-500 text-sm">{errors.global}</div>}
 
             <div className="flex min-h-full flex-col justify-center px-6 lg:px-8">
@@ -63,7 +58,6 @@ const CreateClient = () => {
               </div>
               <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <form className="space-y-3" onSubmit={handleSubmit}>
-                  {/* Name Field */}
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-900">
                       Name<span className="text-red-500">*</span>
@@ -81,7 +75,6 @@ const CreateClient = () => {
                     </div>
                   </div>
 
-                  {/* Email Field */}
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-900">
                       Email<span className="text-red-500">*</span>
@@ -99,7 +92,6 @@ const CreateClient = () => {
                     </div>
                   </div>
 
-                  {/* Password Field */}
                   <div>
                     <div className="flex items-center justify-between">
                       <label
@@ -122,7 +114,6 @@ const CreateClient = () => {
                     </div>
                   </div>
 
-                  {/* Company Name Field */}
                   <div>
                     <label
                       htmlFor="company_name"
@@ -145,7 +136,6 @@ const CreateClient = () => {
                     </div>
                   </div>
 
-                  {/* Contact Number Field */}
                   <div>
                     <label
                       htmlFor="contact_number"
@@ -168,7 +158,6 @@ const CreateClient = () => {
                     </div>
                   </div>
 
-                  {/* Submit Button */}
                   <div className="flex gap-3">
                     <button
                       type="submit"
@@ -194,5 +183,5 @@ const CreateClient = () => {
   );
 };
 
-export default CreateClient;
+export default Create;
  

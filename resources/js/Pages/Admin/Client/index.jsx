@@ -2,18 +2,19 @@ import AdminHeader from '@/Components/AdminHeader';
 import React, { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
 
-const Index = ({ users, message ,flash}) => {
-  console.log(users);
-console.log(flash);
+const Index = ({ users,flash}) => {
+  console.log(flash);
+ const [showMessage, setShowMessage] = useState(true); 
 
-  const [successMessage, setSuccessMessage] = useState(null);
-
-  // Check if there's a success message in the Inertia page props
   useEffect(() => {
-    if (message) {
-      setSuccessMessage(flash.msg.description);
+    if (flash?.msg || flash?.error) {
+      const timeout = setTimeout(() => {
+        setShowMessage(false); 
+      }, 3000);
+
+      return () => clearTimeout(timeout); 
     }
-  }, [message]);
+  }, [flash]); 
 
   const { delete: deleteRequest } = useForm();
 
@@ -34,7 +35,7 @@ console.log(flash);
             <a
               href={route('admin.client.create')}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-            >
+              >
               Add New Client
             </a>
           </div>
@@ -43,15 +44,19 @@ console.log(flash);
 
       <main>
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+              {showMessage && flash && flash.msg && flash.msg.status === 'success' && (
+                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+                  {flash.msg.description}
+                </div>
+              )}
+              {showMessage && flash && flash.error && (
+                <div className="bg-red-500 text-white p-4 rounded-lg mb-6">
+                  {flash.error}
+                </div>
+              )}
           <div className="container mx-auto">
             <h1 className="text-3xl font-bold text-center mb-6">Show Clients</h1>
 
-            {/* Display success message */}
-            {successMessage && (
-              <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
-                {successMessage}
-              </div>
-            )}
 
             <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
               <thead>
@@ -72,13 +77,11 @@ console.log(flash);
                     <td className="py-2 px-4 text-gray-700">{user.email}</td>
                     <td className="py-2 px-4 text-gray-700">{user.role}</td>
                     <td className="py-2 px-4 text-gray-700">
-                      {/* Check if user.clientDetail exists and render company name */}
                       {user.client_detail && user.client_detail.company_name
                         ? user.client_detail.company_name
                         : 'N/A'}
                     </td>
                     <td className="py-2 px-4 text-gray-700">
-                      {/* Check if user.clientDetail exists and render contact number */}
                       {user.client_detail && user.client_detail.contact_number
                         ? user.client_detail.contact_number
                         : 'N/A'}

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\User;
@@ -12,18 +13,20 @@ class UserRepository extends BaseRepository
     {
         parent::__construct($model);
     }
-   
-    public function getClient(){
+
+    public function getClient()
+    {
         return $this->newQuery()
-        ->where('role' ,'client')->with('clientDetail')->get();
+            ->where('role', 'client')->with('clientDetail')->get();
     }
-   
-    
-    public function getUser($role){
+
+
+    public function getUser($role)
+    {
         return $this->newQuery()
-        ->where('role' ,$role)->get();
+            ->where('role', $role)->get();
     }
-   
+
 
     public function getAllEmployees()
     {
@@ -32,9 +35,10 @@ class UserRepository extends BaseRepository
             ->get();
     }
 
-    public function getRecentClient($limit){
+    public function getRecentClient($limit)
+    {
         return $this->newQuery()
-        ->where('role' ,'client')->with('clientDetail')->limit($limit)->get();
+            ->where('role', 'client')->with('clientDetail')->limit($limit)->get();
     }
 
     public function getRecentUsersByRole(string $role, int $limit)
@@ -45,12 +49,12 @@ class UserRepository extends BaseRepository
             ->limit($limit)
             ->get();
     }
-    
-    
-    function getEmployeeByTask($id){
+
+
+    function getEmployeeByTask($id)
+    {
         return $this->newQuery()
             ->where('id', $id)
             ->get();
     }
 }
-

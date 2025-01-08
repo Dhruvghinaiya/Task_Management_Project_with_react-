@@ -8,9 +8,7 @@ const Profile = ({ users }) => {
   // console.log(users.role);
 
     
-    
-  // Use Inertia's useForm to handle form state and submission
-  const { data, setData, post, processing, errors, reset } = useForm({
+  const { data, setData, post, processing, errors,  } = useForm({
     name: users.name,
     role:users.role,
     email: users.email,
@@ -18,18 +16,15 @@ const Profile = ({ users }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Submit the form data via POST
     post( users.role==='admin'? route('profile.update')  :(users.role ==='employee'?  route('employee.profile.update') :route('client.profile.update') ) , {
       onSuccess: () => {
-        // Optional: You can reset the form or show a success message here
         console.log('Profile updated successfully');
       },
     });
   };
 
   return (
-    <div className="min-h-full">  
-        {/* <AdminHeader/> */}
+    <div className="min-h-full">
         {users.role === 'admin' ? (
         <AdminHeader />
       ) : users.role === 'employee' ? (
@@ -48,7 +43,6 @@ const Profile = ({ users }) => {
           <div className="isolate bg-white px-6 sm:py-32 lg:px-8">
             <form onSubmit={handleSubmit} className="mx-auto max-w-xl">
               <div className="grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
-                {/* Profile Image Section */}
                 <div className="col-span-2 text-center">
                   <h2 className="text-xl font-semibold text-gray-900">Profile Image</h2>
                   <div className="mt-4">
@@ -60,7 +54,6 @@ const Profile = ({ users }) => {
                   </div>
                 </div>
 
-                {/* Name Input */}
                 <div>
                   <label htmlFor="name" className="block text-sm/6 font-semibold text-gray-900">
                     Name
@@ -95,7 +88,6 @@ const Profile = ({ users }) => {
                 </div>
 
 
-                {/* Email Input */}
                 <div className="sm:col-span-2">
                   <label htmlFor="email" className="block text-sm/6 font-semibold text-gray-900">
                     Email
@@ -113,7 +105,6 @@ const Profile = ({ users }) => {
                 </div>
               </div>
 
-              {/* Submit Button */}
               <div className="flex gap-7 justify-center">
                 <div className="mt-10 w-20">
                   <button
@@ -121,12 +112,10 @@ const Profile = ({ users }) => {
                     className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                     disabled={processing}
                   >
-                    {/* {processing ? 'Updating...' : 'Save Changes'} */}
                     Edit
                   </button>
                 </div>
 
-                {/* Back Button */}
                 <div className="mt-10 w-20">
                   <button
                     type="button"

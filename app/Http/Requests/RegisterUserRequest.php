@@ -28,8 +28,8 @@ class RegisterUserRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',  
-            'role' => 'required',new Enum(RoleEnum::class),
-            // 'role' => 'required',
+            // 'role' => 'required',new Enum(RoleEnum::class),
+            'role' => 'required',
         ];
 
     }

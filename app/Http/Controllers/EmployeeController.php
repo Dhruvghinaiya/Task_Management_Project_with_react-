@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\BaseController;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
+use Inertia\Response;
 use Throwable;
 
 use function Termwind\render;
@@ -29,24 +31,24 @@ class EmployeeController extends BaseController
         $this->projectRepository = $projectRepository;
     }
 
-    public function profile(){
-        $email = session('user_email');
-        $data = User::where('email',$email)->get();
-        return view('Employee.profile',['data'=>$data]);   
-    }
+    // public function profile(){
+    //     $email = session('user_email');
+    //     $data = User::where('email',$email)->get();
+    //     return view('Employee.profile',['data'=>$data]);   
+    // }
 
-    public function index(){
+    public function index():Response
+    {
         $projectCount = $this->taskRepository->getProjectByEmployee(Auth::user()->id)->count();
         $clientCount  = $this->userRepository->getClient()->count();
         $taskCount  = $this->taskRepository->getTasksByEmployee(Auth::id())->count();
         $tasks = $this->taskRepository->getTasksByEmployee(Auth::user()->id);
-        // return view('Employee.dashboard',compact('projectCount','clientCount','taskCount','tasks'));
-        // return Inertia::render('Employee/Dashboard',compact('projectCount','taskCount','tasks'));
         return Inertia::render('Employee/Dashboard',compact('projectCount','clientCount','taskCount','tasks'));
         
     }
 
-    public function update(UpdateProfileRequest $req){
+    public function update(UpdateProfileRequest $req):RedirectResponse
+    {
         DB::transaction();
         try{
             $this->userRepository->update(Auth::user()->id,$req->getInsertTableField());

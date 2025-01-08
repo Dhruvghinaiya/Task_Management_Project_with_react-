@@ -8,10 +8,12 @@ use App\Repositories\ProjectRepository;
 use App\Repositories\TaskRepository;
 use App\Http\Controllers\BaseController;
 use App\Repositories\UserRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Inertia\Response;
 use Throwable;
 
 class AdminController extends BaseController
@@ -25,7 +27,8 @@ class AdminController extends BaseController
         $this->projectRepository= $projectRepository;
     }
    
-    public function  index(){
+    public function  index():Response
+    {
         $taskCount = $this->taskRepository->getAll()->count();
         
         $clientCount = $this->userRepository->getClient()->count();
@@ -45,7 +48,8 @@ class AdminController extends BaseController
             'recentClients',
             'recentEmployees'));
     }
-    public function profile(){
+    public function profile():Response
+    {
 
             // return view('Admin.profile');  
             $users  = Auth::user();
@@ -54,7 +58,8 @@ class AdminController extends BaseController
         
     }
 
-    public function update(UpdateProfileRequest $req){
+    public function update(UpdateProfileRequest $req):RedirectResponse
+    {
         DB::beginTransaction();
         try{
             $this->userRepository->update(Auth::user()->id,$req->getInsertTableField());

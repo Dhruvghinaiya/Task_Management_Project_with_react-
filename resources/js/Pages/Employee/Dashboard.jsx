@@ -15,7 +15,6 @@ const Dashboard = ({ projectCount, taskCount, tasks }) => {
       <main>
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Project Card */}
             <a
               href="/employee/project"
               className="card bg-white p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105"
@@ -25,7 +24,6 @@ const Dashboard = ({ projectCount, taskCount, tasks }) => {
               <p className="text-gray-500">View All Projects</p>
             </a>
 
-            {/* Task Card */}
             <a
               href="/employee/task"
               className="card bg-white min-h-[150px] p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105"
@@ -37,7 +35,6 @@ const Dashboard = ({ projectCount, taskCount, tasks }) => {
           </div>
         </div>
 
-        {/* Recent Activity Section */}
         <div className="bg-white shadow-md rounded-lg overflow-hidden mt-12">
           <div className="p-6">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Recent Activity</h2>

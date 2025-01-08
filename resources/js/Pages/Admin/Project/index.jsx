@@ -3,11 +3,12 @@ import ClientHeader from '@/Components/ClientHeader';
 import EmployeeHeader from '@/Components/EmployeeHeader';
 import React from 'react';
 
-const ProjectList = ({ projects, role }) => {
+const ProjectList = ({ projects, role,flash }) => {
+  console.log(flash);
+  
   return (
     <div className="min-h-full">
 
-      {/* Header based on user role */}
       {role === 'admin' ? (
         <AdminHeader />
       ) : role === 'employee' ? (
@@ -31,27 +32,8 @@ const ProjectList = ({ projects, role }) => {
 
       <main>
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <div className="mb-4">
-            {/* Handle the session message */}
-            {/* Commented out until it's needed */}
-            {/* {message && message.status === 'success' && (
-              <div className="alert-container">
-                <div className="bg-green-500 text-white p-4 rounded-lg">
-                  {message.description}
-                </div>
-              </div>
-            )}
-            {message && message.status === 'error' && (
-              <div className="alert-container">
-                <div className="bg-red-500 text-white p-4 rounded-lg">
-                  {message.description}
-                </div>
-              </div>
-            )} */}
-          </div>
-
-          {/* Check if there are no projects */}
-          {projects.length === 0 ? (
+          
+            {projects.length === 0 ? (
             <div className="text-center p-6">
               <p className="text-lg font-medium text-gray-500">No projects available</p>
             </div>

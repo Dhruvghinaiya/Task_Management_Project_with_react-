@@ -1,39 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { Inertia } from '@inertiajs/inertia';
+import React, { useEffect } from 'react';
+import { useForm } from '@inertiajs/react';
 import AdminHeader from '@/Components/AdminHeader';
 
-const edit = ({ user, clients, errors }) => {
-    // Ensure that clients is an array and use the first client if it's an array
-    const client = clients.length > 0 ? clients[0] : {}; // Default to an empty object if clients is empty
-    
-    // Initial form state setup
-    const [formData, setFormData] = useState({
+const Edit = ({ user, clients, errors }) => {
+    const client = clients.length > 0 ? clients[0] : {};
+
+    //use patch
+    const { data, setData, patch, processing, errors: formErrors } = useForm({
         name: user.name || '',
         email: user.email || '',
         user_id: user.id,
-        role:user?.role,
+        role: user?.role,
         created_by: user.created_by,
-        company_name: client.company_name || '', // Set default to first client or empty
-        contact_number: client.contact_number || '', // Set default to first client or empty
-        client_id: client.id || '', // Use the first client id
+        company_name: client.company_name || '',
+        contact_number: client.contact_number || '',
+        client_id: client.id || '',
     });
 
-    const [validationErrors, setValidationErrors] = useState(errors || {});
-
-    // Handle input change
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setData({ ...data, [name]: value });
     };
 
-    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Send the form data via Inertia
-        Inertia.post(route('admin.client.update', formData.user_id), formData, {
+        patch(route('admin.client.update', data.user_id), {
             onError: (errorResponse) => {
-                setValidationErrors(errorResponse);
+                console.log(errorResponse);
             },
         });
     };
@@ -51,35 +45,32 @@ const edit = ({ user, clients, errors }) => {
                     <div className="container mx-auto mt-10">
                         <h2 className="text-2xl mb-4">Edit Client</h2>
                         <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg">
-                            {/* Client Name */}
                             <div className="mb-4">
                                 <label htmlFor="name" className="block text-gray-600 font-medium mb-2">Client Name</label>
-                                <input 
-                                    type="text" 
-                                    name="name" 
-                                    id="name" 
+                                <input
+                                    type="text"
+                                    name="name"
+                                    id="name"
                                     className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    value={formData.name} 
+                                    value={data.name}
                                     onChange={handleChange}
                                 />
-                                {validationErrors.name && <p className="text-red-500 text-sm mt-1">{validationErrors.name}</p>}
+                                {formErrors.name && <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>}
                             </div>
 
-                            {/* Email */}
                             <div className="mb-4">
                                 <label htmlFor="email" className="block text-gray-600 font-medium mb-2">Email</label>
-                                <input 
-                                    type="email" 
-                                    name="email" 
-                                    id="email" 
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
                                     className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    value={formData.email} 
+                                    value={data.email}
                                     onChange={handleChange}
                                 />
-                                {validationErrors.email && <p className="text-red-500 text-sm mt-1">{validationErrors.email}</p>}
+                                {formErrors.email && <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>}
                             </div>
 
-                            {/* Client Details (Company Name, Contact Number) */}
                             {clients.length > 0 && (
                                 <div key={client.id}>
                                     <input type="text" name="client_id" value={client.id} hidden />
@@ -90,10 +81,10 @@ const edit = ({ user, clients, errors }) => {
                                             name="company_name"
                                             id="company_name"
                                             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            value={formData.company_name}
+                                            value={data.company_name}
                                             onChange={handleChange}
                                         />
-                                        {validationErrors.company_name && <p className="text-red-500 text-sm mt-1">{validationErrors.company_name}</p>}
+                                        {formErrors.company_name && <p className="text-red-500 text-sm mt-1">{formErrors.company_name}</p>}
                                     </div>
 
                                     <div className="mb-4">
@@ -103,21 +94,21 @@ const edit = ({ user, clients, errors }) => {
                                             name="contact_number"
                                             id="contact_number"
                                             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            value={formData.contact_number}
+                                            value={data.contact_number}
                                             onChange={handleChange}
                                         />
-                                        {validationErrors.contact_number && <p className="text-red-500 text-sm mt-1">{validationErrors.contact_number}</p>}
+                                        {formErrors.contact_number && <p className="text-red-500 text-sm mt-1">{formErrors.contact_number}</p>}
                                     </div>
                                 </div>
                             )}
 
-                            {/* Submit Button */}
                             <div className="mt-4 flex justify-end">
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     className="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    disabled={processing} 
                                 >
-                                    Edit
+                                    {processing ? 'Editing...' : 'Edit'}
                                 </button>
                             </div>
                         </form>
@@ -128,4 +119,4 @@ const edit = ({ user, clients, errors }) => {
     );
 };
 
-export default edit;
+export default Edit;

@@ -1,7 +1,6 @@
 import AdminHeader from '@/Components/AdminHeader';
 import React from 'react';
 
-// const Dashboard = ({ taskCount, projectCount, clientCount, recentProjects, recentTasks, recentClients, recentEmployees }) => {
 const Dashboard = ({ taskCount,clientCount,employeeCount,projectCount,recentProjects,recentTasks,recentClients,recentEmployees }) => {
   console.log(recentClients[1].client_detail.company_name);
   
@@ -17,7 +16,6 @@ const Dashboard = ({ taskCount,clientCount,employeeCount,projectCount,recentProj
       <main>
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="container mx-auto p-6">
-            {/* Dashboard Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <a href={route('admin.client.index')} className="card bg-white p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 <h2 className="text-xl font-semibold text-gray-700">Total Clients</h2>
@@ -39,7 +37,6 @@ const Dashboard = ({ taskCount,clientCount,employeeCount,projectCount,recentProj
 
             </div>
 
-            {/* Recent Projects */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-5">
               <div className="bg-white rounded-lg shadow-md border overflow-hidden">
                 <div className="p-6">
@@ -61,7 +58,6 @@ const Dashboard = ({ taskCount,clientCount,employeeCount,projectCount,recentProj
                 </div>
               </div>
 
-              {/* Recent Tasks */}
               <div className="bg-white rounded-lg shadow-md border overflow-hidden">
                 <div className="p-6">
                   <h2 className="text-2xl font-semibold text-gray-800 mb-4">Recent Tasks</h2>
@@ -85,7 +81,6 @@ const Dashboard = ({ taskCount,clientCount,employeeCount,projectCount,recentProj
               </div>
             </div>
 
-            {/* Recent Clients and Employees */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-5 mb-24">
               <div className="bg-white rounded-lg shadow-md border overflow-hidden">
                 <div className="p-6">
@@ -108,7 +103,6 @@ const Dashboard = ({ taskCount,clientCount,employeeCount,projectCount,recentProj
                 </div>
               </div>
 
-              {/* Recent Employees */}
               <div className="bg-white rounded-lg shadow-md border overflow-hidden mb-24">
                 <div className="p-6">
                   <h2 className="text-2xl font-semibold text-gray-800 mb-4">Recent Employees</h2>

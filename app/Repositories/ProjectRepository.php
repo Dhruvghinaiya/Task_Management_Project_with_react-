@@ -15,13 +15,18 @@ class ProjectRepository extends BaseRepository
     }
   
 
+    
 
-    function getProjectsByEmployee($id)
+
+    public function getProjectsByEmployee($employeeId)
     {
         return $this->newQuery()
-            ->where('client_id', $id)
+            ->whereHas('tasks', function ($query) use ($employeeId) {
+                $query->where('assigned_to', $employeeId);
+            })
             ->get();
     }
+
     function getProjectsByClient($id)
     {
         return $this->newQuery()
@@ -34,9 +39,7 @@ class ProjectRepository extends BaseRepository
             ->where('client_id', $clientId)
             ->with('tasks')
             ->get();
-            // ->flatMap(function ($project) {
-                // return $project->tasks;
-            // });
+            
 }
 
 public function getRecentProjects(int $limit)
@@ -47,7 +50,5 @@ public function getRecentProjects(int $limit)
             ->limit($limit)
             ->get();
     }
-
-
 
 }
