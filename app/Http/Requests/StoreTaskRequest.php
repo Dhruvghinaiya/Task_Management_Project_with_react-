@@ -28,7 +28,6 @@ class StoreTaskRequest extends FormRequest
             'name' => 'required|string|max:255',
             'description' => 'string|required',
             'status' => 'required',new Enum(StatusEnum::class),
-            // 'status' => 'required',
             'project_id' => 'required|exists:projects,id',
             'assigned_to' => 'required|nullable|exists:users,id',
             'start_date' => 'required|date',

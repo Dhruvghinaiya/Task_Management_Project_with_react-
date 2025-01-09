@@ -39,15 +39,12 @@ class ClientController extends BaseController
         
         $role = Auth::user()->role;
         $users = $this->userRepository->getClient();
-        // $client = User::with('clientDetail')->get();
-        // return $client;
         return Inertia::render('Admin/Client/Index',compact('users'));
         
     }
     
     public function show() :Response
     {
-        // return view('Admin.Client.Show',compact('clients'));
         return Inertia::render('Admin/Client/Show',compact('clients'));
     }
 
@@ -55,7 +52,6 @@ class ClientController extends BaseController
     {
 
         $client = $this->userRepository->getClient();
-        // return view('Admin.Client.client_create',['data'=>$client]);
         return inertia::render('Admin/Client/Create',compact('client'));
     }
     
@@ -86,8 +82,8 @@ class ClientController extends BaseController
     }
 
     public function update(UpdateClientRequest $req, $id):RedirectResponse
-    {   
-
+    {       
+        
         DB::beginTransaction();
         try{
 

@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import { Head } from '@inertiajs/react';
 import AdminHeader from '@/Components/AdminHeader';
 import EmployeeHeader from '@/Components/EmployeeHeader';
-import Select from 'react-select'; // Import react-select
 import ReactSelect from '@/Components/ReactSelect';
+import { Inertia } from '@inertiajs/inertia';
+import axios from 'axios';
 
-const Create = ({ projects, employees, role,statuses='null' }) => {
-    console.log(statuses);
-    
+const Create = ({ projects, employees, role, statuses = 'null', assignemployee }) => {
+    console.log(assignemployee);
+
     const { data, setData, post, errors } = useForm({
         name: '',
         description: '',
@@ -19,31 +20,48 @@ const Create = ({ projects, employees, role,statuses='null' }) => {
         end_date: '',
     });
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        role === 'admin' 
-            ? post(route('admin.task.store')) 
+        role === 'admin'
+            ? post(route('admin.task.store'))
             : post(route('employee.task.store'));
     };
 
-    const statusOptions = [
-        { value: '', label: 'No Status' },
-        { value: 'Pending', label: 'Pending' },
-        { value: 'In Progress', label: 'In Progress' },
-        { value: 'Completed', label: 'Completed' },
-    ];
 
     const projectOptions = projects.map((project) => ({
         value: project.id,
         label: project.name,
     }));
-    const employeeOptions = employees.map(employee => ({
-        value: employee.id,
-        label: employee.name,
-      })); 
 
-    const handleStatusChange = (selectedOption) => {
-        setData('status', selectedOption ? selectedOption.value : '');
+  
+    const handleProjectChange = (option) => {
+        const projectId = option?.value || '';
+        setData('project_id', projectId);
+
+        
+    };
+
+    const [employee,setEmployee] = useState([]);
+
+    useEffect(() => {
+            if (data.project_id) {
+                fetchAssignedEmployees();
+            }
+        }, [data.project_id]);
+        
+
+    const fetchAssignedEmployees = () => {
+        
+        const routeUse =  role=='admin'  ?  route('project.employees',data.project_id) :  route('employees.project',data.project_id);
+        //  axios.get(route('project.employees',data.project_id))
+         axios.get(routeUse)
+
+        .then(Response => {
+            setEmployee(Response.data)
+        })
+        .catch(error => console.log('employeee is not found',error)
+        )
     };
 
     return (
@@ -98,7 +116,7 @@ const Create = ({ projects, employees, role,statuses='null' }) => {
                                 id="status"
                                 name="status"
                                 value={data.value}
-                                onChange={(option) => setData('status',option.value)}
+                                onChange={(option) => setData('status', option.value)}
                                 options={statuses}
                                 className="w-full"
                                 classNamePrefix="react-select"
@@ -114,8 +132,7 @@ const Create = ({ projects, employees, role,statuses='null' }) => {
                                 id="project_id"
                                 name="project_id"
                                 value={projectOptions.find(option => option.value === data.project_id)}
-                                // onChange={(selectedOption) => setData('project_id', selectedOption ? selectedOption.value : '')}
-                                onChange={ (option) => setData('project_id',option?.value)  }
+                                onChange={handleProjectChange}
                                 options={projectOptions}
                                 className="w-full"
                                 classNamePrefix="react-select"
@@ -127,12 +144,18 @@ const Create = ({ projects, employees, role,statuses='null' }) => {
                             <label htmlFor="assigned_to" className="block text-sm font-medium text-gray-700">
                                 Assigned To <span className="text-red-500">*</span>
                             </label>
-                            <ReactSelect name="assigned_to"
-                                id="assigned_to"
-                                value={data.assigned_to}
-                                onChange={(option)=>setData('assigned_to',option.value)}
-                                options={employeeOptions} />
 
+                              <ReactSelect
+                                name="assigned_to"
+                                id="assigned_to"
+                                options={employee}
+                                value={employee.find(employee => employee.value === data.assigned_to)}  
+                                onChange={(option) => setData('assigned_to', option ? option.value : '')}  // 
+                                placeholder="Select employee"
+                                isClearable
+                            />
+                           
+                            
                             {errors.assigned_to && <div className="text-red-500 text-sm">{errors.assigned_to}</div>}
                         </div>
 

@@ -51,20 +51,19 @@ class AdminController extends BaseController
     public function profile():Response
     {
 
-            // return view('Admin.profile');  
             $users  = Auth::user();
             
             return Inertia::render('Profile',compact('users'));
         
     }
 
-    public function update(UpdateProfileRequest $req):RedirectResponse
-    {
+    public function update(UpdateProfileRequest $request)
+    {      
         DB::beginTransaction();
         try{
-            $this->userRepository->update(Auth::user()->id,$req->getInsertTableField());
+            $this->userRepository->update(Auth::user()->id,$request->getInsertTableField());
             DB::commit();
-            return $this->sendRedirectResponse(route('admin.profile'),'user profile update successfully...');
+            return $this->sendRedirectResponse(route('profile'),'user profile update successfully...');
         }
         catch(Throwable $e){
             DB::rollBack();

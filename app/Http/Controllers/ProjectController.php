@@ -37,7 +37,7 @@ class ProjectController extends BaseController
         $this->userRepostiry = $userRepostiry;
         $this->taskReposirtory = $taskReposirtory;
     }
-    public function index():Response
+    public function index()
     {
 
         $role = Auth::user()->role;
@@ -46,8 +46,7 @@ class ProjectController extends BaseController
         } elseif ($role == 'client') {
             $projects = $this->ProjectRepostiry->getProjectsByClient(Auth::id());
         } else {
-            $projects = $this->taskReposirtory->getProjectByEmployee(Auth::id());
-            
+            $projects = $this->ProjectRepostiry->getProjectsByEmployee(Auth::id());
         }
         return inertia::render('Admin/Project/Index', compact('projects', 'role'));
     }
@@ -58,6 +57,7 @@ class ProjectController extends BaseController
 
         if ($role == 'admin' || $role == 'employee') {
             $client = $this->userRepostiry->getById($project->client_id);
+
             $project->load('users', 'client', 'creator', 'updater', 'tasks');
 
         } else if ($role == 'client') {
@@ -75,13 +75,13 @@ class ProjectController extends BaseController
         return inertia::render('Admin/Project/Create', compact('clients', 'employees'));
     }
 
-    public function store(StoreProjectRequest $req):RedirectResponse
+    public function store(StoreProjectRequest $request):RedirectResponse
     {
         DB::beginTransaction();
         try {
-            $project =  $this->ProjectRepostiry->store($req->getInsertTableField());
-            if ($req->has('employee_ids') && !empty($req->employee_ids)) {
-                $project->users()->attach($req->employee_ids);
+            $project =  $this->ProjectRepostiry->store($request->getInsertTableField());
+            if ($request->has('employee_ids') && !empty($req->employee_ids)) {
+                $project->users()->attach($request->employee_ids);
             }
             DB::commit();
             return redirect()->route('admin.project.index');
@@ -95,7 +95,8 @@ class ProjectController extends BaseController
 
         $clients = $this->userRepostiry->getUser('client');
         $employees = $this->userRepostiry->getUser('employee');
-        return inertia::render('Admin/Project/Edit', compact('project', 'clients', 'employees'));
+        $projectEmployees = $this->ProjectRepostiry->getProjectEmployees($project->id);
+        return inertia::render('Admin/Project/Edit', compact('project', 'clients', 'employees','projectEmployees'));
     }
 
 
@@ -132,4 +133,7 @@ class ProjectController extends BaseController
             return $this->sendRedirectBackError($e->getMessage());
         }
     }
+
+   
+
 }

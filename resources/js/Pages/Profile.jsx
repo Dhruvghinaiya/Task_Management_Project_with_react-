@@ -1,12 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import AdminHeader from '@/Components/AdminHeader';
 import EmployeeHeader from '@/Components/EmployeeHeader';
 import ClientHeader from '@/Components/ClientHeader';
 
-const Profile = ({ users }) => {
-  // console.log(users.role);
+const Profile = ({ users,flash}) => {
+  console.log(flash);
 
+  
+    const [showMessage, setShowMessage] = useState(true); 
+  
+    useEffect(() => {
+      if (flash?.msg || flash?.error) {
+        const timeout = setTimeout(() => {
+          setShowMessage(false); 
+        }, 3000);
+  
+        return () => clearTimeout(timeout); 
+      }
+    }, [flash]); 
     
   const { data, setData, post, processing, errors,  } = useForm({
     name: users.name,
@@ -17,9 +29,7 @@ const Profile = ({ users }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     post( users.role==='admin'? route('profile.update')  :(users.role ==='employee'?  route('employee.profile.update') :route('client.profile.update') ) , {
-      onSuccess: () => {
-        console.log('Profile updated successfully');
-      },
+     
     });
   };
 
@@ -40,6 +50,16 @@ const Profile = ({ users }) => {
 
       <main>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {showMessage && flash && flash.msg && flash.msg.status === 'success' && (
+            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+              {flash.msg.description}
+            </div>
+          )}
+          {showMessage && flash && flash.error && (
+            <div className="bg-red-500 text-white p-4 rounded-lg mb-6">
+              {flash.error}
+            </div>
+          )}
           <div className="isolate bg-white px-6 sm:py-32 lg:px-8">
             <form onSubmit={handleSubmit} className="mx-auto max-w-xl">
               <div className="grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">

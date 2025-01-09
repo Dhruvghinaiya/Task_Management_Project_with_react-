@@ -21,25 +21,13 @@ class TaskRepository extends BaseRepository
     }
 
 
-    function getTasksByOtherEmployee($id)
+    function getTasksByOtherEmployee($taskId)
     {
         return $this->newQuery()
-            ->where('created_by', $id)
+            ->where('created_by', $taskId)
             ->get();
     }
-    // public function getAllClients()
-    // {
-    //     return $this->newQuery()
-    //         ->where('role', 'client')
-    //         ->get();
-    // }
-
-    // function getTaskByClient($id){
-    //     return $this->newQuery()->whereHas('project',function($query) use($id) {
-    //         $query->where('client_id',$id)->with('project')->get();
-    //     });
-    // }
-
+    
     public function getTasksByClient(string $clientId)
     {
         return $this->newQuery()
@@ -50,14 +38,14 @@ class TaskRepository extends BaseRepository
     }
 
 
-    // public function getProjectByEmployee($employeeId)
-    // {
-    //     $tasks = $this->newQuery()
-    //         ->where('assigned_to', $employeeId)
-    //         ->with('project')
-    //         ->get();
-    //     return $tasks->pluck('project')->unique();
-    // }
+    public function getProjectByEmployee($employeeId)
+    {
+        $tasks = $this->newQuery()
+            ->where('assigned_to', $employeeId)
+            ->with('project')
+            ->get();
+        return $tasks->pluck('project')->unique();
+    }
 
     public function getRecentTasks(int $limit)
     {

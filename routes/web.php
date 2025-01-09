@@ -15,14 +15,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
 
 
 
@@ -31,13 +23,10 @@ Route::get('/',[AuthenticatedSessionController::class,'welcome'])->name('welcome
 Route::middleware(['role:admin'])->group(function(){
     
     Route::get('dashboard',[AdminController::class,'index'])->name('dashboard');
-    // Route::get('/profile',[AdminController::class,'profile'])->name('admin.profile');
     Route::get('/profile',[AdminController::class,'profile'])->name('profile');
     Route::post('/profile/update',[AdminController::class,'update'])->name('profile.update');
 
-
-      //user
-    //   Route::get('/user',[UserController::class,'index'])->name('user.index');
+    //user
       Route::get('/user',[UserController::class,'index'])->name('admin.user.index');
       Route::get('/user/create',[UserController::class,'create'])->name('admin.user.create');
       Route::post('/user/store',[UserController::class,'store'])->name('user.store');
@@ -72,15 +61,12 @@ Route::middleware(['role:admin'])->group(function(){
     Route::patch('admin/task/update/{id}',[TaskController::class,'update'])->name('admin.task.update');
     Route::delete('admin/task/delete/{task}',[TaskController::class,'destroy'])->name('admin.task.delete');
     
+    Route::get('/projects/employees/{project}', [TaskController::class, 'getAssignedEmployees'])->name('project.employees');
     
-});
-
-
-Route::middleware(['auth','role:employee'])->group(function(){
-    
-    // Route::get('/employee/dashboard', function () {
-    //     return Inertia::render('Employee/Dashboard');
-    // })->name('employee.dashboard');
+  });
+  
+  
+  Route::middleware(['auth','role:employee'])->group(function(){
     
     Route::get('/employee/dashboard',[EmployeeController::class,'index'])->name('employee.dashboard');
     Route::get('employee/profile',[AdminController::class,'profile'])->name('employee.profile');
@@ -88,23 +74,22 @@ Route::middleware(['auth','role:employee'])->group(function(){
     
     Route::get('employee/project',[ProjectController::class,'index'])->name('employee.project.index');
     Route::get('emloyee/project/show/{project}',[ProjectController::class,'show'])->name('employee.project.show');
-
+    
     Route::get('employee/task',[TaskController::class,'index'])->name('employee.task.index');
     Route::get('employee/task/show/{task}',[TaskController::class,'show'])->name('employee.task.show');
     Route::get('task/create',[TaskController::class,'create'])->name('employee.task.create');
     Route::post('task/store',[TaskController::class,'store'])->name('employee.task.store');
     Route::get('employee/task/edit/{task}',[TaskController::class,'edit'])->name('employee.task.edit');
-    Route::post('employee/task/update/{id}',[TaskController::class,'update'])->name('employee.task.update');
-  
+    Route::patch('employee/task/update/{id}',[TaskController::class,'update'])->name('employee.task.update');
+    
+    Route::get('/employees/project{project}', [TaskController::class, 'getAssignedEmployees'])->name('employees.project');
+
     
 });
 
 Route::middleware(['auth','role:client'])->group(function(){
     
-    // Route::get('/client/dashboard', function () {
-    //     return Inertia::render('Client/Dashboard');
-    // })->name('client.dashboard');
-
+   
     
     Route::get('/client/dashboard',[ClientAdminController::class,'index'])->name('client.dashboard');
 
@@ -129,11 +114,5 @@ Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])->name('
     
 
 
-
-Route::middleware('auth')->group(function () {
-    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 require __DIR__.'/auth.php';

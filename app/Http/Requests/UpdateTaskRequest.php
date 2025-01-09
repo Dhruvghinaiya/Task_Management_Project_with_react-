@@ -6,6 +6,7 @@ use App\Enums\StatusEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
+use Symfony\Component\Console\Input\Input;
 
 class UpdateTaskRequest extends FormRequest
 {
@@ -43,6 +44,7 @@ class UpdateTaskRequest extends FormRequest
             'description' => $this->input('description'),
             'status' => $this->input('status'),
             'project_id' => $this->input('project_id'),
+            // dd($this->input('assigned_to')),
             'assigned_to' => $this->input('assigned_to'),
             'created_by' =>$this->input('created_by'),
             'updated_by' => Auth::id(),

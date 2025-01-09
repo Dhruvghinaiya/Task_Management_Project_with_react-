@@ -31,11 +31,6 @@ class EmployeeController extends BaseController
         $this->projectRepository = $projectRepository;
     }
 
-    // public function profile(){
-    //     $email = session('user_email');
-    //     $data = User::where('email',$email)->get();
-    //     return view('Employee.profile',['data'=>$data]);   
-    // }
 
     public function index():Response
     {

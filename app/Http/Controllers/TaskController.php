@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Jobs\SendDueDateReminderJob;
+use App\Models\Project;
 use App\Models\Task;
 use App\Repositories\TaskRepository;
 use App\Repositories\UserRepository;
@@ -54,29 +55,27 @@ class TaskController extends BaseController
     public function show(Task $task):Response{
         $task = Task::with(['createdBy:id,name', 'updatedBy:id,name','assignedUser:id,name','project:id,name'])->find($task->id);
         $role = Auth::user()->role;
-        
-            return inertia::render('Admin/Task/Show',compact('task','role'));
-
+        return inertia::render('Admin/Task/Show',compact('task','role'));
         
     }
-    public function create():Response{
-
+    public function create()
+{
         $employees = $this->userRepository->getAllEmployees();
         $projects = $this->projectRepository->getAll();
+        $employees = $this->userRepository->getUser('employee',$projects);
         $role = Auth::user()->role;
         $statuses = StatusEnum::options();
-            return inertia::render('Admin/Task/Create',compact('employees','projects','role','statuses'));
-    
+            return inertia::render('Admin/Task/Create',compact('employees','projects','role','statuses',));
        
     }
 
 
-    public function store(StoreTaskRequest $req):RedirectResponse{
+    public function store(StoreTaskRequest $request):RedirectResponse{
     
         $user = Auth::user()->role;
         DB::beginTransaction();
         try{
-               $this->taskrepository->store($req->getInsertableFields());
+               $this->taskrepository->store($request->getInsertableFields());
             DB::commit();
             if($user=='admin'){
             $user = Auth::user()->role;
@@ -100,7 +99,6 @@ class TaskController extends BaseController
         if($role=='admin'){
             $projects  =$this->projectRepository->getAll();
             $clients = $this->userRepository->getAllEmployees(); 
-                // return inertia::render('Admin/Task/Edit',compact('task','clients','projects','role'));
             }
             elseif($role=='employee'){
                 $task =  $this->taskrepository->getById($task->id);
@@ -110,18 +108,17 @@ class TaskController extends BaseController
             return inertia::render('Admin/Task/Edit',compact('task','clients','projects','role','statuses'));
     }   
 
-    public function update(UpdateTaskRequest $req,$id):RedirectResponse{
+    public function update(UpdateTaskRequest $request,$id){
         $user = Auth::user()->role;
         DB::beginTransaction();
             try{
                 if($user=='admin'){
-                    $this->taskrepository->update($id,$req->getInsertableFields());
+                     $this->taskrepository->update($id,$request->getInsertableFields());
                     DB::commit();
                     return $this->sendRedirectResponse(route('admin.task.index'),'task edit sucessfully');
-                    
                 }
                 elseif($user=='employee'){
-                    $this->taskrepository->update($id,$req->getInsertableFields());
+                    $this->taskrepository->update($id,$request->getInsertableFields());
                     DB::commit();
                     return $this->sendRedirectResponse(route('employee.task.index'),'task edit sucessfully');
                 }
@@ -145,4 +142,19 @@ class TaskController extends BaseController
             return $this->sendRedirectBackError($e->getMessage());
         }
     }
+    
+   
+
+public function getAssignedEmployees(Project $project)
+{
+    $employees = $project->users()->select('id', 'name')->get();
+    
+    return $employees->map(function ($employee) {
+        return [
+            'value' => $employee->id,
+            'label' => $employee->name,
+        ];
+    });
+}
+
 }

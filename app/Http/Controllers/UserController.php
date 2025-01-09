@@ -36,11 +36,11 @@ class UserController extends BaseController
         return inertia::render('Admin/User/Create',compact('roleenum'));
     }
 
-    public function store(RegisterUserRequest $req)
+    public function store(RegisterUserRequest $request)
 {     
         DB::beginTransaction();
         try{
-             $this->userRepository->store($req->getinsertTableField());
+             $this->userRepository->store($request->getinsertTableField());
             DB::commit();
             return $this->sendRedirectResponse(route('admin.user.index'),'new student add successfully');
         }
@@ -50,20 +50,18 @@ class UserController extends BaseController
         }
     }
 
-
-
     public function edit($id):Response
     {      
         $user = $this->userRepository->getById($id);
         return inertia::render('Admin/User/Edit',compact('user'));
     }
 
-    public function update( UpdateUserRequest $req , $id):RedirectResponse
+    public function update( UpdateUserRequest $request , $id):RedirectResponse
     {   
 
         DB::beginTransaction();
         try {
-            $this->userRepository->update($id, $req->getinsertTableField());
+            $this->userRepository->update($id, $request->getinsertTableField());
             DB::commit();
             return $this->sendRedirectResponse(route('admin.user.index'),'user edit successfully');
         } catch (Throwable $e) {
@@ -82,7 +80,6 @@ class UserController extends BaseController
         } catch (Throwable $e) {
             DB::rollBack();
             return $this->sendRedirectBackError($e->getMessage());
-            // return redirect()->back();
         }
     }
 

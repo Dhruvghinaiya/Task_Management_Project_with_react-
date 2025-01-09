@@ -15,8 +15,6 @@ class ProjectRepository extends BaseRepository
     }
   
 
-    
-
 
     public function getProjectsByEmployee($employeeId)
     {
@@ -27,12 +25,22 @@ class ProjectRepository extends BaseRepository
             ->get();
     }
 
-    function getProjectsByClient($id)
+    public function getProjectEmployees($projectId)
     {
         return $this->newQuery()
-            ->where('client_id', $id)
+            ->where('id', $projectId)
+            ->with('users')
+            ->first()
+            ->users
+            ->select('id', 'name');
+    }
+    function getProjectsByClient($clientId)
+    {
+        return $this->newQuery()
+            ->where('client_id', $clientId)
             ->get();
     }
+    
     public function getTasksByClient($clientId)
     {
         return $this->newQuery()

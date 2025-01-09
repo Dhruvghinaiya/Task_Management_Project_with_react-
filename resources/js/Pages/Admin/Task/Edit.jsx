@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import AdminHeader from '@/Components/AdminHeader';
 import EmployeeHeader from '@/Components/EmployeeHeader';
 import ReactSelect from '@/Components/ReactSelect';
 
 const Edit = ({ task = {}, projects = [], clients = [], errors,role,statuses }) => {
-    console.log(clients);
+    
 
     const { data, setData,patch, processing, errors: formErrors,  } = useForm({
         name: task.name || '',
@@ -35,6 +35,36 @@ const Edit = ({ task = {}, projects = [], clients = [], errors,role,statuses }) 
         });
     };
 
+    // const handleAssignedToChange = (selectedOptions) => {
+    //     const selectedIds = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    //     setData("assigned_to", selectedIds);
+    // };
+    
+
+const [employees, setEmployees] = useState([]);
+
+useEffect(() => {
+    if (data.project_id) {
+        fetchAssignedEmployees();
+    }
+}, [data.project_id]);
+
+const fetchAssignedEmployees = () => {
+    const routeUse =  role=='admin'  ?  route('project.employees',data.project_id) :  route('employees.project',data.project_id);
+    //  axios.get(route('project.employees',data.project_id))
+     axios.get(routeUse)
+
+    // axios.get(route('project.employees', data.project_id))
+        .then(response => {
+            setEmployees(response.data);
+        })
+        .catch(error => {
+            console.error("Error fetching employees:", error);
+        });
+};
+
+
+
     const projectOptions = projects.map((project)=>({
         value:project.id,
         label:project.name
@@ -57,6 +87,7 @@ const Edit = ({ task = {}, projects = [], clients = [], errors,role,statuses }) 
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <div className="bg-white p-8 rounded-lg shadow-md">
                         <form onSubmit={handleSubmit}>
+                            {/* <input type="text" name='created_by' value={data.created_by} /> */}
                             <div className="mb-6">
                                 <label htmlFor="name" className="block text-xl font-semibold text-gray-700">
                                     Task Name <span className="text-red-500">*</span>
@@ -139,27 +170,17 @@ const Edit = ({ task = {}, projects = [], clients = [], errors,role,statuses }) 
                                 <label htmlFor="assigned_to" className="block text-xl font-semibold text-gray-700">
                                     Assigned To <span className="text-red-500">*</span>
                                 </label>
-                                {/* <select
-                                    name="assigned_to"
-                                    id="assigned_to"
-                                    value={data.assigned_to}
-                                    onChange={handleChange}
-                                    className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    >
-                                    {clients.map((employee) => (
-                                        <option key={employee.id} value={employee.id}>
-                                            {employee.name}
-                                        </option>
-                                    ))}
-                                </select> */}
-                                <ReactSelect
-                                 name="assigned_to"
-                                 id="assigned_to"
-                                 value={data.assigned_to}
-                                 onChange={(option)=>setData('assigned_to',option.value)}
-                                 options={employeeOption}
-                                 className='mt-2'
-                                />
+                              
+                              <ReactSelect
+                                name="assigned_to"
+                                id="assigned_to"
+                                options={employees}
+                                value={employees.find(employee => employee.value === data.assigned_to)}  
+                                onChange={(option) => setData('assigned_to', option ? option.value : '')}  // 
+                                placeholder="Select employee"
+                                isClearable
+                            />
+
                                 {formErrors.assigned_to && <p className="text-red-500 text-sm mt-2">{formErrors.assigned_to}</p>}
                             </div>
                                     </div>
@@ -179,6 +200,23 @@ const Edit = ({ task = {}, projects = [], clients = [], errors,role,statuses }) 
                                     />
                                     {formErrors.start_date && <p className="text-red-500 text-sm mt-2">{formErrors.start_date}</p>}
                                 </div>
+
+                    {/* <div>
+                        <label htmlFor="assigned_to" className="block text-sm font-medium text-gray-700">
+                            Assigned To
+                        </label>
+                        <ReactSelect
+                            isMulti
+                            name="assigned_to"
+                            id="assigned_to"
+                            options={employees}
+                            value={employees.filter(employee => data.assigned_to.includes(employee.value))} // Adjust value setting
+                            onChange={handleAssignedToChange}
+                            placeholder="Select employees"
+                            isClearable
+                        />
+                        {errors.assigned_to && <p className="text-red-500 text-sm mt-1">{errors.assigned_to}</p>}
+                    </div> */}
 
                                 <div>
                                     <label htmlFor="end_date" className="block text-xl font-semibold text-gray-700">
