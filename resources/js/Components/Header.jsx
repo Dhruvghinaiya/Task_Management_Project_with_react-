@@ -1,6 +1,8 @@
+import { Link } from '@inertiajs/react';
 import React from 'react'
 
-const AdminHeader = () => {
+const Header = ({role}) => {
+  
   // Assuming `route` is a helper function to get the current route
   // You can modify it based on your actual routing setup, like `window.location.pathname` in a React app.
   const currentRoute = window.location.pathname;  // or use useLocation from React Router if you're using it
@@ -15,68 +17,71 @@ const AdminHeader = () => {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
-                  <a 
-                    href={route('dashboard')} 
+                  <Link 
+                    href={route(`${role}.dashboard`)} 
                     id="demo" 
                     className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/dashboard' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/dashboard' ? 'page' : undefined}
                   >
                     Dashboard
-                  </a>
-                  <a 
-                    href={route('admin.user.index')} 
-                    className={`px-3 py-2 rounded-md text-sm font-medium 
+                  </Link>
+                  {role=='admin' ? 
+                  <>
+                  
+                  <Link 
+                  href={route(`admin.user.index`)} 
+                  className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/user' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/user' ? 'page' : undefined}
                   >
                     User
-                  </a>
-                  <a 
-                    href={route('admin.client.index')} 
-                    className={`px-3 py-2 rounded-md text-sm font-medium 
+                  </Link>
+                  <Link 
+                  href={route('admin.client.index')} 
+                  className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/client' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                      aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
                   >
                     Client
-                  </a>
+                  </Link>
+                  </>
+                      : ''}
 
-                  <a 
-                    href={route('admin.project.index')} 
+                  <Link 
+                    href={route(`${role}.project.index`)} 
                     className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/project' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
                   >
                     Project
-                  </a>
+                  </Link>
 
-                  <a 
-                    href={route('admin.task.index')} 
+                  <Link 
+                    href={route(`${role}.task.index`)} 
                     className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/task' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
                   >
                     Task
-                  </a>
+                  </Link>
 
                   
-                  <a 
-                    href={route('profile')} 
+                  <Link 
+                    href={route(`${role}.profile`)} 
                     className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/profile' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
                   >
                     Profile
-                   </a>
+                   </Link>
 
-                    {/* <a href={route('profile')}>Profile</a>  */}
-                  {/* Other links */}
-                  <a 
+                  <Link
                     href={route('logout')} 
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Logout
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -122,65 +127,68 @@ const AdminHeader = () => {
 
         <div className="md:hidden" id="mobile-menu">
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-          <a 
-                    href={route('dashboard')} 
+          <Link 
+                    href={route(`${role}.dashboard`)} 
+                    preserveScroll
                     className={` block px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/dashboard' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/user' ? 'page' : undefined}
                   >
                     Dashboard
-                  </a>
-              
-            <a 
-                    href={route('admin.user.index')} 
-                    className={` block px-3 py-2 rounded-md text-sm font-medium 
-                      ${currentRoute === '/user' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                  </Link>
+                    {role=='admin' ? 
+            <Link
+            href={route('admin.user.index')} 
+            preserveScroll
+            className={` block px-3 py-2 rounded-md text-sm font-medium 
+              ${currentRoute === '/user' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/user' ? 'page' : undefined}
-                  >
+                    >
                     User
-                  </a>
+                  </Link>
+                 : ''}
 
-                  <a 
+                  <Link
                     href={route('admin.client.index')} 
                     className={`block px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/client' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
                   >
                     Client
-                  </a>
+                  </Link>
 
-                  <a 
-                    href={route('admin.project.index')} 
+                  <Link 
+                    href={route(`${role}.project.index`)} 
                     className={` block px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/project' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
                   >
                     Project
-                  </a>
+                  </Link>
                     
-                  <a 
-                    href={route('admin.task.index')} 
+                  <Link 
+                    href={route(`${role}.task.index`)} 
                     className={` block px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/task' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
                   >
                     Task
-                  </a>
+                  </Link>
                     
-                  <a 
-                    href={route('profile')} 
+                  <Link 
+                    href={route(`${role}.profile`)} 
                     className={` block px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/profile' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
                   >
                     Profile
-                   </a>
-                   <a 
+                   </Link>
+                   <Link 
                     href={route('logout')} 
                     className="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Logout
-                  </a>
+                  </Link>
                   
 {/* 
             <a 
@@ -199,4 +207,4 @@ const AdminHeader = () => {
   );
 }
 
-export default AdminHeader;
+export default Header;

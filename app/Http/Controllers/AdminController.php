@@ -27,22 +27,17 @@ class AdminController extends BaseController
         $this->projectRepository= $projectRepository;
     }
    
-    public function  index():Response
+    public function  index()
     {
         $taskCount = $this->taskRepository->getAll()->count();
-        
-        $clientCount = $this->userRepository->getClient()->count();
-        
-        $employeeCount = $this->userRepository->getAllEmployees()->count();
-        
+        $clientCount = $this->userRepository->getUsersByRole('client')->count();
+        $employeeCount = $this->userRepository->getUsersByRole('employee')->count();
         $projectCount = $this->projectRepository->getAll()->count();
-        
         $recentProjects = $this->projectRepository->getRecentProjects(5);
         $recentTasks = $this->taskRepository->getRecentTasks(5);
-        
         $recentClients = $this->userRepository->getRecentClient(5);
-
         $recentEmployees = $this->userRepository->getRecentUsersByRole('employee', 5);
+    
             return inertia::render('Dashboard',compact('taskCount','clientCount','employeeCount','projectCount','recentProjects',
             'recentTasks',
             'recentClients',

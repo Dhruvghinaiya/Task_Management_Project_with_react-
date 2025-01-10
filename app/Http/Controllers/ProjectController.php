@@ -37,7 +37,7 @@ class ProjectController extends BaseController
         $this->userRepostiry = $userRepostiry;
         $this->taskReposirtory = $taskReposirtory;
     }
-    public function index()
+    public function index():Response
     {
 
         $role = Auth::user()->role;
@@ -58,10 +58,10 @@ class ProjectController extends BaseController
         if ($role == 'admin' || $role == 'employee') {
             $client = $this->userRepostiry->getById($project->client_id);
 
-            $project->load('users', 'client', 'creator', 'updater', 'tasks');
+            $project->load('users', 'client', 'createdBy', 'updatedBy', 'tasks');
 
         } else if ($role == 'client') {
-            $project->load('users', 'client', 'creator', 'updater', 'tasks');
+            $project->load('users', 'client', 'createdBy', 'updatedBy', 'tasks');
             $client = $this->userRepostiry->getById($project->client_id);
 
         }
@@ -70,8 +70,8 @@ class ProjectController extends BaseController
 
     public function create():Response
     {
-        $clients = $this->userRepostiry->getClient();
-        $employees = $this->userRepostiry->getAllEmployees();
+        $clients = $this->userRepostiry->getUsersByRole('user');
+        $employees = $this->userRepostiry->getUsersByRole('employee');
         return inertia::render('Admin/Project/Create', compact('clients', 'employees'));
     }
 
@@ -84,7 +84,7 @@ class ProjectController extends BaseController
                 $project->users()->attach($request->employee_ids);
             }
             DB::commit();
-            return redirect()->route('admin.project.index');
+            return $this->sendRedirectResponse(route('admin.project.index'), 'New Project Add Successfully');
         } catch (Throwable $e) {
             DB::rollBack();
             return $this->sendRedirectBackError($e->getMessage());
@@ -93,9 +93,9 @@ class ProjectController extends BaseController
     public function edit(Project $project):Response
     {
 
-        $clients = $this->userRepostiry->getUser('client');
-        $employees = $this->userRepostiry->getUser('employee');
-        $projectEmployees = $this->ProjectRepostiry->getProjectEmployees($project->id);
+        $clients = $this->userRepostiry->getUsersByRole('client');
+        $employees = $this->userRepostiry->getUsersByRole('employee');
+      $projectEmployees = $this->ProjectRepostiry->getEmployeesNamesByProject($project->id);
         return inertia::render('Admin/Project/Edit', compact('project', 'clients', 'employees','projectEmployees'));
     }
 
@@ -112,7 +112,7 @@ class ProjectController extends BaseController
                 $project->users()->detach();
             }
             DB::commit();
-            return $this->sendRedirectResponse(route('admin.project.index'), 'Project Updated Successfully');
+        return $this->sendRedirectResponse(route('admin.project.index'), 'Project Updated Successfully');
         } catch (Throwable $e) {
             DB::rollBack();
             return $this->sendRedirectBackError($e->getMessage());

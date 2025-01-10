@@ -56,12 +56,12 @@ class Project extends Model
         return $this->belongsTo(User::class, 'client_id');//id
     }
 
-    public function creator()
+    public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function updater()
+    public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
     }

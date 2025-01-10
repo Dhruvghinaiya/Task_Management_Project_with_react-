@@ -14,17 +14,36 @@ class UserRepository extends BaseRepository
         parent::__construct($model);
     }
 
-    public function getClient()
+
+    public function getUsersByRole(string $role):Collection
     {
         return $this->newQuery()
-            ->where('role', 'client')->with('clientDetail')->get();
+            ->where('role', $role)->with('clientDetail')->get();
     }
 
 
-    public function getUser($role)
+
+    public function getRecentClient($limit):Collection
     {
         return $this->newQuery()
-            ->where('role', $role)->get();
+            ->where('role', 'client')->with('clientDetail')->limit($limit)->get();
+    }
+
+    public function getRecentUsersByRole(string $role, int $limit):Collection
+    {
+        return $this->newQuery()
+            ->where('role', $role)
+            ->orderBy('created_at', 'desc')
+            ->limit($limit)
+            ->get();
+    }
+
+
+    function getEmployeeByTask(string  $id):Collection
+    {
+        return $this->newQuery()
+            ->where('id', $id)
+            ->get();
     }
 
 
@@ -35,26 +54,4 @@ class UserRepository extends BaseRepository
             ->get();
     }
 
-    public function getRecentClient($limit)
-    {
-        return $this->newQuery()
-            ->where('role', 'client')->with('clientDetail')->limit($limit)->get();
-    }
-
-    public function getRecentUsersByRole(string $role, int $limit)
-    {
-        return $this->newQuery()
-            ->where('role', $role)
-            ->orderBy('created_at', 'desc')
-            ->limit($limit)
-            ->get();
-    }
-
-
-    function getEmployeeByTask($id)
-    {
-        return $this->newQuery()
-            ->where('id', $id)
-            ->get();
-    }
 }

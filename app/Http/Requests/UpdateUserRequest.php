@@ -27,7 +27,7 @@ class   UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|email',Rule::unique('users'),
+            'email' => 'required|email',Rule::unique('users')->ignore(route('admin.user.index')),
             'role' => 'required' 
         ];
     }

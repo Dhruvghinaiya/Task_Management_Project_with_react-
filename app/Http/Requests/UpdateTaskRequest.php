@@ -27,13 +27,13 @@ class UpdateTaskRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'required|string',
             'status' => 'required|',new Enum(StatusEnum::class),
             'project_id' => 'required|exists:projects,id',
-            'assigned_to' => 'nullable|exists:users,id',
+            'assigned_to' => 'required|exists:users,id',
             'start_date' => 'required|date',
             'created_by'=>'required',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'end_date' => 'required|date|after_or_equal:start_date',
         ];
     }
 
@@ -44,7 +44,6 @@ class UpdateTaskRequest extends FormRequest
             'description' => $this->input('description'),
             'status' => $this->input('status'),
             'project_id' => $this->input('project_id'),
-            // dd($this->input('assigned_to')),
             'assigned_to' => $this->input('assigned_to'),
             'created_by' =>$this->input('created_by'),
             'updated_by' => Auth::id(),

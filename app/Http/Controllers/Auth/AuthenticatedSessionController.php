@@ -29,22 +29,13 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-;
-        if(Auth::user()->role=='admin'){
-            return redirect()->intended(route('dashboard', absolute: false));
-        }
-        elseif(Auth::user()->role=='employee'){
-            return redirect()->intended(route('employee.dashboard', absolute: false));   
-        }
-        else{   
-            return redirect()->intended(route('client.dashboard', absolute: false));   
-        }
+        $role = Auth::user()->role;
+        return redirect()->intended(route($role.'.dashboard', absolute: false));   
 
     }
 
     public function welcome(){
         $auth = Auth::user();
-        // return $auth;
         return inertia::render('Welcome',compact('auth'));
     }
 

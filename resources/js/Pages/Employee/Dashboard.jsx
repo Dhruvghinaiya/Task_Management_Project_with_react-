@@ -1,11 +1,11 @@
-import AdminHeader from '@/Components/AdminHeader';
-import EmployeeHeader from '@/Components/EmployeeHeader';
+
+import Header from '@/Components/Header';
 import React from 'react';
 
 const Dashboard = ({ projectCount, taskCount, tasks }) => {
   return (
     <div className="min-h-full">
-      <EmployeeHeader/>
+      <Header role='employee'/>
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>

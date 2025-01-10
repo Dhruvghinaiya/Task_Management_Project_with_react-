@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
-import AdminHeader from '@/Components/AdminHeader';
 import EmployeeHeader from '@/Components/EmployeeHeader';
 import ReactSelect from '@/Components/ReactSelect';
+import Header from '@/Components/Header';
 
-const Edit = ({ task = {}, projects = [], clients = [], errors,role,statuses }) => {
+const Edit = ({ task = {}, projects = [],  errors,role,statuses }) => {
+    console.log(projects);
     
-
-    const { data, setData,patch, processing, errors: formErrors,  } = useForm({
+    const { data, setData,patch, processing, errors: formErrors,} = useForm({
         name: task.name || '',
         description: task.description || '',
         status: task.status || '',
@@ -34,34 +34,22 @@ const Edit = ({ task = {}, projects = [], clients = [], errors,role,statuses }) 
             },
         });
     };
-
-    // const handleAssignedToChange = (selectedOptions) => {
-    //     const selectedIds = selectedOptions ? selectedOptions.map(option => option.value) : [];
-    //     setData("assigned_to", selectedIds);
-    // };
     
 
 const [employees, setEmployees] = useState([]);
 
-useEffect(() => {
-    if (data.project_id) {
-        fetchAssignedEmployees();
-    }
-}, [data.project_id]);
+    useEffect(() => {
+        const selectedProject = projects.find(project => project.id === data.project_id);
 
-const fetchAssignedEmployees = () => {
-    const routeUse =  role=='admin'  ?  route('project.employees',data.project_id) :  route('employees.project',data.project_id);
-    //  axios.get(route('project.employees',data.project_id))
-     axios.get(routeUse)
-
-    // axios.get(route('project.employees', data.project_id))
-        .then(response => {
-            setEmployees(response.data);
-        })
-        .catch(error => {
-            console.error("Error fetching employees:", error);
-        });
-};
+        if (selectedProject) {
+            setEmployees(
+                selectedProject.users.map((user) => ({
+                    value: user.id,
+                    label: user.name,
+                }))
+            );
+        }
+    }, [data.project_id, projects]);
 
 
 
@@ -70,13 +58,10 @@ const fetchAssignedEmployees = () => {
         label:project.name
     }));
 
-    const employeeOption = clients.map((task)=>({
-       value:task.id,
-       label:task.name 
-    }))
+   
     return (
         <div className="min-h-full">
-            {role=='admin' ? <AdminHeader/> : <EmployeeHeader/> }
+            <Header role={role} />
             <header className="bg-white shadow">
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
                     <h1 className="text-3xl font-bold tracking-tight text-gray-900">Task</h1>
@@ -87,7 +72,6 @@ const fetchAssignedEmployees = () => {
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <div className="bg-white p-8 rounded-lg shadow-md">
                         <form onSubmit={handleSubmit}>
-                            {/* <input type="text" name='created_by' value={data.created_by} /> */}
                             <div className="mb-6">
                                 <label htmlFor="name" className="block text-xl font-semibold text-gray-700">
                                     Task Name <span className="text-red-500">*</span>
@@ -100,7 +84,7 @@ const fetchAssignedEmployees = () => {
                                     onChange={handleChange}
                                     className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
-                                {formErrors.name && <p className="text-red-500 text-sm mt-2">{formErrors.name}</p>}
+                                {errors.name && <p className="text-red-500 text-sm mt-2">{errors.name}</p>}
                             </div>
 
                             <div className="mb-6">
@@ -115,7 +99,7 @@ const fetchAssignedEmployees = () => {
                                     onChange={handleChange}
                                     className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 ></textarea>
-                                {formErrors.description && <p className="text-red-500 text-sm mt-2">{formErrors.description}</p>}
+                                {errors.description && <p className="text-red-500 text-sm mt-2">{errors.description}</p>}
                             </div>
 
                             <div className="mb-6">
@@ -127,12 +111,12 @@ const fetchAssignedEmployees = () => {
                                     id="status"
                                     name="status"
                                     value={data.status}
-                                    onChange={(option) => setData('status',option.value)}
+                                    onChange={(option) => setData('status',option?.value)}
                                     options={statuses}
                                     className="w-full"
                                     classNamePrefix="react-select"
                                 />
-                                {formErrors.status && <p className="text-red-500 text-sm mt-2">{formErrors.status}</p>}
+                                {errors.status && <p className="text-red-500 text-sm mt-2">{errors.status}</p>}
                             </div>
 
                             <div className='grid grid-cols-2 gap-6'>
@@ -140,30 +124,18 @@ const fetchAssignedEmployees = () => {
                                 <label htmlFor="project_id" className="block text-xl font-semibold text-gray-700">
                                     Project <span className="text-red-500">*</span>
                                 </label>
-                                {/* <select
-                                    name="project_id"
-                                    id="project_id"
-                                    value={data.project_id}
-                                    onChange={handleChange}
-                                    className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                    <option value="">Select a Project</option>
-                                    {projects.map((project) => (
-                                        <option key={project.id} value={project.id}>
-                                            {project.name}
-                                        </option>
-                                    ))}
-                                </select> */}
+                              
 
                                 <ReactSelect
                                  name="project_id"
                                  id="project_id"
                                  value={data.project_id}
-                                 onChange={(option)=>setData('project_id',option.value)}
+                                 onChange={(option)=>setData('project_id',option?.value)}
                                  options={projectOptions}
                                  className='mt-2'
+                                 isClearable
                                 />
-                                {formErrors.project_id && <p className="text-red-500 text-sm mt-2">{formErrors.project_id}</p>}
+                                {errors.project_id && <p className="text-red-500 text-sm mt-2">{errors.project_id}</p>}
                             </div>
 
                             <div className="mb-6">
@@ -181,7 +153,7 @@ const fetchAssignedEmployees = () => {
                                 isClearable
                             />
 
-                                {formErrors.assigned_to && <p className="text-red-500 text-sm mt-2">{formErrors.assigned_to}</p>}
+                                {errors.assigned_to && <p className="text-red-500 text-sm mt-2">{errors.assigned_to}</p>}
                             </div>
                                     </div>
                                 
@@ -198,25 +170,8 @@ const fetchAssignedEmployees = () => {
                                         onChange={handleChange}
                                         className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     />
-                                    {formErrors.start_date && <p className="text-red-500 text-sm mt-2">{formErrors.start_date}</p>}
+                                    {errors.start_date && <p className="text-red-500 text-sm mt-2">{errors.start_date}</p>}
                                 </div>
-
-                    {/* <div>
-                        <label htmlFor="assigned_to" className="block text-sm font-medium text-gray-700">
-                            Assigned To
-                        </label>
-                        <ReactSelect
-                            isMulti
-                            name="assigned_to"
-                            id="assigned_to"
-                            options={employees}
-                            value={employees.filter(employee => data.assigned_to.includes(employee.value))} // Adjust value setting
-                            onChange={handleAssignedToChange}
-                            placeholder="Select employees"
-                            isClearable
-                        />
-                        {errors.assigned_to && <p className="text-red-500 text-sm mt-1">{errors.assigned_to}</p>}
-                    </div> */}
 
                                 <div>
                                     <label htmlFor="end_date" className="block text-xl font-semibold text-gray-700">
@@ -230,7 +185,7 @@ const fetchAssignedEmployees = () => {
                                         onChange={handleChange}
                                         className="mt-2 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     />
-                                    {formErrors.end_date && <p className="text-red-500 text-sm mt-2">{formErrors.end_date}</p>}
+                                    {errors.end_date && <p className="text-red-500 text-sm mt-2">{errors.end_date}</p>}
                                 </div>
                             </div>
 

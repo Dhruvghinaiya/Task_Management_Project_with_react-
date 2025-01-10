@@ -26,7 +26,7 @@ class UpdateClientRequest extends FormRequest
     {
         return [
            'name'=>'required',
-            'email'=>'required|email',Rule::unique('users'),
+            'email'=>'required|email',Rule::unique('users')->ignore(route('admin.client.index')),
             'company_name'=>'required',
             'contact_number'=>'required',
         ];

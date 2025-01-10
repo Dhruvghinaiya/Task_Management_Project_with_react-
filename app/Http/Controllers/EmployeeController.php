@@ -32,10 +32,9 @@ class EmployeeController extends BaseController
     }
 
 
-    public function index():Response
-    {
-        $projectCount = $this->taskRepository->getProjectByEmployee(Auth::user()->id)->count();
-        $clientCount  = $this->userRepository->getClient()->count();
+    public function index()    {
+        $projectCount = $this->projectRepository->getProjectsByEmployee(Auth::user()->id)->count();
+        $clientCount  = $this->userRepository->getUsersByRole('client')->count();
         $taskCount  = $this->taskRepository->getTasksByEmployee(Auth::id())->count();
         $tasks = $this->taskRepository->getTasksByEmployee(Auth::user()->id);
         return Inertia::render('Employee/Dashboard',compact('projectCount','clientCount','taskCount','tasks'));

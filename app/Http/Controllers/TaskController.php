@@ -27,134 +27,99 @@ class TaskController extends BaseController
     protected TaskRepository $taskrepository;
     protected UserRepository $userRepository;
     protected ProjectRepository $projectRepository;
-    public function __construct(TaskRepository $taskrepository,UserRepository $userRepository,ProjectRepository $projectRepository)
+    public function __construct(TaskRepository $taskrepository, UserRepository $userRepository, ProjectRepository $projectRepository)
     {
         $this->taskrepository = $taskrepository;
         $this->userRepository = $userRepository;
         $this->projectRepository = $projectRepository;
     }
-    
-    public function index():Response
+
+    public function index()
     {
 
         $role = Auth::user()->role;
-        
-        if($role=='admin' ){
+
+        if ($role == 'admin') {
+            // $tasks = $this->taskrepository->getPaginate(6);
             $tasks = $this->taskrepository->getAll();
-        }
-        elseif($role=='employee'){
+        } elseif ($role == 'employee') {
             $tasks = $this->taskrepository->getTasksByEmployee(Auth::id());
-            $createdTasks=  $this->taskrepository->getTasksByOtherEmployee(Auth::id());
-        }
-        else{
+            $createdTasks =  $this->taskrepository->getTasksCreatedByEmployee(Auth::id());
+        } else {
             $tasks = $this->taskrepository->getTasksByCLient(Auth::id());
         }
-        return inertia::render('Admin/Task/Index',compact('tasks','role'));
+        return inertia::render('Admin/Task/Index', compact('tasks', 'role'));
     }
 
-    public function show(Task $task):Response{
-        $task = Task::with(['createdBy:id,name', 'updatedBy:id,name','assignedUser:id,name','project:id,name'])->find($task->id);
+    public function show(Task $task)
+    {       
+        $task = $this->taskrepository->getById($task->id,['createdBy:id,name', 'updatedBy:id,name', 'assignedUser:id,name', 'project:id,name']);
         $role = Auth::user()->role;
-        return inertia::render('Admin/Task/Show',compact('task','role'));
-        
+        return inertia::render('Admin/Task/Show', compact('task', 'role'));
     }
     public function create()
-{
-        $employees = $this->userRepository->getAllEmployees();
-        $projects = $this->projectRepository->getAll();
-        $employees = $this->userRepository->getUser('employee',$projects);
+    {
+        $employees = $this->userRepository->getUsersByRole('role');
+        $projects = $this->projectRepository->getAll(['users']);
         $role = Auth::user()->role;
         $statuses = StatusEnum::options();
-            return inertia::render('Admin/Task/Create',compact('employees','projects','role','statuses',));
-       
+        return inertia::render('Admin/Task/Create', compact('employees', 'projects', 'role', 'statuses',));
     }
 
 
-    public function store(StoreTaskRequest $request):RedirectResponse{
-    
-        $user = Auth::user()->role;
-        DB::beginTransaction();
-        try{
-               $this->taskrepository->store($request->getInsertableFields());
-            DB::commit();
-            if($user=='admin'){
-            $user = Auth::user()->role;
-                return $this->sendRedirectResponse(route('admin.task.index'),'new task add successfully');
-            }   
-            elseif($user=='employee'){
-                return $this->sendRedirectResponse(route('employee.task.index'),'new task add successfully');
-            }
-        }
-        catch(Throwable $e){
-            
-                DB::rollBack();
-                return $this->sendRedirectBackError($e->getMessage());
-        }
-    }
+    public function store(StoreTaskRequest $request): RedirectResponse
+    {
 
-    public function edit(Task $task):Response{
-    
-        $role = Auth::user()->role;
-        $statuses = StatusEnum::options();
-        if($role=='admin'){
-            $projects  =$this->projectRepository->getAll();
-            $clients = $this->userRepository->getAllEmployees(); 
-            }
-            elseif($role=='employee'){
-                $task =  $this->taskrepository->getById($task->id);
-                $projects  =$this->projectRepository->getAll();
-                $clients = $this->userRepository->getAllEmployees(); 
-            }
-            return inertia::render('Admin/Task/Edit',compact('task','clients','projects','role','statuses'));
-    }   
-
-    public function update(UpdateTaskRequest $request,$id){
-        $user = Auth::user()->role;
-        DB::beginTransaction();
-            try{
-                if($user=='admin'){
-                     $this->taskrepository->update($id,$request->getInsertableFields());
-                    DB::commit();
-                    return $this->sendRedirectResponse(route('admin.task.index'),'task edit sucessfully');
-                }
-                elseif($user=='employee'){
-                    $this->taskrepository->update($id,$request->getInsertableFields());
-                    DB::commit();
-                    return $this->sendRedirectResponse(route('employee.task.index'),'task edit sucessfully');
-                }
-            }
-            catch(Throwable $e){
-                DB::rollBack();{
-                    return $this->sendRedirectBackError($e->getMessage());
-                }
-            }
-        
-    }
-    public function destroy(Task $task):RedirectResponse{
-
+        $userRole = Auth::user()->role;
         DB::beginTransaction();
         try {
-            $this->taskrepository->destroy($task->id);
+            $this->taskrepository->store($request->getInsertableFields());
             DB::commit();
-            return $this->sendRedirectResponse(route('admin.task.index'),'Task Deleted Succesfully');
-        } catch (Throwable $e){
+            return $this->sendRedirectResponse(route($userRole.'task.index'),'New Task Added Successfully');
+        } catch (Throwable $e) {
             DB::rollBack();
             return $this->sendRedirectBackError($e->getMessage());
         }
     }
-    
+
+    public function edit(Task $task)
+    {
+
+        $role = Auth::user()->role;
+        $statuses = StatusEnum::options();    
+
+        $projects  = $this->projectRepository->getAll(['users']);
+        
+        return inertia::render('Admin/Task/Edit', compact('task', 'projects', 'role', 'statuses'));
+    }
+
+    public function update(UpdateTaskRequest $request, $id)
+    {
+        $role = Auth::user()->role;
+        DB::beginTransaction();
+        try {
+                $this->taskrepository->update($id, $request->getInsertableFields());
+                DB::commit();
+                return $this->sendRedirectResponse(route($role.'.task.index'), 'task edit sucessfully');
+
+        } catch (Throwable $e) {
+            DB::rollBack(); {
+                return $this->sendRedirectBackError($e->getMessage());
+            }
+        }
+    }
+    public function destroy(Task $task): RedirectResponse
+    {
+        DB::beginTransaction();
+        try {
+            $this->taskrepository->destroy($task->id);
+            DB::commit();
+            return $this->sendRedirectResponse(route('admin.task.index'), 'Task Deleted Succesfully');
+        } catch (Throwable $e) {
+            DB::rollBack();
+            return $this->sendRedirectBackError($e->getMessage());
+        }
+    }
+
    
-
-public function getAssignedEmployees(Project $project)
-{
-    $employees = $project->users()->select('id', 'name')->get();
-    
-    return $employees->map(function ($employee) {
-        return [
-            'value' => $employee->id,
-            'label' => $employee->name,
-        ];
-    });
-}
-
 }

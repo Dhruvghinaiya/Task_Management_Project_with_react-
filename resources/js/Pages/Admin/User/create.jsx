@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import AdminHeader from '@/Components/AdminHeader';
-import axios from 'axios';
 import { useForm } from '@inertiajs/react'
 import ReactSelect from '@/Components/ReactSelect';
+import Header from '@/Components/Header';
 
 
 
 
 const Create = ({roleenum}) => {
-  console.log(roleenum);
   
     const { data, setData, post, processing, errors } = useForm({
         name:'',
@@ -35,7 +33,7 @@ const Create = ({roleenum}) => {
 
   return (
     <>
-      <AdminHeader />
+      <Header role='admin' />
       <div className="min-h-full">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">

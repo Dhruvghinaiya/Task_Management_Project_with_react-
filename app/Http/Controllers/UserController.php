@@ -27,7 +27,8 @@ class UserController extends BaseController
 
     public function index():Response
     {   
-        $users = User::all();
+        $users = $this->userRepository->getAll();
+        $users = $this->userRepository->getPaginate(5);
         return Inertia::render('Admin/User/Index',compact('users'));
     }
 

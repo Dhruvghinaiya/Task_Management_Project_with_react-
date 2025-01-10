@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from '@inertiajs/react';
-import AdminHeader from '@/Components/AdminHeader'; // Assuming you have an AdminHeader component
+import Header from '@/Components/Header';
 
 const Create = () => {
   const { data, setData, post, processing, errors } = useForm({
@@ -31,19 +31,12 @@ const Create = () => {
 
   return (
     <>
-      <AdminHeader />
+      <Header role='admin' />
       <div className="min-h-full">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6 lg:px-8 flex">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">Client</h1>
-            <div className="flex gap-5 ml-auto">
-              <a
-                href="#"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-              >
-                Add Client
-              </a>
-            </div>
+            
           </div>
         </header>
         <main>
@@ -166,8 +159,8 @@ const Create = () => {
                     >
                       Add Client
                     </button>
-                    <a
-                      href={route('dashboard')}
+                    <a  
+                      href={route('admin.dashboard')}
                       className="flex w-full justify-center rounded-md bg-red-400 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-600"
                     >
                       Back

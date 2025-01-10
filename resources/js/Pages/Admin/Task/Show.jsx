@@ -1,11 +1,9 @@
 import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
-import AdminHeader from '@/Components/AdminHeader';
-import EmployeeHeader from '@/Components/EmployeeHeader';
-import ClientHeader from '@/Components/ClientHeader';
+import { Link } from '@inertiajs/react';
+import Header from '@/Components/Header';
 
 const Show = ({ task,role}) => {
-  console.log(task);
     
   const handleDelete = (e) => {
     e.preventDefault();
@@ -17,8 +15,7 @@ const Show = ({ task,role}) => {
 
   return (
     <div className="min-h-full">
-        {role==='admin'? <AdminHeader/> :role=='employee' ? <EmployeeHeader/> : <ClientHeader/>}
-
+      <Header  role={role}/>
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Task Details</h1>
@@ -100,17 +97,12 @@ const Show = ({ task,role}) => {
 
               <div className="mt-8 flex justify-end items-center space-x-4">
 
-              {role==='admin' ? <a
-                  href={route('admin.task.edit',{id:task.id})}
+              {role==='admin'  || role=='employee' ? <Link
+                  href={route(`${role}.task.edit`,{id:task.id})}
                   className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
                 >
                   Edit Task
-                </a> : role=='employee' ? <a
-                  href={route('employee.task.edit',{id:task.id})}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
-                >
-                  Edit Task
-                </a> : ''}   
+                </Link>  : ''}   
                 
 
                 {role==='admin' ? <button
@@ -121,18 +113,13 @@ const Show = ({ task,role}) => {
                 </button>
             : '' }
                 
-                {role==='admin' ?  <a
-                  href={route('admin.task.index')}
+                <Link
+                  href={route(`${role}.task.index`)}
                   className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
                 >
                   Back to Task List
-                </a> : role=='employee'?  <a
-                  href={route('employee.task.index')}
-                  className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
-                >
-                  Back to Task List
-                </a> : '' }
-                
+                </Link>
+
               </div>
             </div>
           </div>

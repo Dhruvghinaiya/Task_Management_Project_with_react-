@@ -16,12 +16,8 @@ return new class extends Migration
             $table->string('name'); 
             $table->text('description')->nullable(); 
             $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending'); 
-            // $table->uuid('project_id'); 
-            // $table->uuid('assigned_to')->nullable(); 
             $table->date('start_date')->nullable(); 
             $table->date('end_date')->nullable(); 
-            // $table->uuid('created_by'); 
-            // $table->uuid('updated_by'); 
             $table->timestamps(); 
 
             $table->foreignUuid('project_id')->constant('projects')->cascadeOnDelete();

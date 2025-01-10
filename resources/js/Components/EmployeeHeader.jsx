@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react';
 import React from 'react'
 
 const EmployeeHeader = () => {
@@ -15,7 +16,7 @@ const EmployeeHeader = () => {
               </div>
               <div className="hidden md:block">
                 <div className="ml-10 flex items-baseline space-x-4">
-                  <a 
+                  <Link 
                     href={route('employee.dashboard')} 
                     id="demo" 
                     className={`px-3 py-2 rounded-md text-sm font-medium 
@@ -23,64 +24,45 @@ const EmployeeHeader = () => {
                     aria-current={currentRoute === '/dashboard' ? 'page' : undefined}
                   >
                     Dashboard
-                  </a>
+                  </Link>
 
-                  <a 
+                  <Link 
                     href={route('employee.project.index')} 
                     className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/employee/project' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
                   >
                     Project
-                  </a>
+                  </Link>
 
-                  <a 
+                  <Link 
                     href={route('employee.task.index')} 
                     className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/employee/task' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
                   >
                     Task
-                  </a> 
+                  </Link> 
 
-                  <a 
+                  <Link 
                     href={route('employee.profile')} 
                     className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${currentRoute === '/profile' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                     aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
                   >
                     Profile
-                   </a>
+                   </Link>
 
-                  {/* <a 
-                    href={route('admin.user.index')} 
-                    className={`px-3 py-2 rounded-md text-sm font-medium 
-                      ${currentRoute === '/user' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                    aria-current={currentRoute === '/admin/user' ? 'page' : undefined}
-                  >
-                    User
-                  </a>
-                  <a 
-                    href={route('admin.client.index')} 
-                    className={`px-3 py-2 rounded-md text-sm font-medium 
-                      ${currentRoute === '/client' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
-                  >
-                    Client
-                  </a>
-
-                 
+               
                   
 
                 
-
-                  {/* Other links */}
-                  <a 
+                  <Link 
                     href={route('logout')} 
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Logout
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -126,39 +108,60 @@ const EmployeeHeader = () => {
 
         <div className="md:hidden" id="mobile-menu">
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-            <a 
-              href="#" 
-              className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" 
-              aria-current="page"
-            >
-              Dashboard
-            </a>
-            <a 
-              href="#" 
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Tasks
-            </a>
-            <a 
-              href="#" 
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Projects
-            </a>
-            <a 
-              href="#" 
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Calendar
-            </a>
-            <a 
-              href="#" 
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Reports
-            </a>
+          <Link 
+                    href={route('employee.dashboard')} 
+                    id="demo" 
+                    className={` block px-3 py-2 rounded-md text-sm font-medium 
+                      ${currentRoute === '/employee/dashboard' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                    aria-current={currentRoute === '/dashboard' ? 'page' : undefined}
+                  >
+                    Dashboard
+                  </Link>
+                
+           
+                    
+                                      <Link 
+                                        href={route('employee.project.index')} 
+                                        className={` block px-3 py-2 rounded-md text-sm font-medium 
+                                          ${currentRoute === '/project' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                                        aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                                      >
+                                        Project
+                                      </Link>
+                                        
+                                      <Link 
+                                        href={route('employee.task.index')} 
+                                        className={` block px-3 py-2 rounded-md text-sm font-medium 
+                                          ${currentRoute === '/task' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                                        aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                                      >
+                                        Task
+                                      </Link>
+                                        
+                                      <Link 
+                                        href={route('employee.profile')} 
+                                        className={` block px-3 py-2 rounded-md text-sm font-medium 
+                                          ${currentRoute === '/profile' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                                        aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
+                                      >
+                                        Profile
+                                       </Link>
+                                       <Link 
+                                        href={route('logout')} 
+                                        className="block text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                      >
+                                        Logout
+                                      </Link>
+                                      
+
+                 
+
+               
+                  
+
+      
           </div>
-          <div className="border-t border-gray-700 pb-3 pt-4">
+          {/* <div className="border-t border-gray-700 pb-3 pt-4">
             <div className="flex items-center px-5">
               <div className="shrink-0">
                 <img 
@@ -210,7 +213,7 @@ const EmployeeHeader = () => {
                 Sign out
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
       </nav>
     </>

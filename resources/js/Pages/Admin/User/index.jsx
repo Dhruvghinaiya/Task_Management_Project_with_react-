@@ -1,6 +1,8 @@
-import AdminHeader from '@/Components/AdminHeader';
+
 import React, { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
+import Pagination from '@/Components/Pagination';
+import Header from '@/Components/Header';
 
 const Index = ({ users, flash }) => {
 
@@ -26,7 +28,7 @@ const Index = ({ users, flash }) => {
 
   return (
     <>
-      <AdminHeader />
+      <Header role='admin' />
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">User</h1>
@@ -69,7 +71,7 @@ const Index = ({ users, flash }) => {
               </thead>
 
               <tbody>
-                {users.map((user) => (
+                {users.data.map((user) => (
                   <tr key={user.id} className="border-t">
                     <td className="py-2 px-4 text-gray-700">{user.name}</td>
                     <td className="py-2 px-4 text-gray-700">{user.email}</td>
@@ -92,6 +94,7 @@ const Index = ({ users, flash }) => {
                 ))}
               </tbody>
             </table>
+            <Pagination data={users} />
           </div>
         </div>
       </main>

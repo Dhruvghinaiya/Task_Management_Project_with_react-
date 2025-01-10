@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
-import AdminHeader from '@/Components/AdminHeader';
-import EmployeeHeader from '@/Components/EmployeeHeader';
-import ClientHeader from '@/Components/ClientHeader';
+import Header from '@/Components/Header';
 
 const Profile = ({ users,flash}) => {
-  console.log(flash);
+
 
   
     const [showMessage, setShowMessage] = useState(true); 
@@ -36,11 +34,11 @@ const Profile = ({ users,flash}) => {
   return (
     <div className="min-h-full">
         {users.role === 'admin' ? (
-        <AdminHeader />
+        <Header role='admin' />
       ) : users.role === 'employee' ? (
-        <EmployeeHeader />
+        <Header role='employee'/>
       ) : (
-        <ClientHeader />
+        <Header role='client'/>
       )}
        <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { useForm } from "@inertiajs/react";
-import AdminHeader from "@/Components/AdminHeader";
 import ReactSelect from "@/Components/ReactSelect";
 
 const Edit = ({ clients, employees, project,projectEmployees }) => {
-  console.log(project);
   
   const { data, setData, post, patch, errors, processing } = useForm({
     name: project?.name || "",
@@ -30,13 +28,11 @@ const Edit = ({ clients, employees, project,projectEmployees }) => {
     label: client.name,
   }));
 
-  // Create employee options for ReactSelect
   const employeeOptions = employees.map((employee) => ({
     value: employee.id,
     label: employee.name,
   }));
 
-  // Create the value for ReactSelect from the employee_ids
   const selectedEmployees = data.employee_ids.map((employeeId) => ({
     value: employeeId,
     label: employees.find((employee) => employee.id === employeeId)?.name || "Unknown Employee",
@@ -44,7 +40,7 @@ const Edit = ({ clients, employees, project,projectEmployees }) => {
 
   return (
     <div className="min-h-full">
-      <AdminHeader />
+      <Header role='admin' />
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
@@ -141,6 +137,7 @@ const Edit = ({ clients, employees, project,projectEmployees }) => {
                         const employee = employees.find(emp => emp.id === id);
                         return employee ? { value: employee.id, label: employee.name } : null;
                     })
+                    
                 }
                 onChange={(selectedOptions) =>
                     setData(

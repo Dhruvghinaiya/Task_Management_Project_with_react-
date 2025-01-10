@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
 import { Head } from '@inertiajs/react';
-import AdminHeader from '@/Components/AdminHeader';
-import EmployeeHeader from '@/Components/EmployeeHeader';
 import ReactSelect from '@/Components/ReactSelect';
-import { Inertia } from '@inertiajs/inertia';
-import axios from 'axios';
+import Header from '@/Components/Header';
 
-const Create = ({ projects, employees, role, statuses = 'null', assignemployee }) => {
-    console.log(assignemployee);
-
+const Create = ({ projects, role, statuses = 'null' }) => {
     const { data, setData, post, errors } = useForm({
         name: '',
         description: '',
@@ -20,7 +15,6 @@ const Create = ({ projects, employees, role, statuses = 'null', assignemployee }
         end_date: '',
     });
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
         role === 'admin'
@@ -28,45 +22,34 @@ const Create = ({ projects, employees, role, statuses = 'null', assignemployee }
             : post(route('employee.task.store'));
     };
 
-
     const projectOptions = projects.map((project) => ({
         value: project.id,
         label: project.name,
     }));
 
-  
     const handleProjectChange = (option) => {
         const projectId = option?.value || '';
         setData('project_id', projectId);
-
-        
     };
 
-    const [employee,setEmployee] = useState([]);
+    const [employee, setEmployee] = useState([]);
 
     useEffect(() => {
-            if (data.project_id) {
-                fetchAssignedEmployees();
-            }
-        }, [data.project_id]);
-        
+        const selectedProject = projects.find(project => project.id === data.project_id);
 
-    const fetchAssignedEmployees = () => {
-        
-        const routeUse =  role=='admin'  ?  route('project.employees',data.project_id) :  route('employees.project',data.project_id);
-        //  axios.get(route('project.employees',data.project_id))
-         axios.get(routeUse)
-
-        .then(Response => {
-            setEmployee(Response.data)
-        })
-        .catch(error => console.log('employeee is not found',error)
-        )
-    };
+        if (selectedProject) {
+            setEmployee(
+                selectedProject.users.map((user) => ({
+                    value: user.id,
+                    label: user.name,
+                }))
+            );
+        }
+    }, [data.project_id, projects]);
 
     return (
         <div className="min-h-full">
-            {role === 'admin' ? <AdminHeader /> : <EmployeeHeader />}
+            <Header  role={role}/>
             <Head title="Task" />
 
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
@@ -145,17 +128,15 @@ const Create = ({ projects, employees, role, statuses = 'null', assignemployee }
                                 Assigned To <span className="text-red-500">*</span>
                             </label>
 
-                              <ReactSelect
+                            <ReactSelect
                                 name="assigned_to"
                                 id="assigned_to"
                                 options={employee}
                                 value={employee.find(employee => employee.value === data.assigned_to)}  
-                                onChange={(option) => setData('assigned_to', option ? option.value : '')}  // 
+                                onChange={(option) => setData('assigned_to', option ? option.value : '')}
                                 placeholder="Select employee"
                                 isClearable
                             />
-                           
-                            
                             {errors.assigned_to && <div className="text-red-500 text-sm">{errors.assigned_to}</div>}
                         </div>
 

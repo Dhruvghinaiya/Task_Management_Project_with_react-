@@ -38,7 +38,7 @@ class ClientController extends BaseController
     {
         
         $role = Auth::user()->role;
-        $users = $this->userRepository->getClient();
+        $users = $this->userRepository->getUsersByRole('client');
         return Inertia::render('Admin/Client/Index',compact('users'));
         
     }
@@ -48,10 +48,10 @@ class ClientController extends BaseController
         return Inertia::render('Admin/Client/Show',compact('clients'));
     }
 
-    public function create():Response
+    public function create()
     {
 
-        $client = $this->userRepository->getClient();
+         $client = $this->userRepository->getUsersByRole('client');
         return inertia::render('Admin/Client/Create',compact('client'));
     }
     

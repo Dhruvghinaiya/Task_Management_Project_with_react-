@@ -1,20 +1,26 @@
-import React, { useEffect } from 'react';
-import { useForm } from '@inertiajs/react';
-import AdminHeader from '@/Components/AdminHeader';
+import React, { useEffect } from "react";
+import { useForm } from "@inertiajs/react";
+import Header from "@/Components/Header";
 
 const Edit = ({ user, clients, errors }) => {
     const client = clients.length > 0 ? clients[0] : {};
 
     //use patch
-    const { data, setData, patch, processing, errors: formErrors } = useForm({
-        name: user.name || '',
-        email: user.email || '',
+    const {
+        data,
+        setData,
+        patch,
+        processing,
+        errors: formErrors,
+    } = useForm({
+        name: user.name || "",
+        email: user.email || "",
         user_id: user.id,
         role: user?.role,
         created_by: user.created_by,
-        company_name: client.company_name || '',
-        contact_number: client.contact_number || '',
-        client_id: client.id || '',
+        company_name: client.company_name || "",
+        contact_number: client.contact_number || "",
+        client_id: client.id || "",
     });
 
     const handleChange = (e) => {
@@ -25,7 +31,7 @@ const Edit = ({ user, clients, errors }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        patch(route('admin.client.update', data.user_id), {
+        patch(route("admin.client.update", data.user_id), {
             onError: (errorResponse) => {
                 console.log(errorResponse);
             },
@@ -34,19 +40,29 @@ const Edit = ({ user, clients, errors }) => {
 
     return (
         <div className="min-h-full">
-            <AdminHeader />
+            <Header role='admin' />
             <header className="bg-white shadow">
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
-                    <h1 className="text-3xl font-bold tracking-tight text-gray-900">Edit Client</h1>
+                    <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                        Edit Client
+                    </h1>
                 </div>
             </header>
             <main>
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <div className="container mx-auto mt-10">
                         <h2 className="text-2xl mb-4">Edit Client</h2>
-                        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg">
+                        <form
+                            onSubmit={handleSubmit}
+                            className="bg-white p-6 rounded-lg shadow-lg"
+                        >
                             <div className="mb-4">
-                                <label htmlFor="name" className="block text-gray-600 font-medium mb-2">Client Name</label>
+                                <label
+                                    htmlFor="name"
+                                    className="block text-gray-600 font-medium mb-2"
+                                >
+                                    Client Name
+                                </label>
                                 <input
                                     type="text"
                                     name="name"
@@ -55,11 +71,20 @@ const Edit = ({ user, clients, errors }) => {
                                     value={data.name}
                                     onChange={handleChange}
                                 />
-                                {formErrors.name && <p className="text-red-500 text-sm mt-1">{formErrors.name}</p>}
+                                {errors.name && (
+                                    <p className="text-red-500 text-sm mt-1">
+                                        {errors.name}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="mb-4">
-                                <label htmlFor="email" className="block text-gray-600 font-medium mb-2">Email</label>
+                                <label
+                                    htmlFor="email"
+                                    className="block text-gray-600 font-medium mb-2"
+                                >
+                                    Email
+                                </label>
                                 <input
                                     type="email"
                                     name="email"
@@ -68,14 +93,28 @@ const Edit = ({ user, clients, errors }) => {
                                     value={data.email}
                                     onChange={handleChange}
                                 />
-                                {formErrors.email && <p className="text-red-500 text-sm mt-1">{formErrors.email}</p>}
+                                {errors.email && (
+                                    <p className="text-red-500 text-sm mt-1">
+                                        {errors.email}
+                                    </p>
+                                )}
                             </div>
 
                             {clients.length > 0 && (
                                 <div key={client.id}>
-                                    <input type="text" name="client_id" value={client.id} hidden />
+                                    <input
+                                        type="text"
+                                        name="client_id"
+                                        value={client.id}
+                                        hidden
+                                    />
                                     <div className="mb-4">
-                                        <label htmlFor="company_name" className="block text-gray-600 font-medium mb-2">Company Name</label>
+                                        <label
+                                            htmlFor="company_name"
+                                            className="block text-gray-600 font-medium mb-2"
+                                        >
+                                            Company Name
+                                        </label>
                                         <input
                                             type="text"
                                             name="company_name"
@@ -84,11 +123,20 @@ const Edit = ({ user, clients, errors }) => {
                                             value={data.company_name}
                                             onChange={handleChange}
                                         />
-                                        {formErrors.company_name && <p className="text-red-500 text-sm mt-1">{formErrors.company_name}</p>}
+                                        {errors.company_name && (
+                                            <p className="text-red-500 text-sm mt-1">
+                                                {errors.company_name}
+                                            </p>
+                                        )}
                                     </div>
 
                                     <div className="mb-4">
-                                        <label htmlFor="contact_number" className="block text-gray-600 font-medium mb-2">Contact Number</label>
+                                        <label
+                                            htmlFor="contact_number"
+                                            className="block text-gray-600 font-medium mb-2"
+                                        >
+                                            Contact Number
+                                        </label>
                                         <input
                                             type="text"
                                             name="contact_number"
@@ -97,7 +145,11 @@ const Edit = ({ user, clients, errors }) => {
                                             value={data.contact_number}
                                             onChange={handleChange}
                                         />
-                                        {formErrors.contact_number && <p className="text-red-500 text-sm mt-1">{formErrors.contact_number}</p>}
+                                        {errors.contact_number && (
+                                            <p className="text-red-500 text-sm mt-1">
+                                                {errors.contact_number}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             )}
@@ -106,9 +158,9 @@ const Edit = ({ user, clients, errors }) => {
                                 <button
                                     type="submit"
                                     className="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                    disabled={processing} 
+                                    disabled={processing}
                                 >
-                                    {processing ? 'Editing...' : 'Edit'}
+                                    {processing ? "Editing..." : "Edit"}
                                 </button>
                             </div>
                         </form>

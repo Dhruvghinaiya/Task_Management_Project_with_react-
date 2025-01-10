@@ -13,22 +13,22 @@ class TaskRepository extends BaseRepository
     {
         parent::__construct($model);
     }
-    function getTasksByEmployee($id)
+    function getTasksByEmployee(string $employeeId):Collection
     {
         return $this->newQuery()
-            ->where('assigned_to', $id)
+            ->where('assigned_to', $employeeId)
             ->get();
     }
 
 
-    function getTasksByOtherEmployee($taskId)
+    function getTasksCreatedByEmployee( string  $employeeId):Collection
     {
         return $this->newQuery()
-            ->where('created_by', $taskId)
+            ->where('created_by', $employeeId)
             ->get();
     }
     
-    public function getTasksByClient(string $clientId)
+    public function getTasksByClient(string $clientId):Collection
     {
         return $this->newQuery()
             ->whereHas('project', function ($query) use ($clientId) {
@@ -38,16 +38,7 @@ class TaskRepository extends BaseRepository
     }
 
 
-    public function getProjectByEmployee($employeeId)
-    {
-        $tasks = $this->newQuery()
-            ->where('assigned_to', $employeeId)
-            ->with('project')
-            ->get();
-        return $tasks->pluck('project')->unique();
-    }
-
-    public function getRecentTasks(int $limit)
+    public function getRecentTasks(int $limit):Collection
     {
         return $this->newQuery()
             ->with(['project', 'assignedUser'])

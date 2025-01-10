@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
-import AdminHeader from '@/Components/AdminHeader';
 import ReactSelect from '@/Components/ReactSelect';
+import Header from '@/Components/Header';
 
 const Create = ({ clients, employees }) => {
   const { data, setData, post, errors, processing } = useForm({
@@ -30,7 +30,7 @@ const Create = ({ clients, employees }) => {
 
   return (
     <div className="min-h-full">
-      <AdminHeader />
+      <Header role='admin' />
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Project</h1>
@@ -73,8 +73,6 @@ const Create = ({ clients, employees }) => {
                 <ReactSelect
                   name="client_id"
                   value={data.value}
-                  // value={data.client_id}
-                  // onChange={(selectedOption) => setData('client_id', selectedOption ? selectedOption.value : '')}
                   onChange={(option)=> setData('client_id',option.value)}
                   options={clientOptions}
                 />

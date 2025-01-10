@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
-import AdminHeader from '@/Components/AdminHeader';
+import Header from '@/Components/Header';
 
 const Edit = ({ user, errors }) => {
     const { data, setData, patch, errors: formErrors, processing } = useForm({
@@ -27,7 +27,7 @@ const Edit = ({ user, errors }) => {
 
     return (
         <div className="min-h-full">
-            <AdminHeader />
+            <Header role='admin' />
             <header className="bg-white shadow">
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
                     <h1 className="text-3xl font-bold tracking-tight text-gray-900">Edit User</h1>
