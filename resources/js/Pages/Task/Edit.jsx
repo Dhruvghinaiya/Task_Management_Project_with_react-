@@ -3,6 +3,8 @@ import { useForm } from '@inertiajs/react';
 import EmployeeHeader from '@/Components/EmployeeHeader';
 import ReactSelect from '@/Components/ReactSelect';
 import Header from '@/Components/Header';
+import InputLabel from '@/Components/InputLabel';
+import TextInput from '@/Components/TextInput';
 
 const Edit = ({ task = {}, projects = [],  errors,role,statuses }) => {
     console.log(projects);
@@ -73,10 +75,9 @@ const [employees, setEmployees] = useState([]);
                     <div className="bg-white p-8 rounded-lg shadow-md">
                         <form onSubmit={handleSubmit}>
                             <div className="mb-6">
-                                <label htmlFor="name" className="block text-xl font-semibold text-gray-700">
-                                    Task Name <span className="text-red-500">*</span>
-                                </label>
-                                <input
+                                <InputLabel htmlFor="name" required value='Task Name' className="block text-xl font-semibold text-gray-700"/>
+                                
+                                <TextInput
                                     type="text"
                                     name="name"
                                     id="name"
@@ -88,9 +89,7 @@ const [employees, setEmployees] = useState([]);
                             </div>
 
                             <div className="mb-6">
-                                <label htmlFor="description" className="block text-xl font-semibold text-gray-700">
-                                    Description <span className="text-red-500">*</span>
-                                </label>
+                                <InputLabel htmlFor="description" required value='Description' className="block text-xl font-semibold text-gray-700"/>
                                 <textarea
                                     name="description"
                                     id="description"
@@ -103,9 +102,8 @@ const [employees, setEmployees] = useState([]);
                             </div>
 
                             <div className="mb-6">
-                                <label htmlFor="status" className="block text-xl font-semibold text-gray-700">
-                                    Status <span className="text-red-500">*</span>
-                                </label>
+                                <InputLabel htmlFor="status" required value='Status' className="block text-xl font-semibold text-gray-700"/>
+                     
                                
                                  <ReactSelect
                                     id="status"
@@ -121,10 +119,8 @@ const [employees, setEmployees] = useState([]);
 
                             <div className='grid grid-cols-2 gap-6'>
                             <div className="mb-6">
-                                <label htmlFor="project_id" className="block text-xl font-semibold text-gray-700">
-                                    Project <span className="text-red-500">*</span>
-                                </label>
-                              
+                                <InputLabel htmlFor="project_id" required value='project' className="block text-xl font-semibold text-gray-700"/>
+                     
 
                                 <ReactSelect
                                  name="project_id"
@@ -139,9 +135,9 @@ const [employees, setEmployees] = useState([]);
                             </div>
 
                             <div className="mb-6">
-                                <label htmlFor="assigned_to" className="block text-xl font-semibold text-gray-700">
-                                    Assigned To <span className="text-red-500">*</span>
-                                </label>
+                                
+                                <InputLabel htmlFor="assigned_to" required value='Assigned To' className="block text-xl font-semibold text-gray-700"/>
+                     
                               
                               <ReactSelect
                                 name="assigned_to"
@@ -159,10 +155,9 @@ const [employees, setEmployees] = useState([]);
                                 
                             <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label htmlFor="start_date" className="block text-xl font-semibold text-gray-700">
-                                        Start Date <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
+                                    <InputLabel htmlFor="start_date" required value='Start Date' className="block text-xl font-semibold text-gray-700"/>
+                     
+                                    <TextInput
                                         type="date"
                                         name="start_date"
                                         id="start_date"
@@ -174,10 +169,9 @@ const [employees, setEmployees] = useState([]);
                                 </div>
 
                                 <div>
-                                    <label htmlFor="end_date" className="block text-xl font-semibold text-gray-700">
-                                        End Date <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
+                                    <InputLabel htmlFor="end_date" required value='End Date' className="block text-xl font-semibold text-gray-700"/>
+                     
+                                    <TextInput
                                         type="date"
                                         name="end_date"
                                         id="end_date"

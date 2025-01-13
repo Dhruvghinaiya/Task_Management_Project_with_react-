@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
 import ReactSelect from '@/Components/ReactSelect';
 import Header from '@/Components/Header';
+import InputLabel from '@/Components/InputLabel';
+import TextInput from '@/Components/TextInput';
 
 const Create = ({ clients, employees }) => {
   const { data, setData, post, errors, processing } = useForm({
@@ -43,8 +45,8 @@ const Create = ({ clients, employees }) => {
 
           <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg space-y-6">
             <div className="space-y-2">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Project Name<span className="text-red-500">*</span></label>
-              <input
+              <InputLabel htmlFor="name"  required className="block text-sm font-medium text-gray-700" value='Project Name'/>
+              <TextInput
                 type="text"
                 id="name"
                 name="name"
@@ -56,7 +58,8 @@ const Create = ({ clients, employees }) => {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description<span className="text-red-500">*</span></label>
+              <InputLabel htmlFor="description"  required className="block text-sm font-medium text-gray-700" value='Description'/>
+              
               <textarea
                 id="description"
                 name="description"
@@ -68,7 +71,8 @@ const Create = ({ clients, employees }) => {
             </div>
 
             <div>
-              <label htmlFor="client_id" className="block text-sm font-medium text-gray-700">Assign Client<span className="text-red-500">*</span></label>
+              <InputLabel htmlFor="client_id"  required className="block text-sm font-medium text-gray-700" value='Assign Client'/>
+             
               <div className="mt-1">
                 <ReactSelect
                   name="client_id"
@@ -81,7 +85,8 @@ const Create = ({ clients, employees }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">Assign Employees<span className="text-red-500">*</span></label>
+              <InputLabel   required className="block text-sm font-medium text-gray-700" value='Assign Employee'/>
+              
               <ReactSelect
                 name="employee_ids[]"
                 value={employeeOptions.filter(option => data.employee_ids.includes(option.value))}
@@ -94,8 +99,9 @@ const Create = ({ clients, employees }) => {
 
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label htmlFor="start_date" className="block text-sm font-medium text-gray-700">Start Date<span className="text-red-500">*</span></label>
-                <input
+                <InputLabel htmlFor="start_date"  required className="block text-sm font-medium text-gray-700" value='Start Date'/>
+              
+                <TextInput
                   type="date"
                   id="start_date"
                   name="start_date"
@@ -107,8 +113,9 @@ const Create = ({ clients, employees }) => {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="end_date" className="block text-sm font-medium text-gray-700">End Date<span className="text-red-500">*</span></label>
-                <input
+                <InputLabel htmlFor="end_date"  required className="block text-sm font-medium text-gray-700" value='End Date'/>
+              
+                <TextInput
                   type="date"
                   id="end_date"
                   name="end_date"

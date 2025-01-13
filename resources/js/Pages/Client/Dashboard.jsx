@@ -1,6 +1,7 @@
 import React from "react";
 import { usePage } from "@inertiajs/react";
 import ClientHeader from "@/Components/ClientHeader";
+import CountCard from "@/Components/CountCard";
 
 const Dashboard = () => {
     const { projectCount, taskCount, projects } = usePage().props;
@@ -19,33 +20,20 @@ const Dashboard = () => {
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <div className="container mx-auto p-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <a
-                                href="/client/project"
-                                className="card bg-white p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                            >
-                                <h2 className="text-xl font-semibold text-gray-700">
-                                    Total Projects
-                                </h2>
-                                <p className="text-3xl font-bold text-green-500">
-                                    {projectCount}
-                                </p>
-                                <p className="text-gray-500">
-                                    View All Projects
-                                </p>
-                            </a>
-
-                            <a
-                                href="/client/task"
-                                className="card bg-white min-h-[150px] p-6 rounded-lg border hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                            >
-                                <h2 className="text-xl font-semibold text-gray-700">
-                                    Total Tasks
-                                </h2>
-                                <p className="text-3xl font-bold text-blue-500">
-                                    {taskCount}
-                                </p>
-                                <p className="text-gray-500">View All Tasks</p>
-                            </a>
+                            
+                        <CountCard 
+                             link={route("client.project.index")}
+                             color="text-purple-500"
+                             count={projectCount}
+                             title="Total Project"
+                        />
+                            
+                            <CountCard 
+                             link={route("client.task.index")}
+                             color="text-blue-500"
+                             count={taskCount}
+                             title="Total Task"
+                        />
                         </div>
                     </div>
 

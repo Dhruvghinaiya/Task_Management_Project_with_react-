@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { useForm } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import Pagination from '@/Components/Pagination';
 import Header from '@/Components/Header';
 
@@ -33,12 +33,12 @@ const Index = ({ users, flash }) => {
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">User</h1>
           <div className="flex gap-5 ml-auto">
-            <a
+            <Link
               href={route('admin.user.create')}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
             >
               Add New User
-            </a>
+            </Link>
           </div>
         </div>
       </header>

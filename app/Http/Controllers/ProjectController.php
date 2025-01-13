@@ -48,7 +48,7 @@ class ProjectController extends BaseController
         } else {
             $projects = $this->ProjectRepostiry->getProjectsByEmployee(Auth::id());
         }
-        return inertia::render('Admin/Project/Index', compact('projects', 'role'));
+        return inertia::render('Project/Index', compact('projects', 'role'));
     }
 
     public function show(Project $project):Response
@@ -65,14 +65,14 @@ class ProjectController extends BaseController
             $client = $this->userRepostiry->getById($project->client_id);
 
         }
-        return inertia::render('Admin/Project/Show', compact('project', 'client', 'role'));
+        return inertia::render('Project/Show', compact('project', 'client', 'role'));
     }
 
     public function create():Response
     {
         $clients = $this->userRepostiry->getUsersByRole('user');
         $employees = $this->userRepostiry->getUsersByRole('employee');
-        return inertia::render('Admin/Project/Create', compact('clients', 'employees'));
+        return inertia::render('Project/Create', compact('clients', 'employees'));
     }
 
     public function store(StoreProjectRequest $request):RedirectResponse
@@ -96,7 +96,7 @@ class ProjectController extends BaseController
         $clients = $this->userRepostiry->getUsersByRole('client');
         $employees = $this->userRepostiry->getUsersByRole('employee');
       $projectEmployees = $this->ProjectRepostiry->getEmployeesNamesByProject($project->id);
-        return inertia::render('Admin/Project/Edit', compact('project', 'clients', 'employees','projectEmployees'));
+        return inertia::render('Project/Edit', compact('project', 'clients', 'employees','projectEmployees'));
     }
 
 

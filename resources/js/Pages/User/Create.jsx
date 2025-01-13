@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useForm } from '@inertiajs/react'
+import { Link, useForm } from '@inertiajs/react'
 import ReactSelect from '@/Components/ReactSelect';
 import Header from '@/Components/Header';
-
-
-
+import InputLabel from '@/Components/InputLabel';
+import NavLink from '@/Components/NavLink';
+import PrimaryButton from '@/Components/PrimaryButton';
+import TextInput from '@/Components/TextInput';
 
 const Create = ({roleenum}) => {
   
@@ -49,11 +50,11 @@ const Create = ({roleenum}) => {
               <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <form onSubmit={handleSubmit}  method='POST' className="space-y-2">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-900">
-                      Name<span className="text-red-500">*</span>
-                    </label>
+                    <InputLabel value='Name' required />
+                      
+                    
                     <div className="mt-2">
-                      <input
+                      <TextInput
                         type="text"
                         name="name"
                         id="name"
@@ -65,11 +66,9 @@ const Create = ({roleenum}) => {
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-900">
-                      Email<span className="text-red-500">*</span>
-                    </label>
+                    <InputLabel value='Email' required />
                     <div className="mt-2">
-                      <input
+                      <TextInput
                         type="email"
                         name="email"
                         id="email"
@@ -81,11 +80,10 @@ const Create = ({roleenum}) => {
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-900">
-                      Password<span className="text-red-500">*</span>
-                    </label>
+                    
+                  <InputLabel  value='Password' required />
                     <div className="mt-2">
-                      <input
+                      <TextInput
                         type="password"
                         name="password"
                         id="password"
@@ -97,45 +95,32 @@ const Create = ({roleenum}) => {
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="role" className="block text-sm font-medium text-gray-900">
-                      Role<span className="text-red-500">*</span>
-                    </label>
+                    <InputLabel  value='Role' required />
                     <div className="mt-2">
-                      {/* <select
-                        name="role"
-                        id="role"
-                        value={data.role}
-                        onChange={handleChange}
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-gray-300"
-                      >
-                        <option value="">Select role</option>
-                        <option value="admin">Admin</option>
-                        <option value="employee">Employee</option>
-                      </select> */}
+                     
                       <ReactSelect
                       name="role"
                       id="role"
                       value={data.role}
                       onChange={(option)=> setData('role',option.value) }
-                      // onChange={handleChange }
                       options={roleenum}
                       />
                       {errors.role && <p className="text-red-500 text-sm">{errors.role}</p>}
                     </div>
                   </div>
                   <div className="flex gap-3 mt-8">
-                    <button
+                    <PrimaryButton
                       type="submit"
                       className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500" disabled={processing}
                     >
                       Add user
-                    </button>
-                    <a
-                      href="#"
+                    </PrimaryButton >
+                    <Link
+                      href={route('admin.user.index')}
                       className="flex w-full justify-center rounded-md bg-red-400 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500"
                     >
                       Back
-                    </a>
+                    </Link>
                   </div>
                 </form>
               </div>

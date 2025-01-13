@@ -48,14 +48,14 @@ class TaskController extends BaseController
         } else {
             $tasks = $this->taskrepository->getTasksByCLient(Auth::id());
         }
-        return inertia::render('Admin/Task/Index', compact('tasks', 'role'));
+        return inertia::render('Task/Index', compact('tasks', 'role'));
     }
 
     public function show(Task $task)
     {       
         $task = $this->taskrepository->getById($task->id,['createdBy:id,name', 'updatedBy:id,name', 'assignedUser:id,name', 'project:id,name']);
         $role = Auth::user()->role;
-        return inertia::render('Admin/Task/Show', compact('task', 'role'));
+        return inertia::render('Task/Show', compact('task', 'role'));
     }
     public function create()
     {
@@ -63,7 +63,7 @@ class TaskController extends BaseController
         $projects = $this->projectRepository->getAll(['users']);
         $role = Auth::user()->role;
         $statuses = StatusEnum::options();
-        return inertia::render('Admin/Task/Create', compact('employees', 'projects', 'role', 'statuses',));
+        return inertia::render('Task/Create', compact('employees', 'projects', 'role', 'statuses',));
     }
 
 
@@ -90,7 +90,7 @@ class TaskController extends BaseController
 
         $projects  = $this->projectRepository->getAll(['users']);
         
-        return inertia::render('Admin/Task/Edit', compact('task', 'projects', 'role', 'statuses'));
+        return inertia::render('Task/Edit', compact('task', 'projects', 'role', 'statuses'));
     }
 
     public function update(UpdateTaskRequest $request, $id)

@@ -1,4 +1,5 @@
 
+import { Link } from "@inertiajs/react";
 import {
     BarChart3,
     CheckCircle,
@@ -23,44 +24,44 @@ const Welcome = ({ auth }) => {
                         </div>
                         <div className="flex items-center gap-4">
                             {!auth ? (
-                                <a
+                                <Link
                                     href="/login"
                                     className="bg-white text-indigo-600 hover:bg-indigo-50 transition-colors duration-200 font-semibold py-2 px-6 rounded-lg"
                                 >
                                     Login
-                                </a>
+                                </Link>
                             ) : (
                                 <div className="flex items-center gap-4">
                                     {auth.role === "admin" && (
-                                        <a
+                                        <Link
                                             href={route("dashboard")}
                                             className="bg-white/10 hover:bg-white/20 transition-colors duration-200 text-white font-semibold py-2 px-6 rounded-lg"
                                         >
                                             Dashboard
-                                        </a>
+                                        </Link>
                                     )}
                                     {auth.role === "employee" && (
-                                        <a
+                                        <Link
                                             href={route("employee.dashboard")}
                                             className="bg-white/10 hover:bg-white/20 transition-colors duration-200 text-white font-semibold py-2 px-6 rounded-lg"
                                         >
                                             Dashboard
-                                        </a>
+                                        </Link>
                                     )}
                                     {auth.role === "client" && (
-                                        <a
+                                        <Link
                                             href={"client.dashboard"}
                                             className="bg-white/10 hover:bg-white/20 transition-colors duration-200 text-white font-semibold py-2 px-6 rounded-lg"
                                         >
                                             Dashboard
-                                        </a>
+                                        </Link>
                                     )}
-                                    <a
+                                    <Link
                                         href={route("logout")}
                                         className="bg-red-500 hover:bg-red-600 transition-colors duration-200 text-white font-semibold py-2 px-6 rounded-lg"
                                     >
                                         Logout
-                                    </a>
+                                    </Link>
                                 </div>
                             )}
                         </div>
@@ -80,18 +81,18 @@ const Welcome = ({ auth }) => {
                         solution.
                     </p>
                     <div className="flex justify-center gap-4">
-                        <a
+                        <Link
                             href={route("login")}
                             className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200"
                         >
                             Get Started
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             href="#features"
                             className="bg-white hover:bg-gray-50 text-gray-800 font-semibold py-3 px-8 rounded-lg border border-gray-200 transition-colors duration-200"
                         >
                             Learn More
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -180,13 +181,13 @@ const Welcome = ({ auth }) => {
                         Join thousands of teams who have already improved their
                         productivity with our platform.
                     </p>
-                    <a
+                    <Link
                         href={route("login")}
                         className="inline-flex items-center bg-white text-indigo-600 hover:bg-indigo-50 font-semibold py-3 px-8 rounded-lg transition-colors duration-200"
                     >
                         Get Started Now
                         <ArrowRight className="ml-2 h-5 w-5" />
-                    </a>
+                    </Link>
                 </div>
             </section>
 

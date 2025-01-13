@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useForm } from "@inertiajs/react";
 import Header from "@/Components/Header";
+import InputLabel from "@/Components/InputLabel";
+import TextInput from "@/Components/TextInput";
 
 const Edit = ({ user, clients, errors }) => {
     const client = clients.length > 0 ? clients[0] : {};
@@ -57,13 +59,9 @@ const Edit = ({ user, clients, errors }) => {
                             className="bg-white p-6 rounded-lg shadow-lg"
                         >
                             <div className="mb-4">
-                                <label
-                                    htmlFor="name"
-                                    className="block text-gray-600 font-medium mb-2"
-                                >
-                                    Client Name
-                                </label>
-                                <input
+                                 <InputLabel value='Name' required   htmlFor="name" className="block text-sm font-medium text-gray-900"/>
+                                                  
+                                <TextInput
                                     type="text"
                                     name="name"
                                     id="name"
@@ -79,13 +77,9 @@ const Edit = ({ user, clients, errors }) => {
                             </div>
 
                             <div className="mb-4">
-                                <label
-                                    htmlFor="email"
-                                    className="block text-gray-600 font-medium mb-2"
-                                >
-                                    Email
-                                </label>
-                                <input
+                                 <InputLabel value='Email' required  htmlFor="email"  className="block text-sm font-medium text-gray-900"/>
+                                                   
+                                <TextInput
                                     type="email"
                                     name="email"
                                     id="email"
@@ -109,13 +103,9 @@ const Edit = ({ user, clients, errors }) => {
                                         hidden
                                     />
                                     <div className="mb-4">
-                                        <label
-                                            htmlFor="company_name"
-                                            className="block text-gray-600 font-medium mb-2"
-                                        >
-                                            Company Name
-                                        </label>
-                                        <input
+                                        <InputLabel value='Company Name' required  htmlFor="company_name"  className="block text-sm font-medium text-gray-900"/>
+                                                           
+                                        <TextInput
                                             type="text"
                                             name="company_name"
                                             id="company_name"
@@ -131,13 +121,9 @@ const Edit = ({ user, clients, errors }) => {
                                     </div>
 
                                     <div className="mb-4">
-                                        <label
-                                            htmlFor="contact_number"
-                                            className="block text-gray-600 font-medium mb-2"
-                                        >
-                                            Contact Number
-                                        </label>
-                                        <input
+                                       <InputLabel value='Contact Number' required  htmlFor="contact_number"  className="block text-sm font-medium text-gray-900"/>
+                                                          
+                                        <TextInput
                                             type="text"
                                             name="contact_number"
                                             id="contact_number"

@@ -9,4 +9,5 @@ enum RoleEnum:string
     use OptionsTrait;
     case Admin = 'admin';
     case Employee = 'employee';
+    case Client = 'client';
 }

@@ -1,6 +1,8 @@
 import React from 'react';
 import { useForm } from '@inertiajs/react';
 import Header from '@/Components/Header';
+import InputLabel from '@/Components/InputLabel';
+import TextInput from '@/Components/TextInput';
 
 const Create = () => {
   const { data, setData, post, processing, errors } = useForm({
@@ -52,11 +54,10 @@ const Create = () => {
               <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <form className="space-y-3" onSubmit={handleSubmit}>
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-900">
-                      Name<span className="text-red-500">*</span>
-                    </label>
+                    <InputLabel value='Name' required   htmlFor="name" className="block text-sm font-medium text-gray-900"/>
+                      
                     <div className="mt-1">
-                      <input
+                      <TextInput
                         type="text"
                         name="name"
                         id="name"
@@ -69,11 +70,11 @@ const Create = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-900">
-                      Email<span className="text-red-500">*</span>
-                    </label>
+                   
+                    <InputLabel value='Email' required  htmlFor="email"  className="block text-sm font-medium text-gray-900"/>
+                    
                     <div className="mt-1">
-                      <input
+                      <TextInput
                         type="email"
                         name="email"
                         id="email"
@@ -87,15 +88,12 @@ const Create = () => {
 
                   <div>
                     <div className="flex items-center justify-between">
-                      <label
-                        htmlFor="password"
-                        className="block text-sm font-medium text-gray-900"
-                      >
-                        Password<span className="text-red-500">*</span>
-                      </label>
+                     
+                      <InputLabel value='Password' required  htmlFor="password"  className="block text-sm font-medium text-gray-900"/>
+                    
                     </div>
                     <div className="mt-1">
-                      <input
+                      <TextInput
                         type="password"
                         name="password"
                         id="password"
@@ -108,14 +106,10 @@ const Create = () => {
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="company_name"
-                      className="block text-sm font-medium text-gray-900"
-                    >
-                      Company Name<span className="text-red-500">*</span>
-                    </label>
+                    <InputLabel value='Company Name' required  htmlFor="company_name"  className="block text-sm font-medium text-gray-900"/>
+                    
                     <div className="mt-1">
-                      <input
+                      <TextInput
                         type="text"
                         name="company_name"
                         id="company_name"
@@ -130,14 +124,10 @@ const Create = () => {
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="contact_number"
-                      className="block text-sm font-medium text-gray-900"
-                    >
-                      Contact Number<span className="text-red-500">*</span>
-                    </label>
+                    <InputLabel value='Contact Number' required  htmlFor="contact_number"  className="block text-sm font-medium text-gray-900"/>
+                    
                     <div className="mt-1">
-                      <input
+                      <TextInput
                         type="text"
                         name="contact_number"
                         id="contact_number"

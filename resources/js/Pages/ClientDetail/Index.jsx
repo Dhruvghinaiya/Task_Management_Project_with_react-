@@ -36,7 +36,7 @@ const Index = ({ users, flash }) => {
                         Clients
                     </h1>
                     <div className="flex gap-5 ml-auto">
-                        <Link
+                        <Link   
                             href={route("admin.client.create")}
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                         >
@@ -117,7 +117,7 @@ const Index = ({ users, flash }) => {
                                                 : "N/A"}
                                         </td>
                                         <td className="py-2 px-4 text-center">
-                                            <a
+                                            <Link
                                                 href={route(
                                                     "admin.client.edit",
                                                     user.id
@@ -125,7 +125,7 @@ const Index = ({ users, flash }) => {
                                                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
                                             >
                                                 Edit
-                                            </a>
+                                            </Link>
                                             <button
                                                 onClick={() =>
                                                     handleDelete(user.id)

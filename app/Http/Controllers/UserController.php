@@ -29,12 +29,12 @@ class UserController extends BaseController
     {   
         $users = $this->userRepository->getAll();
         $users = $this->userRepository->getPaginate(5);
-        return Inertia::render('Admin/User/Index',compact('users'));
+        return Inertia::render('User/Index',compact('users'));
     }
 
     public function create():Response
     {   $roleenum= RoleEnum::options();
-        return inertia::render('Admin/User/Create',compact('roleenum'));
+        return inertia::render('User/Create',compact('roleenum'));
     }
 
     public function store(RegisterUserRequest $request)
@@ -47,14 +47,15 @@ class UserController extends BaseController
         }
         catch(Throwable $e){
             DB::rollBack();
-            return inertia::render('Admin/User/Index',$e->getMessage());
+            return inertia::render('User/Index',$e->getMessage());
         }
     }
 
     public function edit($id):Response
     {      
         $user = $this->userRepository->getById($id);
-        return inertia::render('Admin/User/Edit',compact('user'));
+        $roleenum= RoleEnum::options();
+        return inertia::render('User/Edit',compact('user','roleenum'));
     }
 
     public function update( UpdateUserRequest $request , $id):RedirectResponse
