@@ -27,11 +27,10 @@ class AdminController extends Controller
     public function index(){
         
         $taskCount = $this->taskRepository->getTasksByClient(Auth::id())->count();
-        $clientCount  = $this->projectRepository->getProjectsByClient(Auth::id())->count();
         $projectCount = $this->projectRepository->getProjectsByClient(Auth::id())->count();
         $projects = $this->projectRepository->getProjectsByClient(Auth::user()->id)->load('tasks');
         
-        return Inertia::render('Client/Dashboard',compact('taskCount','clientCount','projectCount','projects'));
+        return Inertia::render('Client/Dashboard',compact('taskCount','projectCount','projects'));
 
     } 
     public function projects(User $user){

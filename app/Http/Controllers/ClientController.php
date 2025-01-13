@@ -106,9 +106,9 @@ class ClientController extends BaseController
             $this->userRepository->destroy($id);
             $this->clientRepository->getClient($id);
             DB::commit();
-            return redirect()->route('admin.client.index')->with('message','user delete successfully');
+            return $this->sendRedirectResponse(route('admin.client.index'),'Client  Delete  Successfully');
         }
-        catch(Throwable $e){            
+        catch(Throwable $e){
             DB::rollBack();
             return redirect()->back();
         }

@@ -3,6 +3,7 @@ import Header from "@/Components/Header";
 import { Link } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 import TaskCard from "./Partials/TaskCard";
+import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
 
 const Index = ({ tasks, role, flash, }) => {
 
@@ -29,12 +30,11 @@ const Index = ({ tasks, role, flash, }) => {
                     </h1>
                     <div className="flex gap-5 ml-auto">
                         {role === "admin"  || role==='employee' ? (
-                            <Link
+                            <PrimaryButtonLink
                                 href={route(`${role}.task.create`)}
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                            >
-                                Add Task
-                            </Link>
+                                children={'Add Task'}
+                            />
                         ) : '' }
                         
                     </div>
@@ -64,7 +64,7 @@ const Index = ({ tasks, role, flash, }) => {
                                 </p>
                             </div>
                         ) : (
-                            <TaskCard task={tasks} role={role} />
+                            <TaskCard task={tasks} disable={false} role={role} />
                         )}
                     </div>
 

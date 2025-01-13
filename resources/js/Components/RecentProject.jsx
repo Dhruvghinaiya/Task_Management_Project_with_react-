@@ -3,7 +3,7 @@ import React from 'react'
 const RecentProject = ({title,recentProject,}) => {
   return (
     <div>
-        <div className="bg-white rounded-lg shadow-md border overflow-hidden">
+        <div className="bg-white rounded-lg shadow-md border overflow-hidden h-full">
                                 <div className="p-6">
                                     <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                                         {title}

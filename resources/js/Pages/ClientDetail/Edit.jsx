@@ -3,6 +3,9 @@ import { useForm } from "@inertiajs/react";
 import Header from "@/Components/Header";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
+import SecondaryButton from "@/Components/SecondaryButton";
+import PrimaryButton from "@/Components/PrimaryButton";
+import InputError from "@/Components/InputError";
 
 const Edit = ({ user, clients, errors }) => {
     const client = clients.length > 0 ? clients[0] : {};
@@ -69,11 +72,7 @@ const Edit = ({ user, clients, errors }) => {
                                     value={data.name}
                                     onChange={handleChange}
                                 />
-                                {errors.name && (
-                                    <p className="text-red-500 text-sm mt-1">
-                                        {errors.name}
-                                    </p>
-                                )}
+                                 <InputError message={errors.name}/>
                             </div>
 
                             <div className="mb-4">
@@ -87,11 +86,7 @@ const Edit = ({ user, clients, errors }) => {
                                     value={data.email}
                                     onChange={handleChange}
                                 />
-                                {errors.email && (
-                                    <p className="text-red-500 text-sm mt-1">
-                                        {errors.email}
-                                    </p>
-                                )}
+                                  <InputError message={errors.email}/>
                             </div>
 
                             {clients.length > 0 && (
@@ -113,11 +108,7 @@ const Edit = ({ user, clients, errors }) => {
                                             value={data.company_name}
                                             onChange={handleChange}
                                         />
-                                        {errors.company_name && (
-                                            <p className="text-red-500 text-sm mt-1">
-                                                {errors.company_name}
-                                            </p>
-                                        )}
+                                          <InputError message={errors.company_name}/>
                                     </div>
 
                                     <div className="mb-4">
@@ -131,23 +122,17 @@ const Edit = ({ user, clients, errors }) => {
                                             value={data.contact_number}
                                             onChange={handleChange}
                                         />
-                                        {errors.contact_number && (
-                                            <p className="text-red-500 text-sm mt-1">
-                                                {errors.contact_number}
-                                            </p>
-                                        )}
+                                          <InputError message={errors.contact_number}/>
                                     </div>
                                 </div>
                             )}
 
                             <div className="mt-4 flex justify-end">
-                                <button
+                                <PrimaryButton
                                     type="submit"
-                                    className="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                    disabled={processing}
-                                >
-                                    {processing ? "Editing..." : "Edit"}
-                                </button>
+                                    className="inline-block bg-blue-700  text-white px-4 py-2 rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    children={'Edit'}
+                                />
                             </div>
                         </form>
                     </div>

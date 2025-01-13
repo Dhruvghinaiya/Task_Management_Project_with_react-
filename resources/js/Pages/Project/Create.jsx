@@ -4,6 +4,9 @@ import ReactSelect from '@/Components/ReactSelect';
 import Header from '@/Components/Header';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
+import TextArea from '@/Components/TextArea';
+import PrimaryButton from '@/Components/PrimaryButton';
+import InputError from '@/Components/InputError';
 
 const Create = ({ clients, employees }) => {
   const { data, setData, post, errors, processing } = useForm({
@@ -54,20 +57,22 @@ const Create = ({ clients, employees }) => {
                 onChange={(e) => setData('name', e.target.value)}
                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
               />
-              {errors.name && <div className="text-red-600 text-sm">{errors.name}</div>}
+              <InputError message={errors.name} />
             </div>
 
             <div className="space-y-2">
               <InputLabel htmlFor="description"  required className="block text-sm font-medium text-gray-700" value='Description'/>
               
-              <textarea
-                id="description"
-                name="description"
-                value={data.description}
-                onChange={(e) => setData('description', e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
-              />
-              {errors.description && <div className="text-red-600 text-sm">{errors.description}</div>}
+             
+              <TextArea
+               id="description"
+               name="description"
+               value={data.description}
+               onChange={(e) => setData('description', e.target.value)}
+               className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
+               />
+              
+              <InputError message={errors.description} />
             </div>
 
             <div>
@@ -80,7 +85,8 @@ const Create = ({ clients, employees }) => {
                   onChange={(option)=> setData('client_id',option.value)}
                   options={clientOptions}
                 />
-                {errors.client_id && <div className="text-red-600 text-sm">{errors.client_id}</div>}
+                
+              <InputError message={errors.client_id} />
               </div>
             </div>
 
@@ -94,7 +100,8 @@ const Create = ({ clients, employees }) => {
                 options={employeeOptions}
                 isMulti
               />
-              {errors.employee_ids && <div className="text-red-600 text-sm">{errors.employee_ids}</div>}
+              
+              <InputError message={errors.employee_ids} />
             </div>
 
             <div className="grid grid-cols-2 gap-6">
@@ -109,7 +116,8 @@ const Create = ({ clients, employees }) => {
                   onChange={(e) => setData('start_date', e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
                 />
-                {errors.start_date && <div className="text-red-600 text-sm">{errors.start_date}</div>}
+                
+              <InputError message={errors.start_date} />
               </div>
 
               <div className="space-y-2">
@@ -123,18 +131,18 @@ const Create = ({ clients, employees }) => {
                   onChange={(e) => setData('end_date', e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
                 />
-                {errors.end_date && <div className="text-red-600 text-sm">{errors.end_date}</div>}
+                
+              <InputError message={errors.end_date} />
               </div>
             </div>
 
             <div className="flex justify-end">
-              <button
+              <PrimaryButton
                 type="submit"
-                className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700"
+                className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-800"
                 disabled={processing}
-              >
-                Submit
-              </button>
+                children={'edit'}
+              />
             </div>
           </form>
         </div>

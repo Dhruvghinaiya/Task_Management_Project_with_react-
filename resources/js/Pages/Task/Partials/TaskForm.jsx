@@ -9,10 +9,10 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextArea from '@/Components/TextArea';
 import InputError from '@/Components/InputError';
 
-const Edit = ({ task = {}, projects = [],  errors,role,statuses }) => {
+const TaskForm = ({ task = {}, projects = [],  errors,role,statuses }) => {
     console.log(projects);
     
-    const { data, setData,patch, processing, errors: formErrors,} = useForm({
+    const { data, setData,patch, processing, errors} = useForm({
         name: task.name || '',
         description: task.description || '',
         status: task.status || '',
@@ -209,4 +209,4 @@ const [employees, setEmployees] = useState([]);
     );
 };
 
-export default Edit;
+export default TaskForm;

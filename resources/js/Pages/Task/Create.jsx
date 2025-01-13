@@ -5,6 +5,8 @@ import ReactSelect from "@/Components/ReactSelect";
 import Header from "@/Components/Header";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
+import PrimaryButton from "@/Components/PrimaryButton";
+import InputError from "@/Components/InputError";
 
 const Create = ({ projects, role, statuses = "null" }) => {
     const { data, setData, post, errors } = useForm({
@@ -86,11 +88,7 @@ const Create = ({ projects, role, statuses = "null" }) => {
                                 }
                                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             />
-                            {errors.name && (
-                                <div className="text-red-500 text-sm">
-                                    {errors.name}
-                                </div>
-                            )}
+                            <InputError message={errors.name}/>
                         </div>
 
                         <div className="space-y-2">
@@ -110,11 +108,8 @@ const Create = ({ projects, role, statuses = "null" }) => {
                                 }
                                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             />
-                            {errors.description && (
-                                <div className="text-red-500 text-sm">
-                                    {errors.description}
-                                </div>
-                            )}
+                            
+                            <InputError message={errors.description}/>
                         </div>
 
                         <div className="space-y-2">
@@ -136,11 +131,7 @@ const Create = ({ projects, role, statuses = "null" }) => {
                                 className="w-full"
                                 classNamePrefix="react-select"
                             />
-                            {errors.status && (
-                                <div className="text-red-500 text-sm">
-                                    {errors.status}
-                                </div>
-                            )}
+                            <InputError message={errors.status}/>
                         </div>
 
                         <div className="space-y-2">
@@ -162,11 +153,7 @@ const Create = ({ projects, role, statuses = "null" }) => {
                                 className="w-full"
                                 classNamePrefix="react-select"
                             />
-                            {errors.project_id && (
-                                <div className="text-red-500 text-sm">
-                                    {errors.project_id}
-                                </div>
-                            )}
+                            <InputError message={errors.project_id}/>
                         </div>
 
                         <div className="space-y-2">
@@ -194,11 +181,8 @@ const Create = ({ projects, role, statuses = "null" }) => {
                                 placeholder="Select employee"
                                 isClearable
                             />
-                            {errors.assigned_to && (
-                                <div className="text-red-500 text-sm">
-                                    {errors.assigned_to}
-                                </div>
-                            )}
+                            
+                            <InputError message={errors.assigned_to}/>
                         </div>
 
                         <div className="grid grid-cols-2 gap-6">
@@ -220,11 +204,8 @@ const Create = ({ projects, role, statuses = "null" }) => {
                                     }
                                     className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 />
-                                {errors.start_date && (
-                                    <div className="text-red-500 text-sm">
-                                        {errors.start_date}
-                                    </div>
-                                )}
+
+                            <InputError message={errors.start_date}/>
                             </div>
 
                             <div className="space-y-2">
@@ -245,21 +226,16 @@ const Create = ({ projects, role, statuses = "null" }) => {
                                     }
                                     className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 />
-                                {errors.end_date && (
-                                    <div className="text-red-500 text-sm">
-                                        {errors.end_date}
-                                    </div>
-                                )}
+                            <InputError message={errors.end_date}/>
                             </div>
                         </div>
 
                         <div className="flex justify-end">
-                            <button
+                            <PrimaryButton
                                 type="submit"
                                 className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
-                            >
-                                Submit
-                            </button>
+                                children={'Submit'}
+                            />
                         </div>
                     </form>
                 </div>

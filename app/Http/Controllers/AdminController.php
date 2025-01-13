@@ -58,7 +58,7 @@ class AdminController extends BaseController
         try{
             $this->userRepository->update(Auth::user()->id,$request->getInsertTableField());
             DB::commit();
-            return $this->sendRedirectResponse(route('profile'),'user profile update successfully...');
+            return $this->sendRedirectResponse(route('admin.profile'),'user profile update successfully...');
         }
         catch(Throwable $e){
             DB::rollBack();

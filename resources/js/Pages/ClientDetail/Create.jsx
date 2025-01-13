@@ -1,8 +1,11 @@
 import React from 'react';
-import { useForm } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import Header from '@/Components/Header';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
+import PrimaryButton from '@/Components/PrimaryButton';
+import PrimaryButtonLink from '@/Components/PrimaryButtonLink';
+import InputError from '@/Components/InputError';
 
 const Create = () => {
   const { data, setData, post, processing, errors } = useForm({
@@ -65,7 +68,7 @@ const Create = () => {
                         onChange={handleChange}
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
                       />
-                      {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                      <InputError message={errors.name}/>
                     </div>
                   </div>
 
@@ -82,7 +85,7 @@ const Create = () => {
                         onChange={handleChange}
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
                       />
-                      {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                      <InputError message={errors.email}/>
                     </div>
                   </div>
 
@@ -101,7 +104,7 @@ const Create = () => {
                         onChange={handleChange}
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
                       />
-                      {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+                      <InputError message={errors.password}/>
                     </div>
                   </div>
 
@@ -117,9 +120,7 @@ const Create = () => {
                         onChange={handleChange}
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
                       />
-                      {errors.company_name && (
-                        <p className="text-red-500 text-sm mt-1">{errors.company_name}</p>
-                      )}
+                       <InputError message={errors.company_name}/>
                     </div>
                   </div>
 
@@ -135,26 +136,22 @@ const Create = () => {
                         onChange={handleChange}
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
                       />
-                      {errors.contact_number && (
-                        <p className="text-red-500 text-sm mt-1">{errors.contact_number}</p>
-                      )}
+                       <InputError message={errors.contact_number}/>
                     </div>
                   </div>
 
                   <div className="flex gap-3">
-                    <button
+                    <PrimaryButton
                       type="submit"
                       className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600"
                       disabled={processing}
-                    >
-                      Add Client
-                    </button>
-                    <a  
-                      href={route('admin.dashboard')}
+                      children={'Add Client'}
+                    />
+                    <PrimaryButtonLink  
+                      href={route('admin.client.index')}
                       className="flex w-full justify-center rounded-md bg-red-400 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-600"
-                    >
-                      Back
-                    </a>
+                      children={'Back'}
+                    />
                   </div>
                 </form>
               </div>

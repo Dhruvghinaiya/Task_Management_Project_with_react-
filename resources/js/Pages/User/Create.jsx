@@ -6,6 +6,7 @@ import InputLabel from '@/Components/InputLabel';
 import NavLink from '@/Components/NavLink';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+import InputError from '@/Components/InputError';
 
 const Create = ({roleenum}) => {
   
@@ -62,7 +63,7 @@ const Create = ({roleenum}) => {
                         onChange={handleChange}
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-gray-300"
                       />
-                      {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+                      <InputError message={errors.name} />
                     </div>
                   </div>
                   <div>
@@ -76,7 +77,7 @@ const Create = ({roleenum}) => {
                         onChange={handleChange}
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-gray-300"
                       />
-                      {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                      <InputError message={errors.email} />
                     </div>
                   </div>
                   <div>
@@ -91,7 +92,7 @@ const Create = ({roleenum}) => {
                         onChange={handleChange}
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-gray-300"
                       />
-                      {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+                      <InputError message={errors.password} />
                     </div>
                   </div>
                   <div>
@@ -105,7 +106,7 @@ const Create = ({roleenum}) => {
                       onChange={(option)=> setData('role',option.value) }
                       options={roleenum}
                       />
-                      {errors.role && <p className="text-red-500 text-sm">{errors.role}</p>}
+                      <InputError message={errors.role} />
                     </div>
                   </div>
                   <div className="flex gap-3 mt-8">

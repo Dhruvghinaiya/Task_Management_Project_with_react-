@@ -4,6 +4,9 @@ import ReactSelect from "@/Components/ReactSelect";
 import Header from "@/Components/Header";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
+import TextArea from "@/Components/TextArea";
+import PrimaryButton from "@/Components/PrimaryButton";
+import InputError from "@/Components/InputError";
 
 const Edit = ({ clients, employees, project, projectEmployees }) => {
     const { data, setData, post, patch, errors, processing } = useForm({
@@ -35,12 +38,7 @@ const Edit = ({ clients, employees, project, projectEmployees }) => {
         label: employee.name,
     }));
 
-    const selectedEmployees = data.employee_ids.map((employeeId) => ({
-        value: employeeId,
-        label:
-            employees.find((employee) => employee.id === employeeId)?.name ||
-            "Unknown Employee",
-    }));
+    
 
     return (
         <div className="min-h-full">
@@ -87,11 +85,7 @@ const Edit = ({ clients, employees, project, projectEmployees }) => {
                                 }
                                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             />
-                            {errors.name && (
-                                <div className="text-red-600 text-sm">
-                                    {errors.name}
-                                </div>
-                            )}
+                            <InputError message={errors.name} />
                         </div>
 
                         <div className="space-y-2">
@@ -102,7 +96,7 @@ const Edit = ({ clients, employees, project, projectEmployees }) => {
                                 value="Description"
                             />
 
-                            <textarea
+                            <TextArea
                                 id="description"
                                 name="description"
                                 value={data.description}
@@ -111,11 +105,8 @@ const Edit = ({ clients, employees, project, projectEmployees }) => {
                                 }
                                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             />
-                            {errors.description && (
-                                <div className="text-red-600 text-sm">
-                                    {errors.description}
-                                </div>
-                            )}
+                            <InputError message={errors.description} />
+                            
                         </div>
 
                         <div>
@@ -141,11 +132,7 @@ const Edit = ({ clients, employees, project, projectEmployees }) => {
                                     }
                                     options={clientOptions}
                                 />
-                                {errors.client_id && (
-                                    <div className="text-red-600 text-sm">
-                                        {errors.client_id}
-                                    </div>
-                                )}
+                            <InputError message={errors.client_id} />
                             </div>
                         </div>
 
@@ -184,11 +171,7 @@ const Edit = ({ clients, employees, project, projectEmployees }) => {
                                     }
                                     options={employeeOptions}
                                 />
-                                {errors.employee_ids && (
-                                    <div className="text-red-600 text-sm">
-                                        {errors.employee_ids}
-                                    </div>
-                                )}
+                            <InputError message={errors.employee_ids} />
                             </div>
                         </div>
 
@@ -211,11 +194,7 @@ const Edit = ({ clients, employees, project, projectEmployees }) => {
                                     }
                                     className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 />
-                                {errors.start_date && (
-                                    <div className="text-red-600 text-sm">
-                                        {errors.start_date}
-                                    </div>
-                                )}
+                            <InputError message={errors.start_date} />
                             </div>
 
                             <div className="space-y-2">
@@ -236,22 +215,18 @@ const Edit = ({ clients, employees, project, projectEmployees }) => {
                                     }
                                     className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 />
-                                {errors.end_date && (
-                                    <div className="text-red-600 text-sm">
-                                        {errors.end_date}
-                                    </div>
-                                )}
+                            <InputError message={errors.end_date} />
                             </div>
                         </div>
 
                         <div className="flex justify-end">
-                            <button
+                            <PrimaryButton
                                 type="submit"
                                 className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
                                 disabled={processing}
-                            >
-                                {project ? "Update" : "Submit"}
-                            </button>
+                                children={'Edit'}
+                            />
+                                
                         </div>
                     </form>
                 </div>

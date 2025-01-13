@@ -112,7 +112,7 @@ class ProjectController extends BaseController
                 $project->users()->detach();
             }
             DB::commit();
-        return $this->sendRedirectResponse(route('admin.project.index'), 'Project Updated Successfully');
+        return $this->sendRedirectResponse(route('admin.project.show',$project), 'Project Updated Successfully');
         } catch (Throwable $e) {
             DB::rollBack();
             return $this->sendRedirectBackError($e->getMessage());

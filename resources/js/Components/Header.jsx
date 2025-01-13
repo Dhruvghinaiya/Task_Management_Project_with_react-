@@ -1,11 +1,10 @@
 import { Link } from '@inertiajs/react';
 import React from 'react'
 
-const Header = ({role}) => {
+const Header = ({role,currentPath}) => {
   
-  // Assuming `route` is a helper function to get the current route
-  // You can modify it based on your actual routing setup, like `window.location.pathname` in a React app.
-  const currentRoute = window.location.pathname;  // or use useLocation from React Router if you're using it
+  const currentRoute = window.location.pathname;  
+ 
 
   return (
     <>  

@@ -1,5 +1,7 @@
 
+import PrimaryButtonLink from '@/Components/PrimaryButtonLink'
 import { Link } from '@inertiajs/react'
+import moment from 'moment'
 import React from 'react'
 
 const ProjectCard = ({project,role}) => {
@@ -17,19 +19,20 @@ const ProjectCard = ({project,role}) => {
                                         <p className="text-gray-600 mt-2">
                                             {project.description.slice(0, 100)}...
                                         </p>
-                                        <p className="mt-4 text-sm text-gray-500">Start Date: {new Date(project.start_date).toLocaleDateString()}</p>
-                                       <p className="mt-2 text-sm text-gray-500">End Date: {new Date(project.end_date).toLocaleDateString()}</p>
+                                        <p className="mt-4 text-sm text-gray-500">Start Date: {moment(project.start_date).format('DD/MM/YY')}</p>
+                                       <p className="mt-2 text-sm text-gray-500">End Date: {moment(project.end_date).format('DD/MM/YY')}</p>
                  
                                         
 
                                         <div className="mt-2 text-right">
-                                            <Link
+                                            <PrimaryButtonLink
                                                     href={route(`${role}.project.show`,{ id: project.id }
                                                     )}
                                                     className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                                                >
-                                                    View Details
-                                                </Link>
+                                                    children={'View Details'}
+                                                />
+                                                    {/* View Details */}
+                                                {/* </PrimaryBu> */}
                                         </div>
                                     </div>
                                 ))}

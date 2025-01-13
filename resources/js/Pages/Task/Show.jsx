@@ -2,6 +2,9 @@ import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import { Link } from '@inertiajs/react';
 import Header from '@/Components/Header';
+import moment from 'moment';
+import PrimaryButtonLink from '@/Components/PrimaryButtonLink';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 const Show = ({ task,role}) => {
     
@@ -68,13 +71,13 @@ const Show = ({ task,role}) => {
                 <div>
                   <h4 className="text-xl font-semibold text-gray-700">Start Date</h4>
                   <p className="text-gray-600 mt-2">
-                    {task.start_date ? new Date(task.start_date).toLocaleDateString() : 'Not set'}
+                    {task.start_date ? moment(task.start_date).format('DD/MM/YYYY') : 'Not set'}
                   </p>
                 </div>
                 <div>
                   <h4 className="text-xl font-semibold text-gray-700">End Date</h4>
                   <p className="text-gray-600 mt-2">
-                    {task.end_date ? new Date(task.end_date).toLocaleDateString() : 'Not set'}
+                    {task.end_date ? moment(task.end_date).format('DD/MM/YYYY') : 'Not Set'}
                   </p>
                 </div>
               </div>
@@ -97,28 +100,32 @@ const Show = ({ task,role}) => {
 
               <div className="mt-8 flex justify-end items-center space-x-4">
 
-              {role==='admin'  || role=='employee' ? <Link
+              {role==='admin'  || role=='employee' ? 
+              
+              <PrimaryButtonLink
                   href={route(`${role}.task.edit`,{id:task.id})}
                   className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
+                  children={'Edit'}
                 >
                   Edit Task
-                </Link>  : ''}   
+                </PrimaryButtonLink>
+
+                  : ''}   
                 
 
-                {role==='admin' ? <button
+                {role==='admin' ? <PrimaryButton
                   onClick={handleDelete}
                   className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
-                >
-                  Delete Task
-                </button>
+                  children={'Delete'}
+                />
+                
             : '' }
                 
-                <Link
+                <PrimaryButtonLink
                   href={route(`${role}.task.index`)}
                   className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
-                >
-                  Back to Task List
-                </Link>
+                  children={' Back to Task List'}
+                />
 
               </div>
             </div>

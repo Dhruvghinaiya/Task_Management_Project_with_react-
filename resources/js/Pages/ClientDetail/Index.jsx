@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useForm } from "@inertiajs/react";
 import Header from "@/Components/Header";
+import PrimaryButton from "@/Components/PrimaryButton";
+import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
 
 const Index = ({ users, flash }) => {
    
@@ -36,12 +38,11 @@ const Index = ({ users, flash }) => {
                         Clients
                     </h1>
                     <div className="flex gap-5 ml-auto">
-                        <Link   
+                        <PrimaryButtonLink  
                             href={route("admin.client.create")}
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                        >
-                            Add New Client
-                        </Link>
+                            children={'Add New Client'}
+                        />
                     </div>
                 </div>
             </header>
@@ -117,23 +118,20 @@ const Index = ({ users, flash }) => {
                                                 : "N/A"}
                                         </td>
                                         <td className="py-2 px-4 text-center">
-                                            <Link
+                                            <PrimaryButtonLink children={'Edit'}
                                                 href={route(
                                                     "admin.client.edit",
                                                     user.id
                                                 )}
                                                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                                            >
-                                                Edit
-                                            </Link>
-                                            <button
+                                            />
+                                            <PrimaryButton
                                                 onClick={() =>
                                                     handleDelete(user.id)
                                                 }
                                                 className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700 ml-2"
-                                            >
-                                                Delete
-                                            </button>
+                                                children={'Delete'}
+                                            />
                                         </td>
                                     </tr>
                                 ))}

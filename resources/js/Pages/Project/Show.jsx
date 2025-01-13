@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
-import EmployeeHeader from "@/Components/EmployeeHeader";
-import ClientHeader from "@/Components/ClientHeader";
 import { Link } from "@inertiajs/react";
 import Header from "@/Components/Header";
+import TaskCard from "../Task/Partials/TaskCard";
+import moment from "moment";
+import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
 
-const Show = ({ project, client, role }) => {
+const Show = ({ project, client, role,flash }) => {
+    console.log(flash);
+    
     
     const handleDelete = (e) => {
         e.preventDefault();
@@ -20,6 +23,19 @@ const Show = ({ project, client, role }) => {
         }
     };
 
+     
+      const [showMessage, setShowMessage] = useState(true);
+    
+        useEffect(() => {
+            if (flash?.msg || flash?.error) {
+                const timeout = setTimeout(() => {
+                    setShowMessage(false);
+                }, 3000);
+    
+                return () => clearTimeout(timeout);
+            }
+        }, [flash]);
+
     return (
         <div className="min-h-full">
             <Header role={role} />
@@ -32,6 +48,19 @@ const Show = ({ project, client, role }) => {
             </header>
             <main>
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                {showMessage &&
+                        flash &&
+                        flash.msg &&
+                        flash.msg.status === "success" && (
+                            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+                                {flash.msg.description}
+                            </div>
+                        )}
+                    {showMessage && flash && flash.error && (
+                        <div className="bg-red-500 text-white p-4 rounded-lg mb-6">
+                            {flash.error}
+                        </div>
+                    )}
                     <div className="bg-white p-8 rounded-lg shadow-md border">
                         <h2 className="text-2xl font-semibold text-gray-800">
                             {project.name}
@@ -42,12 +71,12 @@ const Show = ({ project, client, role }) => {
 
                         <p className="mt-4 text-sm text-gray-500">
                             <strong>Start Date:</strong>{" "}
-                            {new Date(project.start_date).toLocaleDateString()}
+                            {moment(project.start_date).format('DD/MM/YY')}                            
                         </p>
 
                         <p className="mt-2 text-sm text-gray-500">
                             <strong>End Date:</strong>{" "}
-                            {new Date(project.end_date).toLocaleDateString()}
+                            {moment(project.end_date).format('DD/MM/YY')}
                         </p>
                         <p className="mt-2 text-sm text-gray-500">
                             <strong>Client Name:</strong> {client.name}
@@ -58,42 +87,42 @@ const Show = ({ project, client, role }) => {
                             {project.created_by?.name}
                         </p>
 
-                        <p className="mt-2 text-sm text-gray-500">
+                        <p className="mt-2 text-sm text-gray-500 mb-5">
                             <strong>Updated By:</strong>{" "}
                             {project.updated_by?.name || "No Updated"}
                         </p>
 
-                        {role == "admin" ? (
-                            <a
-                                href={route("admin.project.edit", {
-                                    id: project.id,
-                                })}
-                                className="bg-yellow-500 text-white px-4 py-2  mr-3   rounded-lg hover:bg-yellow-600 transition duration-200"
-                            >
-                                Edit
-                            </a>
-                        ) : (
-                            ""
-                        )}
+                        <div className="flex space-x-4">
+    {role == "admin" ? (
+        <PrimaryButtonLink
+            href={route("admin.project.edit", {
+                id: project.id,
+            })}
+            className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-200 w-full sm:w-auto"
+            children={'Edit'}
+        />
+       
+    ) : ''}
 
-                        {role == "admin" ? (
-                            <button
-                                onClick={handleDelete}
-                                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200"
-                            >
-                                Delete
-                            </button>
-                        ) : (
-                            ""
-                        )}
+    {role == "admin" ? (
+        <PrimaryButtonLink
+            onClick={handleDelete}
+            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200 w-full sm:w-auto"
+            children={'delete'}
+        />
+
+    ) : (
+        ""
+    )}
+</div>
+
 
                         <div className="mt-6">
-                            <Link
+                            <PrimaryButtonLink
                                 href={route(`${role}.project.index`)}
                                 className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-200"
-                            >
-                                Back to Projects
-                            </Link>
+                                children={'   Back to Projects'}
+                            />
                         </div>
                     </div>
                     <div className="mt-8">
@@ -102,50 +131,7 @@ const Show = ({ project, client, role }) => {
                         </h2>
                         <div className="bg-gray-50 rounded-lg p-4">
                             {project.tasks.length > 0 ? (
-                                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                                    {project.tasks.map((task) => (
-                                        <div
-                                            key={task.id}
-                                            className="bg-white p-4 rounded-lg shadow"
-                                        >
-                                            <h3 className="font-semibold text-lg text-gray-900">
-                                                {task.name}
-                                            </h3>
-                                            <p className="text-gray-600 mt-1">
-                                                {task.description}
-                                            </p>
-                                            <div className="mt-2 flex justify-between items-center">
-                                                <span
-                                                    className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                                                        task.status ===
-                                                        "completed"
-                                                            ? "bg-green-100 text-green-800"
-                                                            : task.status ===
-                                                              "in_progress"
-                                                            ? "bg-yellow-100 text-yellow-800"
-                                                            : "bg-red-100 text-red-800"
-                                                    }`}
-                                                >
-                                                    {task.status
-                                                        .charAt(0)
-                                                        .toUpperCase() +
-                                                        task.status.slice(1)}
-                                                </span>
-                                                <span className="text-sm text-gray-500">
-                                                    {task.assigned_to
-                                                        ? task.assigned_to.name
-                                                        : "Unassigned"}
-                                                </span>
-                                            </div>
-                                            <p className="text-xs text-gray-400 mt-2">
-                                                Created:{" "}
-                                                {new Date(
-                                                    task.created_at
-                                                ).toLocaleDateString()}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
+                                <TaskCard task={project.tasks}  disable={true} role={role}/>
                             ) : (
                                 <p className="text-gray-600">
                                     No tasks assigned to this project yet.

@@ -4,13 +4,15 @@ import Header from "@/Components/Header";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import ReactSelect from "@/Components/ReactSelect";
+import PrimaryButton from "@/Components/PrimaryButton";
+import InputError from "@/Components/InputError";
 
 const Edit = ({ user, errors,roleenum }) => {
     const {
         data,
         setData,
         patch,
-        errors: formErrors,
+        
         processing,
     } = useForm({
         name: user.name || "",
@@ -67,11 +69,7 @@ const Edit = ({ user, errors,roleenum }) => {
                                     value={data.name}
                                     onChange={handleChange}
                                 />
-                                {formErrors.name && (
-                                    <p className="text-red-500 text-sm mt-1">
-                                        {formErrors.name}
-                                    </p>
-                                )}
+                                 <InputError message={errors.name} />
                             </div>
 
                             <div className="mb-4">
@@ -90,11 +88,7 @@ const Edit = ({ user, errors,roleenum }) => {
                                     value={data.email}
                                     onChange={handleChange}
                                 />
-                                {formErrors.email && (
-                                    <p className="text-red-500 text-sm mt-1">
-                                        {formErrors.email}
-                                    </p>
-                                )}
+                                 <InputError message={errors.email} />
                             </div>
 
                             <div>
@@ -131,13 +125,11 @@ const Edit = ({ user, errors,roleenum }) => {
                             />
 
                             <div className="mt-4 flex justify-end">
-                                <button
+                                <PrimaryButton
                                     type="submit"
-                                    className="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                    disabled={processing}
-                                >
-                                    {processing ? "Saving..." : "Edit"}
-                                </button>
+                                    className="inline-block bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    children={'Edit'}
+                                />
                             </div>
                         </form>
                     </div>
