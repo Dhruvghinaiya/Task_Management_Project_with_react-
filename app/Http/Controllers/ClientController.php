@@ -55,8 +55,8 @@ class ClientController extends BaseController
         return inertia::render('ClientDetail/Create',compact('client'));
     }
     
-    public function store(StoreClientRequest $req):RedirectResponse
-    {
+    public function store(StoreClientRequest $req)
+    {   
         DB::beginTransaction();
         try{
              $this->userRepository->store($req->getInsertTableFiel1());

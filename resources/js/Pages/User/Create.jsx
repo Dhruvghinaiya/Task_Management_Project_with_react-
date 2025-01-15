@@ -3,10 +3,10 @@ import { Link, useForm } from '@inertiajs/react'
 import ReactSelect from '@/Components/ReactSelect';
 import Header from '@/Components/Header';
 import InputLabel from '@/Components/InputLabel';
-import NavLink from '@/Components/NavLink';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
+import CreateForm from '../ClientDetail/Partials/CreateForm';
 
 const Create = ({roleenum}) => {
   
@@ -35,7 +35,7 @@ const Create = ({roleenum}) => {
 
   return (
     <>
-      <Header role='admin' />
+      {/* <Header role='admin' />
       <div className="min-h-full">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -128,7 +128,8 @@ const Create = ({roleenum}) => {
             </div>
           </div>
         </main>
-      </div>
+      </div> */}
+      <CreateForm roleenum={roleenum} type={'user'} />
     </>
   );
 };

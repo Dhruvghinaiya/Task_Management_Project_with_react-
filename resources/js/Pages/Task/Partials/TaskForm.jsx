@@ -10,7 +10,6 @@ import TextArea from '@/Components/TextArea';
 import InputError from '@/Components/InputError';
 
 const TaskForm = ({ task = {}, projects = [],  role,statuses }) => {
-    console.log(task);
     
     const { data, setData,patch,post, processing, errors} = useForm({
         name: task.name || '',

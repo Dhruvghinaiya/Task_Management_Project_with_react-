@@ -4,20 +4,9 @@ import { Link } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 import TaskCard from "./Partials/TaskCard";
 import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
+import FlashMessage from "@/Components/FlashMessage";
 
 const Index = ({ tasks, role, flash, }) => {
-
-    const [showMessage, setShowMessage] = useState(true);
-
-    useEffect(() => {
-        if (flash?.msg || flash?.error) {
-            const timeout = setTimeout(() => {
-                setShowMessage(false);
-            }, 3000);
-
-            return () => clearTimeout(timeout);
-        }
-    }, [flash]);
 
     return (
         <div className="min-h-full">
@@ -43,19 +32,9 @@ const Index = ({ tasks, role, flash, }) => {
 
             <main>
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    {showMessage &&
-                        flash &&
-                        flash.msg &&
-                        flash.msg.status === "success" && (
-                            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
-                                {flash.msg.description}
-                            </div>
-                        )}
-                    {showMessage && flash && flash.error && (
-                        <div className="bg-red-500 text-white p-4 rounded-lg mb-6">
-                            {flash.error}
-                        </div>
-                    )}
+                  
+                    <FlashMessage flash={flash}/>
+
                     <div className="container mx-auto p-6">
                         {tasks.length === 0 ? (
                             <div className="text-center p-6">

@@ -6,6 +6,7 @@ import TextInput from '@/Components/TextInput';
 import PrimaryButton from '@/Components/PrimaryButton';
 import PrimaryButtonLink from '@/Components/PrimaryButtonLink';
 import InputError from '@/Components/InputError';
+import CreateForm from './Partials/CreateForm';
 
 const Create = () => {
   const { data, setData, post, processing, errors } = useForm({
@@ -36,7 +37,8 @@ const Create = () => {
 
   return (
     <>
-      <Header role='admin' />
+    <CreateForm type={'client'} />
+      {/* <Header role='admin' />
       <div className="min-h-full">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6 lg:px-8 flex">
@@ -158,7 +160,7 @@ const Create = () => {
             </div>
           </div>
         </main>
-      </div>
+      </div> */}
     </>
   );
 };

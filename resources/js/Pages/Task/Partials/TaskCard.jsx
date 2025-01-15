@@ -33,7 +33,6 @@ const TaskCard = ({ task, role ,disable=false }) => {
                                 Status:{" "}
                                 {task.status.charAt(0).toUpperCase() +
                                     task.status.slice(1)}
-                                {/* {task.status} */}
                             </span>
                             <p className="text-xs text-gray-400 mt-2">
                                                  Created:{" "}

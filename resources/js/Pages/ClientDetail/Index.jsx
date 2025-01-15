@@ -4,22 +4,11 @@ import { Link, useForm } from "@inertiajs/react";
 import Header from "@/Components/Header";
 import PrimaryButton from "@/Components/PrimaryButton";
 import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
+import FlashMessage from "@/Components/FlashMessage";
 
 const Index = ({ users, flash }) => {
    
   
-  const [showMessage, setShowMessage] = useState(true);
-
-    useEffect(() => {
-        if (flash?.msg || flash?.error) {
-            const timeout = setTimeout(() => {
-                setShowMessage(false);
-            }, 3000);
-
-            return () => clearTimeout(timeout);
-        }
-    }, [flash]);
-
     const { delete: deleteRequest } = useForm();
 
     const handleDelete = (userId) => {
@@ -49,19 +38,8 @@ const Index = ({ users, flash }) => {
 
             <main>
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    {showMessage &&
-                        flash &&
-                        flash.msg &&
-                        flash.msg.status === "success" && (
-                            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
-                                {flash.msg.description}
-                            </div>
-                        )}
-                    {showMessage && flash && flash.error && (
-                        <div className="bg-red-500 text-white p-4 rounded-lg mb-6">
-                            {flash.error}
-                        </div>
-                    )}
+                    
+                    <FlashMessage flash={flash} />
                     <div className="container mx-auto">
                         <h1 className="text-3xl font-bold text-center mb-6">
                             Show Clients
