@@ -68,9 +68,9 @@ class ProjectController extends BaseController
         return inertia::render('Project/Show', compact('project', 'client', 'role'));
     }
 
-    public function create():Response
+    public function create()
     {
-        $clients = $this->userRepostiry->getUsersByRole('user');
+        $clients = $this->userRepostiry->getUsersByRole('client');
         $employees = $this->userRepostiry->getUsersByRole('employee');
         return inertia::render('Project/Create', compact('clients', 'employees'));
     }

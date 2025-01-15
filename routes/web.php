@@ -22,7 +22,7 @@ Route::get('/',[AuthenticatedSessionController::class,'welcome'])->name('welcome
 
 Route::middleware(['role:admin'])->group(function(){
     
-    Route::get('dashboard',[AdminController::class,'index'])->name('admin.dashboard');
+    Route::get('/dashboard',[AdminController::class,'index'])->name('admin.dashboard');
     Route::get('/profile',[AdminController::class,'profile'])->name('admin.profile');
     Route::post('/profile/update',[AdminController::class,'update'])->name('profile.update');
 
@@ -106,7 +106,6 @@ Route::middleware(['auth','role:client'])->group(function(){
     Route::get('client/task/show/{task}',[TaskController::class,'show'])->name('client.task.show');
    
 
-    
 });
 
 

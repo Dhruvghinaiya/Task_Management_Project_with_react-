@@ -14,8 +14,6 @@ class ProjectRepository extends BaseRepository
     {
         parent::__construct($model);
     }
-  
-
 
     public function getProjectsByEmployee( string $employeeId):Collection
     {

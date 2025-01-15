@@ -3,6 +3,8 @@ import { useForm } from "@inertiajs/react";
 import Header from "@/Components/Header";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
+import TextInput from "@/Components/TextInput";
+import InputError from "@/Components/InputError";
 
 const Profile = ({ users, flash }) => {
     const [showMessage, setShowMessage] = useState(true);
@@ -120,7 +122,7 @@ const Profile = ({ users, flash }) => {
                                     />
 
                                     <div className="mt-2.5">
-                                        <input
+                                        <TextInput
                                             type="text"
                                             name="role"
                                             value={data.role}
@@ -138,10 +140,11 @@ const Profile = ({ users, flash }) => {
                                         value="Email"
                                         htmlFor="email"
                                         className="block text-sm/6 font-semibold text-gray-900"
+                                        required
                                     />
 
                                     <div className="mt-2.5">
-                                        <input
+                                        <TextInput
                                             type="email"
                                             name="email"
                                             value={data.email}
@@ -155,6 +158,7 @@ const Profile = ({ users, flash }) => {
                                                 {errors.email}
                                             </span>
                                         )}
+                                        <InputError message={errors.email} />
                                     </div>
                                 </div>
                             </div>

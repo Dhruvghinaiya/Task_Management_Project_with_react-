@@ -1,5 +1,4 @@
 
-import PrimaryButtonLink from '@/Components/PrimaryButtonLink'
 import { Link } from '@inertiajs/react'
 import moment from 'moment'
 import React from 'react'
@@ -25,14 +24,13 @@ const ProjectCard = ({project,role}) => {
                                         
 
                                         <div className="mt-2 text-right">
-                                            <PrimaryButtonLink
+                                            <Link
                                                     href={route(`${role}.project.show`,{ id: project.id }
                                                     )}
                                                     className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                                                    children={'View Details'}
-                                                />
-                                                    {/* View Details */}
-                                                {/* </PrimaryBu> */}
+                                                >
+                                                    View Details
+                                                </Link>
                                         </div>
                                     </div>
                                 ))}

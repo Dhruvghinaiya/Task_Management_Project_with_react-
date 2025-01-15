@@ -34,7 +34,7 @@ const Welcome = ({ auth }) => {
                                 <div className="flex items-center gap-4">
                                     {auth.role === "admin" && (
                                         <Link
-                                            href={route("dashboard")}
+                                            href={route("admin.dashboard")}
                                             className="bg-white/10 hover:bg-white/20 transition-colors duration-200 text-white font-semibold py-2 px-6 rounded-lg"
                                         >
                                             Dashboard

@@ -20,9 +20,9 @@ class ClientRepository extends BaseRepository
         
         return  $this->newQuery()->with('user')->get();
     }
-    public function getClient(string $id):Collection
+    public function getClient(string $clientId):Collection
     {
-        return $this->newQuery()->where('user_id',$id)->get();
+        return $this->newQuery()->where('user_id',$clientId)->get();
     }
 }
 

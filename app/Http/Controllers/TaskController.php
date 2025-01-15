@@ -67,7 +67,7 @@ class TaskController extends BaseController
     }
 
 
-    public function store(StoreTaskRequest $request): RedirectResponse
+    public function store(StoreTaskRequest $request)
     {
 
         $userRole = Auth::user()->role;
@@ -75,7 +75,7 @@ class TaskController extends BaseController
         try {
             $this->taskrepository->store($request->getInsertableFields());
             DB::commit();
-            return $this->sendRedirectResponse(route($userRole.'task.index'),'New Task Added Successfully');
+            return $this->sendRedirectResponse(route($userRole.'.task.index'),'New Task Added Successfully');
         } catch (Throwable $e) {
             DB::rollBack();
             return $this->sendRedirectBackError($e->getMessage());

@@ -28,8 +28,9 @@ const ProjectList = ({ projects, role,flash }) => {
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">Project</h1>
           <div className="flex gap-5 ml-auto">
             {role === 'admin' ? (
-              <PrimaryButtonLink href={route('admin.project.create')} children={'  Add Project'} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"/>
-              
+              <PrimaryButtonLink href={route('admin.project.create')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                Add Project
+              </PrimaryButtonLink>
             ) : ''}
           </div>
         </div>

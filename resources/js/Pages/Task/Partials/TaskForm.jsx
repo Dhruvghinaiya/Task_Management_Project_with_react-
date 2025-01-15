@@ -9,10 +9,10 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextArea from '@/Components/TextArea';
 import InputError from '@/Components/InputError';
 
-const TaskForm = ({ task = {}, projects = [],  errors,role,statuses }) => {
-    console.log(projects);
+const TaskForm = ({ task = {}, projects = [],  role,statuses }) => {
+    console.log(task);
     
-    const { data, setData,patch, processing, errors} = useForm({
+    const { data, setData,patch,post, processing, errors} = useForm({
         name: task.name || '',
         description: task.description || '',
         status: task.status || '',
@@ -31,16 +31,14 @@ const TaskForm = ({ task = {}, projects = [],  errors,role,statuses }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(data);  
-
-        patch( role==='admin' ? route('admin.task.update', { id: task.id }) : route('employee.task.update', { id: task.id }) , {
-            onError: (errorResponse) => {
-                console.log(errorResponse);
-            },
-        });
+        const routeName = Object.keys(task).length === 0
+            ? (role=='admin' ?  route("admin.task.store") : route("employee.task.store") )  
+            : (role=='admin' ?  route("admin.task.update", { id: task.id }) : route('employee.task.update'));  
+        const method = Object.keys(task).length === 0 ? post : patch;  
+    
+        method(routeName, data);
     };
     
-
 const [employees, setEmployees] = useState([]);
 
     useEffect(() => {
@@ -194,9 +192,9 @@ const [employees, setEmployees] = useState([]);
                             <div className="mt-8 flex justify-end">
                                 <PrimaryButton
                                     type="submit"
-                                    className="px-6 py-3 bg-blue-700 text-white rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out"
+                                    className="px-6 py-3 bg-blue-800 text-white rounded-lg hover:bg-blue-400 transition duration-300 ease-in-out"
                                     disabled={processing}
-                                    children={'Update'}
+                                    children={ Object.keys(task).length==0  ?'Create': 'Update'}
                                 />
                                  
                             </div>
