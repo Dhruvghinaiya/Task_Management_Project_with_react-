@@ -32,20 +32,21 @@ class EmployeeController extends BaseController
     }
 
 
-    public function index()    {
+    public function index():Response
+       {
         $projectCount = $this->projectRepository->getProjectsByEmployee(Auth::user()->id)->count();
         $clientCount  = $this->userRepository->getUsersByRole('client')->count();
-        $taskCount  = $this->taskRepository->getTasksByEmployee(Auth::id())->count();
-        $tasks = $this->taskRepository->getTasksByEmployee(Auth::user()->id);
+        $taskCount  = $this->taskRepository->getTasksByEmployee(Auth::id(),'assigned')->count();
+        $tasks = $this->taskRepository->getTasksByEmployee(Auth::user()->id,'assigned');
         return Inertia::render('Employee/Dashboard',compact('projectCount','clientCount','taskCount','tasks'));
         
     }
 
-    public function update(UpdateProfileRequest $req):RedirectResponse
+    public function update(UpdateProfileRequest $request):RedirectResponse
     {
         DB::transaction();
         try{
-            $this->userRepository->update(Auth::user()->id,$req->getInsertTableField());
+            $this->userRepository->update(Auth::user()->id,$request->getInsertTableField());
             DB::commit();
             return $this->sendRedirectResponse(route('employee.profile'),'user profile update successfully...');
         }

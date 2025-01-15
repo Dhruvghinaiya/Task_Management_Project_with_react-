@@ -22,11 +22,13 @@ class UserRepository extends BaseRepository
     }
 
 
+
     public function getRecentUsersByRole(string $role, int $limit):Collection
     {
         return $this->newQuery()
             ->where('role', $role)
             ->orderBy('created_at', 'desc')
+            ->with('clientDetail')
             ->limit($limit)
             ->get();
     }

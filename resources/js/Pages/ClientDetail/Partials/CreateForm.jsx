@@ -7,12 +7,13 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 
-const CreateForm = ({ roleenum, type }) => {
+const CreateForm = ({ roleenum, type,role }) => {
+    
   const { data, setData, post, processing, errors } = useForm({
     name: '',
     email: '',
     password: '',
-    role: type === 'user' ? '' : 'client', 
+    role: role, 
     company_name: type === 'client' ? '' : undefined,
     contact_number: type === 'client' ? '' : undefined,
   });
@@ -27,7 +28,7 @@ const CreateForm = ({ roleenum, type }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    post(route(type === 'user' ? 'user.store' : 'admin.client.store'), {
+    post(route(  'admin.client.store'), {
       onSuccess: () => {
         window.location.href = route(type === 'user' ? 'admin.user.index' : 'admin.client.index');
       },
@@ -143,8 +144,8 @@ const CreateForm = ({ roleenum, type }) => {
                           name="role"
                           id="role"
                           value={data.role}
-                          onChange={(option) => setData('role', option.value)}
-                          options={roleenum}
+                        onChange={(option) => setData('role', option.value)}
+                          options={roleenum.filter(role => role.value !== 'client')}
                         />
                         <InputError message={errors.role} />
                       </div>

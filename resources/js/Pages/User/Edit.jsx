@@ -13,7 +13,7 @@ const Edit = ({ user, errors, roleenum }) => {
     
 
     return (
-        <UserForm  user={user} errors={errors} roleenum={roleenum}/>
+        <UserForm  user={user} errors={errors} roleenum={roleenum} role={"client"}/>
     );
 };
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from '@inertiajs/react';
-import EmployeeHeader from '@/Components/EmployeeHeader';
+import { useForm, usePage } from '@inertiajs/react';
 import ReactSelect from '@/Components/ReactSelect';
 import Header from '@/Components/Header';
 import InputLabel from '@/Components/InputLabel';
@@ -9,8 +8,8 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextArea from '@/Components/TextArea';
 import InputError from '@/Components/InputError';
 
-const TaskForm = ({ task = {}, projects = [],  role,statuses }) => {
-    
+const TaskForm = () => {
+    const{task={},projects={},role,statuses} = usePage().props;
     const { data, setData,patch,post, processing, errors} = useForm({
         name: task.name || '',
         description: task.description || '',
@@ -32,7 +31,7 @@ const TaskForm = ({ task = {}, projects = [],  role,statuses }) => {
         e.preventDefault();
         const routeName = Object.keys(task).length === 0
             ? (role=='admin' ?  route("admin.task.store") : route("employee.task.store") )  
-            : (role=='admin' ?  route("admin.task.update", { id: task.id }) : route('employee.task.update'));  
+            : (role=='admin' ?  route("admin.task.update", { id: task.id }) : route('employee.task.update',{id:task.id}));  
         const method = Object.keys(task).length === 0 ? post : patch;  
     
         method(routeName, data);

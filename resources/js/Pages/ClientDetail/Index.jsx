@@ -107,7 +107,7 @@ const Index = ({ users, flash }) => {
                                                 onClick={() =>
                                                     handleDelete(user.id)
                                                 }
-                                                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700 ml-2"
+                                                className=" bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700 ml-2"
                                                 children={'Delete'}
                                             />
                                         </td>

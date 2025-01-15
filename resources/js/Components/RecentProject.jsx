@@ -1,15 +1,18 @@
+import { usePage } from '@inertiajs/react'
 import React from 'react'
 
-const RecentProject = ({title,recentProject,}) => {
+const RecentProject = () => {
+    const{recentProjects} = usePage().props;
+    
   return (
     <div>
         <div className="bg-white rounded-lg shadow-md border overflow-hidden h-full">
                                 <div className="p-6">
                                     <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-                                        {title}
+                                        Recent Projects
                                     </h2>
                                     <div className="space-y-4">
-                                        {recentProject.map((project) => (
+                                        {recentProjects.map((project) => (
                                             <div
                                                 key={project.id}
                                                 className="bg-gray-50 rounded-lg p-4"

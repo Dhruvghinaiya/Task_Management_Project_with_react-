@@ -13,20 +13,18 @@ class TaskRepository extends BaseRepository
     {
         parent::__construct($model);
     }
-    function getTasksByEmployee(string $employeeId):Collection
-    {
-        return $this->newQuery()
-            ->where('assigned_to', $employeeId)
-            ->get();
+
+    function getTasksByEmployee(string $employeeId, string $type=null ): Collection
+{
+    $query = $this->newQuery();
+
+    if ($type === 'assigned') {
+        return $query->where('assigned_to', $employeeId)->get();
     }
 
+    return $query->where('created_by', $employeeId)->get();
+}
 
-    function getTasksCreatedByEmployee( string  $employeeId):Collection
-    {
-        return $this->newQuery()
-            ->where('created_by', $employeeId)
-            ->get();
-    }
     
     public function getTasksByClient(string $clientId):Collection
     {

@@ -1,16 +1,13 @@
-
 import Header from "@/Components/Header";
 import { Link } from "@inertiajs/react";
-import React, { useEffect, useState } from "react";
 import TaskCard from "./Partials/TaskCard";
 import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
 import FlashMessage from "@/Components/FlashMessage";
 
-const Index = ({ tasks, role, flash, }) => {
-
+const Index = ({ tasks, role, flash }) => {
     return (
         <div className="min-h-full">
-             <Header role={role}/>
+            <Header role={role} />
 
             <header className="bg-white shadow">
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex">
@@ -18,22 +15,22 @@ const Index = ({ tasks, role, flash, }) => {
                         Task
                     </h1>
                     <div className="flex gap-5 ml-auto">
-                        {role === "admin"  || role==='employee' ? (
+                        {role === "admin" || role === "employee" ? (
                             <PrimaryButtonLink
                                 href={route(`${role}.task.create`)}
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                                children={'Add Task'}
+                                children={"Add Task"}
                             />
-                        ) : '' }
-                        
+                        ) : (
+                            ""
+                        )}
                     </div>
                 </div>
             </header>
 
             <main>
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                  
-                    <FlashMessage flash={flash}/>
+                    <FlashMessage flash={flash} />
 
                     <div className="container mx-auto p-6">
                         {tasks.length === 0 ? (
@@ -43,10 +40,13 @@ const Index = ({ tasks, role, flash, }) => {
                                 </p>
                             </div>
                         ) : (
-                            <TaskCard task={tasks} disable={false} role={role} />
+                            <TaskCard
+                                task={tasks}
+                                disable={false}
+                                role={role}
+                            />
                         )}
                     </div>
-
                 </div>
             </main>
         </div>

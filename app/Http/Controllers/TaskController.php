@@ -40,11 +40,10 @@ class TaskController extends BaseController
         $role = Auth::user()->role;
 
         if ($role == 'admin') {
-            // $tasks = $this->taskrepository->getPaginate(6);
             $tasks = $this->taskrepository->getAll();
         } elseif ($role == 'employee') {
-            $tasks = $this->taskrepository->getTasksByEmployee(Auth::id());
-            $createdTasks =  $this->taskrepository->getTasksCreatedByEmployee(Auth::id());
+            $tasks = $this->taskrepository->getTasksByEmployee(Auth::id(),'assigned');
+            $createdTasks =  $this->taskrepository->getTasksByEmployee(Auth::id(),);
         } else {
             $tasks = $this->taskrepository->getTasksByCLient(Auth::id());
         }

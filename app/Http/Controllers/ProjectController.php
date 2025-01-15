@@ -101,13 +101,13 @@ class ProjectController extends BaseController
 
 
 
-    public function update(UpdateProjectRequest $req, Project $project):RedirectResponse
+    public function update(UpdateProjectRequest $request, Project $project):RedirectResponse
     {
         DB::beginTransaction();
         try {
-            $this->ProjectRepostiry->update($project->id, $req->getInsertTableField());
-            if ($req->has('employee_ids') && !empty($req->employee_ids)) {
-                $project->users()->sync($req->employee_ids);
+            $this->ProjectRepostiry->update($project->id, $request->getInsertTableField());
+            if ($request->has('employee_ids') && !empty($request->employee_ids)) {
+                $project->users()->sync($request->employee_ids);
             } else {
                 $project->users()->detach();
             }

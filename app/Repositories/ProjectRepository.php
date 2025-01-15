@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Mail\welcomemail;
@@ -15,7 +16,7 @@ class ProjectRepository extends BaseRepository
         parent::__construct($model);
     }
 
-    public function getProjectsByEmployee( string $employeeId):Collection
+    public function getProjectsByEmployee(string $employeeId): Collection
     {
         return $this->newQuery()
             ->whereHas('tasks', function ($query) use ($employeeId) {
@@ -24,23 +25,16 @@ class ProjectRepository extends BaseRepository
             ->get();
     }
 
-    function getProjectsByClient(string $clientId):Collection
+    function getProjectsByClient(string $clientId): Collection
     {
         return $this->newQuery()
-        ->where('client_id', $clientId)->limit(3)
-        ->get();
+            ->where('client_id', $clientId)->limit(3)
+            ->get();
     }
-    
-    public function getTasksByClient(string $clientId):Collection
-    {
-        return $this->newQuery()
-        ->where('client_id', $clientId)
-        ->with('tasks')->limit(3)
-        ->get();
-        
-    }
-    
-    public function  getEmployeesNamesByProject(string $projectId):Collection
+
+
+
+    public function  getEmployeesNamesByProject(string $projectId): Collection
     {
         return $this->newQuery()
             ->where('id', $projectId)
@@ -49,7 +43,7 @@ class ProjectRepository extends BaseRepository
             ->users
             ->select('id', 'name');
     }
-    public function getRecentProjects(int $limit):Collection
+    public function getRecentProjects(int $limit): Collection
     {
         return $this->newQuery()
             ->with(['client', 'tasks'])
@@ -57,5 +51,4 @@ class ProjectRepository extends BaseRepository
             ->limit($limit)
             ->get();
     }
-
 }

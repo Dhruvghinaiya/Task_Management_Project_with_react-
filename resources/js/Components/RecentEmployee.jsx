@@ -1,6 +1,8 @@
+import { usePage } from '@inertiajs/react'
 import React from 'react'
 
 const RecentEmployee = ({recentEmployee}) => {
+    const{recentEmployees} =  usePage().props;
   return (
     <>
     <div className="bg-white rounded-lg shadow-md border overflow-hidden mb-24">
@@ -9,7 +11,7 @@ const RecentEmployee = ({recentEmployee}) => {
                                         Recent Employees
                                     </h2>
                                     <div className="space-y-4">
-                                        {recentEmployee.map((employee) => (
+                                        {recentEmployees.map((employee) => (
                                             <div
                                                 key={employee.id}
                                                 className="bg-gray-50 rounded-lg p-4"

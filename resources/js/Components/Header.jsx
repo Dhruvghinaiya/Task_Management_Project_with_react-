@@ -27,6 +27,8 @@ const Header = ({role,currentPath}) => {
                   </Link>
                   {role=='admin' ? 
                   <>
+
+                  
                   
                   <Link 
                   href={route(`admin.user.index`)} 
@@ -146,6 +148,8 @@ const Header = ({role,currentPath}) => {
                     User
                   </Link>
                  : ''}
+
+                  
 
                   <Link
                     href={route('admin.client.index')} 

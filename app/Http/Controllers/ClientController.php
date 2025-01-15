@@ -5,22 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Http\Requests\UpdateProfileRequest;
-use App\Models\ClientDetail;
-use App\Models\User;
 use App\Repositories\ClientRepository;
 use App\Repositories\UserRepository;
-use Exception;
 use App\Http\Controllers\BaseController;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 use Throwable;
 
-use function Termwind\render;
 
 class ClientController extends BaseController
 {    
@@ -43,12 +37,8 @@ class ClientController extends BaseController
         
     }
     
-    public function show() :Response
-    {
-        return Inertia::render('ClientDetail/Show',compact('clients'));
-    }
-
-    public function create()
+   
+    public function create():Response
     {
 
          $client = $this->userRepository->getUsersByRole('client');
@@ -74,7 +64,7 @@ class ClientController extends BaseController
             return view('Client.profile');   
     }
 
-     public function edit($id):Response
+     public function edit($id)
     {     
          $user = $this->userRepository->getById($id);
          $clients = $this->clientRepository->getClient($id);

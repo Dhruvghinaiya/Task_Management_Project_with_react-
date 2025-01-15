@@ -5,11 +5,9 @@ import Header from "@/Components/Header";
 import TaskCard from "../Task/Partials/TaskCard";
 import moment from "moment";
 import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
+import FlashMessage from "@/Components/FlashMessage";
 
-const Show = ({ project, client, role,flash }) => {
-    console.log(flash);
-    
-    
+const Show = ({ project, client, role, flash }) => {
     const handleDelete = (e) => {
         e.preventDefault();
 
@@ -23,19 +21,6 @@ const Show = ({ project, client, role,flash }) => {
         }
     };
 
-     
-      const [showMessage, setShowMessage] = useState(true);
-    
-        useEffect(() => {
-            if (flash?.msg || flash?.error) {
-                const timeout = setTimeout(() => {
-                    setShowMessage(false);
-                }, 3000);
-    
-                return () => clearTimeout(timeout);
-            }
-        }, [flash]);
-
     return (
         <div className="min-h-full">
             <Header role={role} />
@@ -48,19 +33,7 @@ const Show = ({ project, client, role,flash }) => {
             </header>
             <main>
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                {showMessage &&
-                        flash &&
-                        flash.msg &&
-                        flash.msg.status === "success" && (
-                            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
-                                {flash.msg.description}
-                            </div>
-                        )}
-                    {showMessage && flash && flash.error && (
-                        <div className="bg-red-500 text-white p-4 rounded-lg mb-6">
-                            {flash.error}
-                        </div>
-                    )}
+                    <FlashMessage flash={flash} />
                     <div className="bg-white p-8 rounded-lg shadow-md border">
                         <h2 className="text-2xl font-semibold text-gray-800">
                             {project.name}
@@ -71,12 +44,12 @@ const Show = ({ project, client, role,flash }) => {
 
                         <p className="mt-4 text-sm text-gray-500">
                             <strong>Start Date:</strong>{" "}
-                            {moment(project.start_date).format('DD/MM/YY')}                            
+                            {moment(project.start_date).format("DD/MM/YY")}
                         </p>
 
                         <p className="mt-2 text-sm text-gray-500">
                             <strong>End Date:</strong>{" "}
-                            {moment(project.end_date).format('DD/MM/YY')}
+                            {moment(project.end_date).format("DD/MM/YY")}
                         </p>
                         <p className="mt-2 text-sm text-gray-500">
                             <strong>Client Name:</strong> {client.name}
@@ -93,35 +66,34 @@ const Show = ({ project, client, role,flash }) => {
                         </p>
 
                         <div className="flex space-x-4">
-    {role == "admin" ? (
-        <PrimaryButtonLink
-            href={route("admin.project.edit", {
-                id: project.id,
-            })}
-            className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-200 w-full sm:w-auto"
-            children={'Edit'}
-        />
-       
-    ) : ''}
+                            {role == "admin" ? (
+                                <PrimaryButtonLink
+                                    href={route("admin.project.edit", {
+                                        id: project.id,
+                                    })}
+                                    className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-200 w-full sm:w-auto"
+                                    children={"Edit"}
+                                />
+                            ) : (
+                                ""
+                            )}
 
-    {role == "admin" ? (
-        <PrimaryButtonLink
-            onClick={handleDelete}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200 w-full sm:w-auto"
-            children={'delete'}
-        />
-
-    ) : (
-        ""
-    )}
-</div>
-
+                            {role == "admin" ? (
+                                <PrimaryButtonLink
+                                    onClick={handleDelete}
+                                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200 w-full sm:w-auto"
+                                    children={"delete"}
+                                />
+                            ) : (
+                                ""
+                            )}
+                        </div>
 
                         <div className="mt-6">
                             <PrimaryButtonLink
                                 href={route(`${role}.project.index`)}
                                 className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-200"
-                                children={'   Back to Projects'}
+                                children={"   Back to Projects"}
                             />
                         </div>
                     </div>
@@ -131,7 +103,11 @@ const Show = ({ project, client, role,flash }) => {
                         </h2>
                         <div className="bg-gray-50 rounded-lg p-4">
                             {project.tasks.length > 0 ? (
-                                <TaskCard task={project.tasks}  disable={true} role={role}/>
+                                <TaskCard
+                                    task={project.tasks}
+                                    disable={true}
+                                    role={role}
+                                />
                             ) : (
                                 <p className="text-gray-600">
                                     No tasks assigned to this project yet.

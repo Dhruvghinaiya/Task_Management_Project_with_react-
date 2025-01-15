@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import ReactSelect from "@/Components/ReactSelect";
@@ -7,9 +7,9 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import InputError from "@/Components/InputError";
 import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
 
-const UserForm = ({ user, clients, errors, roleenum }) => {
-    const client = clients?.length > 0 ? clients[0] : {}; // Default to first client if exists
-    
+const UserForm = () => {
+    const {user,clients,errors,roleenum} =   usePage().props;
+    const client = clients?.length > 0 ? clients[0] : {}; 
     const {
         data,
         setData,
@@ -23,7 +23,7 @@ const UserForm = ({ user, clients, errors, roleenum }) => {
         created_by: user.created_by,
         company_name: client.company_name || "",
         contact_number: client.contact_number || "",
-        client_id: client.id || "", // Set client_id if client data exists
+        client_id: client.id || "", 
     });
 
     const handleChange = (e) => {

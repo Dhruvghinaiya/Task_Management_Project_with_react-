@@ -3,7 +3,6 @@ import Header from "@/Components/Header";
 import RecentClient from "@/Components/RecentClient";
 import RecentEmployee from "@/Components/RecentEmployee";
 import RecentProject from "@/Components/RecentProject";
-import RecentCard from "@/Components/RecentProject";
 import RecentTask from "@/Components/RecentTask";
 import React from "react";
 
@@ -11,10 +10,6 @@ const Dashboard = ({
     taskCount,
     clientCount,
     projectCount,
-    recentProjects,
-    recentTasks,
-    recentClients,
-    recentEmployees,
 }) => {
     return (
         <div className="min-h-full">
@@ -52,15 +47,14 @@ const Dashboard = ({
                         </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-5">
                             <RecentProject
-                                title="Recent Project"
-                                recentProject={recentProjects}
+                            
                             />
-                            <RecentTask recentTask={recentTasks} />
+                            <RecentTask />
 
                         </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-5 mb-24">
-                            <RecentClient recentClient={recentClients} />
-                            <RecentEmployee recentEmployee={recentEmployees} />
+                            <RecentClient  />
+                            <RecentEmployee  />
                            
                         </div>
                     </div>

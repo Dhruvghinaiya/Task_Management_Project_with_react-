@@ -15,15 +15,12 @@ class ClientRepository extends BaseRepository
         parent::__construct($model);
     }
     
-    public function getUser():Collection
-    {
-        
-        return  $this->newQuery()->with('user')->get();
-    }
     public function getClient(string $clientId):Collection
     {
         return $this->newQuery()->where('user_id',$clientId)->get();
     }
+
+
 }
 
 

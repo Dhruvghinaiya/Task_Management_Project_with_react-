@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import ReactSelect from "@/Components/ReactSelect";
 import Header from "@/Components/Header";
 import InputLabel from "@/Components/InputLabel";
@@ -8,7 +8,8 @@ import TextArea from "@/Components/TextArea";
 import PrimaryButton from "@/Components/PrimaryButton";
 import InputError from "@/Components/InputError";
 
-const ProjectForm = ({  clients , employees = [], project = null, projectEmployees = [], }) => {
+const ProjectForm = () => {
+    const{clients,employees = [],project=null,projectEmployees =[]} = usePage().props;
 
     const { data, setData, post, patch, errors, processing } = useForm({
         name: project?.name || "",  
@@ -39,7 +40,6 @@ const ProjectForm = ({  clients , employees = [], project = null, projectEmploye
         label: employee.name,
     }));
 
-    
 
     return (
         <div className="min-h-full">

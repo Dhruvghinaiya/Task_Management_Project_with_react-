@@ -1,6 +1,8 @@
+import { usePage } from '@inertiajs/react'
 import React from 'react'
 
-const RecentTask = ({recentTask}) => {
+const RecentTask = () => {
+    const{recentTasks} = usePage().props;
   return (
     <>
                                     <div className="bg-white rounded-lg shadow-md border overflow-hidden">
@@ -9,7 +11,7 @@ const RecentTask = ({recentTask}) => {
                                         Recent Tasks
                                     </h2>
                                     <div className="space-y-4">
-                                        {recentTask.map((task) => (
+                                        {recentTasks.map((task) => (
                                             <div
                                                 key={task.id}
                                                 className="bg-gray-50 rounded-lg p-4"
