@@ -7,7 +7,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import InputError from "@/Components/InputError";
 import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
 
-const UserForm = () => {
+const EditForm = () => {
     const {user,clients,errors,roleenum} =   usePage().props;
     const client = clients?.length > 0 ? clients[0] : {}; 
     const {
@@ -99,7 +99,6 @@ const UserForm = () => {
                             </div>
                              :''}
 
-                            {/* Render Client Specific Fields if Clients data is available */}
                             {clients?.length > 0 && (
                                 <div className="mb-4">
                                     <InputLabel htmlFor="company_name" value="Company Name" required className="block text-gray-600 font-medium mb-2" />
@@ -135,12 +134,12 @@ const UserForm = () => {
                             <div className="mt-4 flex justify-end">
                                 <PrimaryButtonLink
                                     href={route(clients?.length > 0 ? "admin.client.index" : "admin.user.index")}
-                                    className="px-6 py-3 bg-red-800 mx-3 text-white rounded-lg hover:bg-red-400 transition duration-300 ease-in-out text-center w-full sm:w-auto"
+                                    className="px-6 py-3 bg-gray-500 mx-3 text-white rounded-lg hover:bg-gray-600 transition duration-300 ease-in-out text-center w-full sm:w-auto"
                                     children={"Back to " + (clients?.length > 0 ? "Client" : "User")}
                                 />
                                 <PrimaryButton
                                     type="submit"
-                                    className="inline-block bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    className="inline-block bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
                                     children={clients?.length > 0 ? "Edit Client" : "Edit User"}
                                 />
                             </div>
@@ -152,4 +151,4 @@ const UserForm = () => {
     );
 };
 
-export default UserForm;
+export default EditForm;

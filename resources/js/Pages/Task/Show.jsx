@@ -5,6 +5,7 @@ import Header from '@/Components/Header';
 import moment from 'moment';
 import PrimaryButtonLink from '@/Components/PrimaryButtonLink';
 import PrimaryButton from '@/Components/PrimaryButton';
+import DangerButton from '@/Components/DangerButton';
 
 const Show = ({ task,role}) => {
     
@@ -113,7 +114,7 @@ const Show = ({ task,role}) => {
                   : ''}   
                 
 
-                {role==='admin' ? <PrimaryButton
+                {role==='admin' ? <DangerButton
                   onClick={handleDelete}
                   className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
                   children={'Delete'}
@@ -123,7 +124,7 @@ const Show = ({ task,role}) => {
                 
                 <PrimaryButtonLink
                   href={route(`${role}.task.index`)}
-                  className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 ease-in-out text-center w-full sm:w-auto"
+                  className="px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-900 transition duration-300 ease-in-out text-center w-full sm:w-auto"
                   children={' Back to Task List'}
                 />
 

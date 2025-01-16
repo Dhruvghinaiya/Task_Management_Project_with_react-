@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useForm } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import ReactSelect from '@/Components/ReactSelect';
 import Header from '@/Components/Header';
 import InputLabel from '@/Components/InputLabel';
@@ -7,13 +7,15 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 
-const CreateForm = ({ roleenum, type,role }) => {
+const CreateForm = ({ roleenum }) => {
+    const{type} = usePage().props;
+    
     
   const { data, setData, post, processing, errors } = useForm({
     name: '',
     email: '',
     password: '',
-    role: role, 
+    role: type === 'user' ? '' : 'client', 
     company_name: type === 'client' ? '' : undefined,
     contact_number: type === 'client' ? '' : undefined,
   });
@@ -28,7 +30,7 @@ const CreateForm = ({ roleenum, type,role }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    post(route(  'admin.client.store'), {
+    post(route(type === 'user' ? 'user.store' : 'admin.client.store'), {
       onSuccess: () => {
         window.location.href = route(type === 'user' ? 'admin.user.index' : 'admin.client.index');
       },
@@ -136,7 +138,7 @@ const CreateForm = ({ roleenum, type,role }) => {
                     </>
                   )}
 
-                  {type === 'user' && (
+                  {type=== 'user' && (
                     <div>
                       <InputLabel value="Role" required />
                       <div className="mt-2">
@@ -144,8 +146,10 @@ const CreateForm = ({ roleenum, type,role }) => {
                           name="role"
                           id="role"
                           value={data.role}
-                        onChange={(option) => setData('role', option.value)}
-                          options={roleenum.filter(role => role.value !== 'client')}
+                          onChange={(option) => setData('role', option.value)}
+                        
+                          options={roleenum.filter(option => option.value !== 'client')} 
+                          
                         />
                         <InputError message={errors.role} />
                       </div>

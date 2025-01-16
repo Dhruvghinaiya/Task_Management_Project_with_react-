@@ -42,7 +42,8 @@ class ClientController extends BaseController
     {
 
          $client = $this->userRepository->getUsersByRole('client');
-        return inertia::render('ClientDetail/Create',compact('client'));
+         $type ='client';
+        return inertia::render('User/Create',compact('client','type'));
     }
     
     public function store(StoreClientRequest $req)
@@ -68,7 +69,7 @@ class ClientController extends BaseController
     {     
          $user = $this->userRepository->getById($id);
          $clients = $this->clientRepository->getClient($id);
-        return inertia::render('ClientDetail/Edit',compact('user','clients'));
+        return inertia::render('User/Edit',compact('user','clients'));
     }
 
     public function update(UpdateClientRequest $req, $id):RedirectResponse

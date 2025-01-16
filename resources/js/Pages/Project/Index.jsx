@@ -3,7 +3,7 @@ import ProjectCard from "./Partials/ProjectCard";
 import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
 import FlashMessage from "@/Components/FlashMessage";
 
-const ProjectList = ({ projects, role, flash }) => {
+const Index = ({ projects, role, flash }) => {
     return (
         <div className="min-h-full">
             <Header role={role} />
@@ -16,7 +16,7 @@ const ProjectList = ({ projects, role, flash }) => {
                         {role === "admin" ? (
                             <PrimaryButtonLink
                                 href={route("admin.project.create")}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                                className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full"
                             >
                                 Add Project
                             </PrimaryButtonLink>
@@ -38,7 +38,7 @@ const ProjectList = ({ projects, role, flash }) => {
                         </div>
                     ) : (
                         <div className="container mx-auto p-4">
-                            <ProjectCard project={projects} role={role} />
+                            <ProjectCard  />
                         </div>
                     )}
                 </div>
@@ -47,4 +47,4 @@ const ProjectList = ({ projects, role, flash }) => {
     );
 };
 
-export default ProjectList;
+export default Index;

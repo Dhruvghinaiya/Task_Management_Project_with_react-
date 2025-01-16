@@ -6,6 +6,7 @@ import TaskCard from "../Task/Partials/TaskCard";
 import moment from "moment";
 import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
 import FlashMessage from "@/Components/FlashMessage";
+import DangerButton from "@/Components/DangerButton";
 
 const Show = ({ project, client, role, flash }) => {
     const handleDelete = (e) => {
@@ -79,7 +80,7 @@ const Show = ({ project, client, role, flash }) => {
                             )}
 
                             {role == "admin" ? (
-                                <PrimaryButtonLink
+                                <DangerButton
                                     onClick={handleDelete}
                                     className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200 w-full sm:w-auto"
                                     children={"delete"}
@@ -92,7 +93,7 @@ const Show = ({ project, client, role, flash }) => {
                         <div className="mt-6">
                             <PrimaryButtonLink
                                 href={route(`${role}.project.index`)}
-                                className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-200"
+                                className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition duration-200"
                                 children={"   Back to Projects"}
                             />
                         </div>

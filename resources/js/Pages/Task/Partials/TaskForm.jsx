@@ -29,13 +29,24 @@ const TaskForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const routeName = Object.keys(task).length === 0
-            ? (role=='admin' ?  route("admin.task.store") : route("employee.task.store") )  
-            : (role=='admin' ?  route("admin.task.update", { id: task.id }) : route('employee.task.update',{id:task.id}));  
-        const method = Object.keys(task).length === 0 ? post : patch;  
-    
-        method(routeName, data);
-    };
+        if(Object.keys(task).length===0){
+            if(role=='admin'){
+                post(route('admin.task.store'))
+            }
+            else{
+                post(route('employee.task.store'))
+            }
+        }
+        else{
+
+            if(role=='admin'){
+                patch(route('admin.task.update',{id:task.id}))
+            }
+            else{
+                patch(route('employee.task.update',{id:task.id}))
+            }
+        }
+    }
     
 const [employees, setEmployees] = useState([]);
 

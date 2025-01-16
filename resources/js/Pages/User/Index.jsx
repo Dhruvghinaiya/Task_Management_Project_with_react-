@@ -6,6 +6,7 @@ import Header from '@/Components/Header';
 import PrimaryButton from '@/Components/PrimaryButton';
 import PrimaryButtonLink from '@/Components/PrimaryButtonLink';
 import FlashMessage from '@/Components/FlashMessage';
+import DangerButton from '@/Components/DangerButton';
 
 const Index = ({ users, flash }) => {
   const { delete: deleteRequest } = useForm();
@@ -62,9 +63,9 @@ const Index = ({ users, flash }) => {
                         className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
                         children={'Edit'}
                       />
-                      <PrimaryButton
+                      <DangerButton
                         onClick={() => handleDelete(user.id)}
-                        className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700 ml-2"
+                        className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 ml-2"
                         children={'Delete'}
                       />
                     </td>

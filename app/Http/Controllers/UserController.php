@@ -36,7 +36,8 @@ class UserController extends BaseController
     public function create(): Response
     {
         $roleenum = RoleEnum::options();
-        return inertia::render('User/Create', compact('roleenum'));
+        $type = 'user';
+        return inertia::render('User/Create', compact('roleenum','type'));
     }
 
     public function store(RegisterUserRequest $request)

@@ -5,6 +5,7 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
+import DangerButton from "@/Components/DangerButton";
 
 const Profile = ({ users, flash }) => {
     const [showMessage, setShowMessage] = useState(true);
@@ -176,7 +177,7 @@ const Profile = ({ users, flash }) => {
                                 </div>
 
                                 <div className="mt-10 w-20">
-                                    <PrimaryButton
+                                    <DangerButton
                                         type="button"
                                         onClick={() => window.history.back()}
                                         className="block w-full rounded-md bg-gray-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 flex items-center justify-center"

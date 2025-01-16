@@ -49,7 +49,7 @@ const TaskCard = ({ task, role ,disable=false }) => {
                             href={route(`${role}.task.show`, {
                                 id: task.id,
                             })}
-                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                            className="px-4 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700"
                             >
                                 View Details
                             </Link> : ''

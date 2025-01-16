@@ -14,7 +14,7 @@ const ProjectForm = () => {
     const { data, setData, post, patch, errors, processing } = useForm({
         name: project?.name || "",  
         description: project?.description || "",
-        client_id: project?.client_id || "",
+        client_id: project?.client_id ||"",
         employee_ids: projectEmployees.map((emp) => emp.id) || [],
         start_date: project?.start_date ? project.start_date.split("T")[0] : "",
         end_date: project?.end_date ? project.end_date.split("T")[0] : "",
@@ -27,7 +27,7 @@ const ProjectForm = () => {
             ? route("admin.project.update", { id: project.id })
             : route("admin.project.store");
         const method = project ? patch : post;
-        method(routeName, data);
+        method(routeName, data);        
     };
 
     const clientOptions = clients.map(client => ({
