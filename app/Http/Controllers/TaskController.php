@@ -83,7 +83,6 @@ class TaskController extends BaseController
 
     public function edit(Task $task)
     {
-
         $role = Auth::user()->role;
         $statuses = StatusEnum::options();    
 

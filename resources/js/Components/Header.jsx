@@ -3,7 +3,7 @@ import React from "react";
 
 const Header = ({ role }) => {
     const currentRoute = window.location.pathname;
-
+    
     return (
         <>
             <nav className="bg-gray-800 text-white justify-between">
@@ -129,6 +129,13 @@ const Header = ({ role }) => {
                                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     >
                                         Logout
+                                    </Link>
+
+                                    <Link
+                                    onClick={hello}
+                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                    >
+                                        Demo
                                     </Link>
 
                                 </div>

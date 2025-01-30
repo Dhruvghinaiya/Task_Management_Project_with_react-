@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const FlashMessage = ({ flash }) => {
     const [showMessage, setShowMessage] = useState(true);
@@ -7,14 +7,14 @@ const FlashMessage = ({ flash }) => {
         if (flash?.msg || flash?.error) {
             const timeout = setTimeout(() => {
                 setShowMessage(false);
-            }, 3000); 
+            }, 3000);
 
             return () => clearTimeout(timeout);
         }
     }, [flash]);
 
     if (!showMessage || (!flash?.msg && !flash?.error)) {
-        return null; 
+        return null;
     }
 
     return (
