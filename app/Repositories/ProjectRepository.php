@@ -19,8 +19,8 @@ class ProjectRepository extends BaseRepository
     public function getProjectsByEmployee(string $employeeId): Collection
     {
         return $this->newQuery()
-            ->whereHas('tasks', function ($query) use ($employeeId) {
-                $query->where('assigned_to', $employeeId);
+            ->whereHas('users', function ($query) use ($employeeId) {
+                $query->where('user_id', $employeeId);
             })
             ->get();
     }
@@ -46,7 +46,7 @@ class ProjectRepository extends BaseRepository
     public function getRecentProjects(int $limit): Collection
     {
         return $this->newQuery()
-            ->with(['client', 'tasks'])
+            ->with(['client', 'tasks',])
             ->orderBy('created_at', 'desc')
             ->limit($limit)
             ->get();

@@ -49,7 +49,7 @@ const Welcome = ({ auth }) => {
                                     )}
                                     {auth.role === "client" && (
                                         <Link
-                                            href={"client.dashboard"}
+                                            href={route("client.dashboard")}
                                             className="bg-white/10 hover:bg-white/20 transition-colors duration-200 text-white font-semibold py-2 px-6 rounded-lg"
                                         >
                                             Dashboard

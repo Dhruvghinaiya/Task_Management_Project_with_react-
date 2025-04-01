@@ -5,13 +5,13 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
 import FlashMessage from "@/Components/FlashMessage";
 import DangerButton from "@/Components/DangerButton";
+import { Inertia } from "@inertiajs/inertia";
 
 const Index = ({ users, flash }) => {
-    const { delete: deleteRequest } = useForm();
-
+    
     const handleDelete = (userId) => {
         if (window.confirm("Are you sure you want to delete this user?")) {
-            deleteRequest(route("admin.client.delete", userId));
+            Inertia.delete(route("admin.client.destroy", userId));
         }
     };
 
@@ -26,7 +26,7 @@ const Index = ({ users, flash }) => {
                     </h1>
                     <div className="flex gap-5 ml-auto">
                         <PrimaryButtonLink
-                            href={route("admin.client.create")}
+                            href={route("clientDetails.create")}
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                             children={"Add New Client"}
                         />
@@ -92,28 +92,13 @@ const Index = ({ users, flash }) => {
                                                       .contact_number
                                                 : "N/A"}
                                         </td>
-                                        {/* <td className="py-2 px-4 text-center">
-                                            <PrimaryButtonLink children={'Edit'}
-                                                href={route(
-                                                    "admin.client.edit",
-                                                    user.id
-                                                )}
-                                                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                                            />
-                                            <PrimaryButton
-                                                onClick={() =>
-                                                    handleDelete(user.id)
-                                                }
-                                                className=" bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700 ml-2"
-                                                children={'Delete'}
-                                            />
-                                        </td> */}
+                                    
                                         <td className="py-2 px-4 text-center">
                                             <div className="flex flex-col sm:flex-row sm:space-x-2">
                                                 <PrimaryButtonLink
                                                     children={"Edit"}
                                                     href={route(
-                                                        "admin.client.edit",
+                                                        "clientDetails.edit",
                                                         user.id
                                                     )}
                                                     className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 mb-2 sm:mb-0"

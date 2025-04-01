@@ -22,7 +22,7 @@ const RecentTask = () => {
                                                 <div className="mt-2 flex justify-between text-sm text-gray-600">
                                                     <span>
                                                         Project:{" "}
-                                                        {task.project?.name}
+                                                        {task.project?.name || "No Project"}
                                                     </span>
                                                     {/* <span>Assigned: {task.assigned_user.name}</span> */}
                                                 </div>

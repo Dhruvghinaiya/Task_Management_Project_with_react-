@@ -38,7 +38,8 @@ class EmployeeController extends BaseController
         $clientCount  = $this->userRepository->getUsersByRole('client')->count();
         $taskCount  = $this->taskRepository->getTasksByEmployee(Auth::id(),'assigned')->count();
         $tasks = $this->taskRepository->getTasksByEmployee(Auth::user()->id,'assigned');
-        return Inertia::render('Employee/Dashboard',compact('projectCount','clientCount','taskCount','tasks'));
+        $projects = $this->projectRepository->getProjectsByEmployee(Auth::user()->id);
+        return Inertia::render('Employee/Dashboard',compact('projectCount','clientCount','taskCount','tasks','projects'));
         
     }
 

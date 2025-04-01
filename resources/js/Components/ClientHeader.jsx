@@ -82,24 +82,7 @@ const ClientHeader = () => {
                                         Profile
                                     </Link>
 
-                                    {/* <a 
-                    href={route('admin.user.index')} 
-                    className={`px-3 py-2 rounded-md text-sm font-medium 
-                      ${currentRoute === '/user' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                    aria-current={currentRoute === '/admin/user' ? 'page' : undefined}
-                  >
-                    User
-                  </a>
-                  <a 
-                    href={route('admin.client.index')} 
-                    className={`px-3 py-2 rounded-md text-sm font-medium 
-                      ${currentRoute === '/client' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                    aria-current={currentRoute === '/admin/client' ? 'page' : undefined}
-                  >
-                    Client
-                  </a> */}
-                                    {/* Other links */}
-                                    <Link
+                             <Link
                                         href={route("logout")}
                                         className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                     >
@@ -120,29 +103,7 @@ const ClientHeader = () => {
                             >
                                 <span className="absolute -inset-0.5"></span>
                                 <span className="sr-only">Open main menu</span>
-                                {/* <svg 
-                  className="block size-6" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke-width="1.5" 
-                  stroke="currentColor" 
-                  aria-hidden="true" 
-                  data-slot="icon"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
-                <svg 
-                  className="hidden size-6" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke-width="1.5" 
-                  stroke="currentColor" 
-                  aria-hidden="true" 
-                  data-slot="icon"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /> */}
-                                {/* </svg> */}
-                            </button>
+                           </button>
                         </div>
                     </div>
                 </div>

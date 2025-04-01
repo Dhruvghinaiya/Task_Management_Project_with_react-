@@ -6,13 +6,13 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import PrimaryButtonLink from "@/Components/PrimaryButtonLink";
 import FlashMessage from "@/Components/FlashMessage";
 import DangerButton from "@/Components/DangerButton";
+import { Inertia } from "@inertiajs/inertia";
 
 const Index = ({ users, flash }) => {
-    const { delete: deleteRequest } = useForm();
 
     const handleDelete = (userId) => {
         if (window.confirm("Are you sure you want to delete this user?")) {
-            deleteRequest(route("admin.user.destroy", userId));
+            Inertia.delete(route("user.destroy", userId));
         }
     };
 
@@ -26,7 +26,7 @@ const Index = ({ users, flash }) => {
                     </h1>
                     <div className="flex gap-5 ml-auto">
                         <PrimaryButtonLink
-                            href={route("admin.user.create")}
+                            href={route("user.create")}
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                             children={" Add New User"}
                         />
@@ -76,7 +76,7 @@ const Index = ({ users, flash }) => {
                                         <td className="py-2 px-4 text-center">
                                             <PrimaryButtonLink
                                                 href={route(
-                                                    "admin.user.edit",
+                                                    "user.edit",
                                                     user.id
                                                 )}
                                                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"

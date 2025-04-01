@@ -26,7 +26,7 @@ class UpdateClientRequest extends FormRequest
     {
         return [
            'name'=>'required',
-            'email'=>'required|email',Rule::unique('users')->ignore(route('admin.client.index')),
+            'email'=>'required|email',Rule::unique('users')->ignore(route('client.index')),
             'company_name'=>'required',
             'contact_number'=>'required',
         ];
@@ -36,7 +36,7 @@ class UpdateClientRequest extends FormRequest
     public function getInsertTableFiel1(){
         return [
             'name' => $this->input('name'),
-            'email' => $this->input('email'),Rule::unique('users')->ignore(route('admin.client.index')),
+            'email' => $this->input('email'),Rule::unique('users')->ignore(route('client.index')),
             'created_by' => $this->input('created_by'),
             'updated_by' => Auth::id(),
         ];

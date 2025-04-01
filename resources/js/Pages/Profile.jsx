@@ -47,13 +47,13 @@ const Profile = ({ users, flash }) => {
             ) : (
                 <Header role="client" />
             )}
-            <header className="bg-white shadow">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                        Profile
-                    </h1>
-                </div>
-            </header>
+            <header className="ml-12">
+                <div className="mx-auto  px-4 py-6 sm:px-6 lg:px-8 flex">
+                               <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                                   Profile
+                               </h1>
+                           </div>
+                       </header>
 
             <main>
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -70,7 +70,7 @@ const Profile = ({ users, flash }) => {
                             {flash.error}
                         </div>
                     )}
-                    <div className="isolate bg-white px-6 sm:py-32 lg:px-8">
+                    <div className="isolate bg-white px-6  lg:px-8">
                         <form
                             onSubmit={handleSubmit}
                             className="mx-auto max-w-xl"

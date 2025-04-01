@@ -35,8 +35,8 @@ const EditForm = () => {
         e.preventDefault();
 
         const routeToUse = clients?.length > 0 
-            ? route("admin.client.update", data.user_id) 
-            : route("admin.user.update", data.user_id);
+            ? route("client.update", data.user_id) 
+            : route("user.update", data.user_id);
 
         patch(routeToUse, {
             onError: (errorResponse) => {
@@ -133,7 +133,7 @@ const EditForm = () => {
 
                             <div className="mt-4 flex justify-end">
                                 <PrimaryButtonLink
-                                    href={route(clients?.length > 0 ? "admin.client.index" : "admin.user.index")}
+                                    href={route(clients?.length > 0 ? "client.index" : "user.index")}
                                     className="px-6 py-3 bg-gray-500 mx-3 text-white rounded-lg hover:bg-gray-600 transition duration-300 ease-in-out text-center w-full sm:w-auto"
                                     children={"Back to " + (clients?.length > 0 ? "Client" : "User")}
                                 />

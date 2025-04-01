@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Enums\RoleEnum;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Mail\welcomemail;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 use Throwable;
@@ -41,12 +43,12 @@ class UserController extends BaseController
     }
 
     public function store(RegisterUserRequest $request)
-    {
+    {   
         DB::beginTransaction();
-        try {
-            $this->userRepository->store($request->getinsertTableField());
-            DB::commit();
-            return $this->sendRedirectResponse(route('admin.user.index'), 'new student add successfully');
+        try {   
+             $this->userRepository->store($request->getinsertTableField());
+             DB::commit();
+             return $this->sendRedirectResponse(route('user.index'),'new student add successfully');
         } catch (Throwable $e) {
             DB::rollBack();
             return inertia::render('User/Index', $e->getMessage());
@@ -67,7 +69,7 @@ class UserController extends BaseController
         try {
             $this->userRepository->update($id, $request->getinsertTableField());
             DB::commit();
-            return $this->sendRedirectResponse(route('admin.user.index'), 'user edit successfully');
+            return $this->sendRedirectResponse(route('user.index'), 'user edit successfully');
         } catch (Throwable $e) {
             DB::rollBack();
             return $this->sendRedirectBackError($e->getMessage());
@@ -80,7 +82,7 @@ class UserController extends BaseController
         try {
             $this->userRepository->destroy($id);
             DB::commit();
-            return $this->sendRedirectResponse(route('admin.user.index'), 'User deleted Successfully');
+            return $this->sendRedirectResponse(route('user.index'), 'User deleted Successfully');
         } catch (Throwable $e) {
             DB::rollBack();
             return $this->sendRedirectBackError($e->getMessage());

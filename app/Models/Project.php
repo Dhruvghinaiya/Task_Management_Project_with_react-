@@ -53,7 +53,7 @@ class Project extends Model
 
     public function client()
     {
-        return $this->belongsTo(User::class, 'client_id');//id
+        return $this->belongsTo(User::class, 'client_id');
     }
 
     public function createdBy()

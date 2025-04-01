@@ -47,6 +47,8 @@ class ProjectController extends BaseController
             $projects = $this->ProjectRepostiry->getProjectsByClient(Auth::id());
         } else {
             $projects = $this->ProjectRepostiry->getProjectsByEmployee(Auth::id());
+            dd($projects);
+            
         }
         return inertia::render('Project/Index', compact('projects', 'role'));
     }
@@ -77,10 +79,11 @@ class ProjectController extends BaseController
 
     public function store(StoreProjectRequest $request):RedirectResponse
     {
+
         DB::beginTransaction();
         try {
             $project =  $this->ProjectRepostiry->store($request->getInsertTableField());
-            if ($request->has('employee_ids') && !empty($req->employee_ids)) {
+            if ($request->has('employee_ids') && !empty($request->employee_ids)) {
                 $project->users()->attach($request->employee_ids);
             }
             DB::commit();
@@ -102,7 +105,7 @@ class ProjectController extends BaseController
 
 
     public function update(UpdateProjectRequest $request, Project $project):RedirectResponse
-    {
+    {   
         DB::beginTransaction();
         try {
             $this->ProjectRepostiry->update($project->id, $request->getInsertTableField());

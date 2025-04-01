@@ -26,25 +26,11 @@ Route::middleware(['role:admin'])->group(function () {
   Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
   Route::post('/profile/update', [AdminController::class, 'update'])->name('profile.update');
 
-  //user
-  Route::get('/user', [UserController::class, 'index'])->name('admin.user.index');
-  Route::get('/user/create', [UserController::class, 'create'])->name('admin.user.create');
-  Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
-  Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
-  Route::patch('/user/update/{id}', [UserController::class, 'update'])->name('admin.user.update');
-  Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
+  Route::resource('user', UserController::class);
+ 
+  Route::resource('/clientDetails',ClientController::class);
 
-  //client
-  Route::get('/client', [ClientController::class, 'index'])->name('admin.client.index');
-  Route::get('/client/show', [ClientController::class, 'show'])->name('admin.client.show');
-  Route::get('/client/create', [ClientController::class, 'create'])->name('admin.client.create');
-  Route::post('/client/store', [ClientController::class, 'store'])->name('admin.client.store');
-  Route::get('/client/edit/{id}', [ClientController::class, 'edit'])->name('admin.client.edit');
-  Route::patch('/client/update/{id}', [ClientController::class, 'update'])->name('admin.client.update');
-  Route::delete('/client/delete/{id}', [ClientController::class, 'destroy'])->name('admin.client.delete');
-
-  //project
-  Route::get('/project', [ProjectController::class, 'index'])->name('admin.project.index');
+  Route::get('/project', [ProjectController::class,'index'])->name('admin.project.index');
   Route::get('project/create', [ProjectController::class, 'create'])->name('admin.project.create');
   Route::post('project/store', [ProjectController::class, 'store'])->name('admin.project.store');
   Route::get('project/edit/{project}', [ProjectController::class, 'edit'])->name('admin.project.edit');
@@ -52,7 +38,6 @@ Route::middleware(['role:admin'])->group(function () {
   Route::delete('project/delete/{id}', [ProjectController::class, 'destroy'])->name('admin.project.delete');
   Route::get('project/show/{project}', [ProjectController::class, 'show'])->name('admin.project.show');
 
-  //tasks    
   Route::get('/task', [TaskController::class, 'index'])->name('admin.task.index');
   Route::get('admin/task/show/{task}', [TaskController::class, 'show'])->name('admin.task.show');
   Route::get('admin/task/create', [TaskController::class, 'create'])->name('admin.task.create');
@@ -84,6 +69,7 @@ Route::middleware(['auth', 'role:employee'])->group(function () {
   Route::get('/employees/project{project}', [TaskController::class, 'getAssignedEmployees'])->name('employees.project');
 });
 
+  
 Route::middleware(['auth', 'role:client'])->group(function () {
 
   Route::get('/client/dashboard', [ClientAdminController::class, 'index'])->name('client.dashboard');

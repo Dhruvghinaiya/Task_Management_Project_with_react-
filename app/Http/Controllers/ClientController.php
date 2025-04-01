@@ -53,7 +53,7 @@ class ClientController extends BaseController
              $this->userRepository->store($req->getInsertTableFiel1());
               $this->clientRepository->store($req->getInsertTableField2());
             DB::commit();
-            return $this->sendRedirectResponse(route('admin.client.index'),'Client add successfully');
+            return $this->sendRedirectResponse(route('client.index'),'Client add successfully');
         }
         catch(Throwable $e){
             DB::rollBack();
@@ -81,7 +81,7 @@ class ClientController extends BaseController
             $this->userRepository->update($req->user_id,$req->getInsertTableFiel1());
             $this->clientRepository->update($req->client_id,$req->getInsertTableField2());
             DB::commit();
-            return $this->sendRedirectResponse(route('admin.client.index'),'Client Update Successsfully...');
+            return $this->sendRedirectResponse(route('client.index'),'Client Update Successsfully...');
         }
         catch(Throwable $e){
             DB::rollBack();
@@ -97,7 +97,7 @@ class ClientController extends BaseController
             $this->userRepository->destroy($id);
             $this->clientRepository->getClient($id);
             DB::commit();
-            return $this->sendRedirectResponse(route('admin.client.index'),'Client  Delete  Successfully');
+            return $this->sendRedirectResponse(route('client.index'),'Client  Delete  Successfully');
         }
         catch(Throwable $e){
             DB::rollBack();

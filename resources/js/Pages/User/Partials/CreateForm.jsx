@@ -30,9 +30,9 @@ const CreateForm = ({ roleenum }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    post(route(type === 'user' ? 'user.store' : 'admin.client.store'), {
+    post(route(type === 'user' ? 'user.store' : 'clientDetails.store'), {
       onSuccess: () => {
-        window.location.href = route(type === 'user' ? 'admin.user.index' : 'admin.client.index');
+        window.location.href = route(type === 'user' ? 'user.index' : 'clientDetails.index');
       },
     });
   };
@@ -165,7 +165,7 @@ const CreateForm = ({ roleenum }) => {
                       {type === 'user' ? 'Add User' : 'Add Client'}
                     </PrimaryButton>
                     <Link
-                      href={route(type === 'user' ? 'admin.user.index' : 'admin.client.index')}
+                      href={route(type === 'user' ? 'user.index' : 'clientDetails.index')}
                       className="flex w-full justify-center rounded-md bg-red-400 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500"
                     >
                       Back

@@ -13,7 +13,7 @@ const Show = ({ project, client, role, flash }) => {
         e.preventDefault();
 
         if (window.confirm("Are you sure you want to delete this project?")) {
-            Inertia.delete(route("admin.project.delete", { id: project.id }), {
+            Inertia.delete(route("project.delete", { id: project.id }), {
                 onSuccess: () => {
                     Inertia.visit(route("admin.project.index"));
                 },

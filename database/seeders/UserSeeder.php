@@ -16,9 +16,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        
-        
-       
         $this->createOrUpdate([
             'id' => Str::uuid(),
             'name' => 'Admin',
@@ -54,7 +51,7 @@ class UserSeeder extends Seeder
     private function createOrUpdate(array $data)
     {
         DB::table('users')->updateOrInsert(
-            ['email' => $data['email']], // Match based on email
+            ['email' => $data['email']], 
             array_merge($data, ['updated_at' => now()])
         );
     }

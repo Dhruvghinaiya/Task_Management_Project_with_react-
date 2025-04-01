@@ -3,7 +3,7 @@ import React from "react";
 
 const Header = ({ role }) => {
     const currentRoute = window.location.pathname;
-    
+
     return (
         <>
             <nav className="bg-gray-800 text-white justify-between">
@@ -33,7 +33,7 @@ const Header = ({ role }) => {
                                     {role == "admin" ? (
                                         <>
                                             <Link
-                                                href={route(`admin.user.index`)}
+                                                href={route(`user.index`)}
                                                 className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${
                           currentRoute === "/user"
@@ -51,11 +51,11 @@ const Header = ({ role }) => {
                                             </Link>
                                             <Link
                                                 href={route(
-                                                    "admin.client.index"
+                                                    "clientDetails.index"
                                                 )}
                                                 className={`px-3 py-2 rounded-md text-sm font-medium 
                       ${
-                          currentRoute === "/client"
+                          currentRoute === "/clientDetails"
                               ? "bg-gray-900 text-white"
                               : "text-gray-300 hover:bg-gray-700 hover:text-white"
                       }`}
@@ -130,14 +130,6 @@ const Header = ({ role }) => {
                                     >
                                         Logout
                                     </Link>
-
-                                    <Link
-                                    onClick={hello}
-                                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                    >
-                                        Demo
-                                    </Link>
-
                                 </div>
                             </div>
                         </div>
@@ -199,45 +191,46 @@ const Header = ({ role }) => {
                         >
                             Dashboard
                         </Link>
-                        
+
                         {role == "admin" ? (
-                            <Link
-                                href={route("admin.user.index")}
-                                preserveScroll
-                                className={` block px-3 py-2 rounded-md text-sm font-medium 
+                            <>
+                                <Link
+                                    href={route("user.index")}
+                                    preserveScroll
+                                    className={` block px-3 py-2 rounded-md text-sm font-medium 
               ${
                   currentRoute === "/user"
                       ? "bg-gray-900 text-white"
                       : "text-gray-300 hover:bg-gray-700 hover:text-white"
               }`}
-                                aria-current={
-                                    currentRoute === "/admin/user"
-                                        ? "page"
-                                        : undefined
-                                }
-                            >
-                                User
-                            </Link>
-                        ) : (
-                            ""
-                        )}
-
-                        <Link
-                            href={route("admin.client.index")}
-                            className={`block px-3 py-2 rounded-md text-sm font-medium 
+                                    aria-current={
+                                        currentRoute === "/admin/user"
+                                            ? "page"
+                                            : undefined
+                                    }
+                                >
+                                    User
+                                </Link>
+                                <Link
+                                    href={route("clientDetails.index")}
+                                    className={`block px-3 py-2 rounded-md text-sm font-medium 
                       ${
-                          currentRoute === "/client"
+                          currentRoute === "/clientDetails"
                               ? "bg-gray-900 text-white"
                               : "text-gray-300 hover:bg-gray-700 hover:text-white"
                       }`}
-                            aria-current={
-                                currentRoute === "/admin/client"
-                                    ? "page"
-                                    : undefined
-                            }
-                        >
-                            Client
-                        </Link>
+                                    aria-current={
+                                        currentRoute === "/admin/client"
+                                            ? "page"
+                                            : undefined
+                                    }
+                                >
+                                    Client
+                                </Link>
+                            </>
+                        ) : (
+                            ""
+                        )}
 
                         <Link
                             href={route(`${role}.project.index`)}

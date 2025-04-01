@@ -9,12 +9,17 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import InputError from "@/Components/InputError";
 
 const ProjectForm = () => {
-    const{clients,employees = [],project=null,projectEmployees =[]} = usePage().props;
+    const {
+        clients,
+        employees = [],
+        project = null,
+        projectEmployees = [],
+    } = usePage().props;
 
     const { data, setData, post, patch, errors, processing } = useForm({
-        name: project?.name || "",  
+        name: project?.name || "",
         description: project?.description || "",
-        client_id: project?.client_id ||"",
+        client_id: project?.client_id || "",
         employee_ids: projectEmployees.map((emp) => emp.id) || [],
         start_date: project?.start_date ? project.start_date.split("T")[0] : "",
         end_date: project?.end_date ? project.end_date.split("T")[0] : "",
@@ -24,22 +29,21 @@ const ProjectForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const routeName = project
-            ? route("admin.project.update", { id: project.id })
+            ? route("admin.project.update", project.id)
             : route("admin.project.store");
         const method = project ? patch : post;
-        method(routeName, data);        
+        method(routeName, data);
     };
 
-    const clientOptions = clients.map(client => ({
-    value: client.id,
-    label: client.name,
-  }));
+    const clientOptions = clients.map((client) => ({
+        value: client.id,
+        label: client.name,
+    }));
 
     const employeeOptions = employees.map((employee) => ({
         value: employee.id,
         label: employee.name,
     }));
-
 
     return (
         <div className="min-h-full">
@@ -58,7 +62,7 @@ const ProjectForm = () => {
                         {project ? "Edit Project" : "Add Project"}
                     </h2>
 
-                    <form   
+                    <form
                         onSubmit={handleSubmit}
                         className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg space-y-6"
                     >
@@ -107,7 +111,6 @@ const ProjectForm = () => {
                                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             />
                             <InputError message={errors.description} />
-                            
                         </div>
 
                         <div>
@@ -133,7 +136,6 @@ const ProjectForm = () => {
                                     }
                                     options={clientOptions}
                                 />
-                               
                             </div>
                         </div>
 
@@ -172,7 +174,7 @@ const ProjectForm = () => {
                                     }
                                     options={employeeOptions}
                                 />
-                            <InputError message={errors.employee_ids} />
+                                <InputError message={errors.employee_ids} />
                             </div>
                         </div>
 
@@ -195,7 +197,7 @@ const ProjectForm = () => {
                                     }
                                     className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 />
-                            <InputError message={errors.start_date} />
+                                <InputError message={errors.start_date} />
                             </div>
 
                             <div className="space-y-2">
@@ -216,7 +218,7 @@ const ProjectForm = () => {
                                     }
                                     className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 />
-                            <InputError message={errors.end_date} />
+                                <InputError message={errors.end_date} />
                             </div>
                         </div>
 
@@ -225,10 +227,9 @@ const ProjectForm = () => {
                                 type="submit"
                                 className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
                                 disabled={processing}
-                                
                             >
-                               {project ? 'Update Project' : 'Create Project'}
-                            </PrimaryButton>    
+                                {project ? "Update Project" : "Create Project"}
+                            </PrimaryButton>
                         </div>
                     </form>
                 </div>
